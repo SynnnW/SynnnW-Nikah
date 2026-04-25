@@ -1,12 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
     
     // ==========================================
-    // 1. DEKLARASI ELEMEN DOM
+    // 1. DEKLARASI ELEMEN DOM UTAMA
     // ==========================================
-    const gateWrapper = document.getElementById('gate-wrapper'); // Pembungkus layout 3 panel
+    const gateWrapper = document.getElementById('gate-wrapper');
     const gate1Content = document.getElementById('gate-1');
     const gate2Content = document.getElementById('gate-2');
-    const gate3 = document.getElementById('gate-3'); // Isi undangan lengkap
+    const gate3 = document.getElementById('gate-3');
     
     const guestNameInput = document.getElementById('guest-name-input');
     const btnSubmitName = document.getElementById('btn-submit-name');
@@ -22,15 +22,55 @@ document.addEventListener("DOMContentLoaded", () => {
     const wishNameInput = document.getElementById('wish-name');
     const wishesList = document.getElementById('wishes-list');
 
-    // ==========================================
-    // SETUP BOT TELEGRAM (Notifikasi Rahasia)
-    // ==========================================
-    // Nanti isi dengan Token & Chat ID milikmu
-    const TELEGRAM_BOT_TOKEN = 'TOKEN_BOT_KAMU_DISINI'; 
-    const TELEGRAM_CHAT_ID = 'CHAT_ID_KAMU_DISINI';
+    // Container flying emotes
+    const emotesContainer = document.getElementById('floating-emotes-container');
 
     // ==========================================
-    // 2. LOGIKA GERBANG 1 -> GERBANG 2
+    // SETUP TELEGRAM BOT (Biar HP bunyi)
+    // ==========================================
+    // GANTI PAKAI TOKEN & ID KAMU!
+    const TELEGRAM_BOT_TOKEN = '7230058914:AAH5Z_7fK17zR4I5b0N-rR9U-pW7gM_0_Gg'; 
+    const TELEGRAM_CHAT_ID = '7017267151';
+
+    // ==========================================
+    // 2. NEW: FLYING EMOTES LOGIC (Dikit Banget)
+    // ==========================================
+    const emoteTypes = ['❤️', '💍'];
+    let emoteInterval;
+
+    function startFlyingEmotes() {
+        // Cuma munculin dikit banget (setiap 4 sampai 6 detik sekali)
+        emoteInterval = setInterval(createEmote, (Math.random() * 2000 + 4000));
+    }
+
+    function createEmote() {
+        // Jika gerbang 3 sudah terbuka, emotes dimatikan biar nggak ganggu baca
+        if (gate3.classList.contains('active')) {
+            clearInterval(emoteInterval);
+            return;
+        }
+
+        const emote = document.createElement('span');
+        emote.classList.add('flying-emote');
+        emote.textContent = emoteTypes[Math.floor(Math.random() * emoteTypes.length)];
+        
+        // Posisi random horizontal (kiri-kanan layar)
+        emote.style.left = (Math.random() * 100) + 'vw';
+        
+        // Ukuran random dikit (biar ga kaku)
+        emote.style.fontSize = (Math.random() * 0.5 + 1.2) + 'rem';
+
+        emotesContainer.appendChild(emote);
+
+        // Hapus elemen dari DOM setelah animasi selesai biar ga berat
+        setTimeout(() => {
+            emote.remove();
+        }, 10000); // Samain sama durasi animasi CSS (10s forwards)
+    }
+
+
+    // ==========================================
+    // 3. LOGIKA GERBANG 1 -> GERBANG 2
     // ==========================================
     btnSubmitName.addEventListener('click', () => {
         const guestName = guestNameInput.value.trim();
@@ -40,23 +80,18 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // 1. Tampilkan nama di amplop (Gate 2)
         guestNameDisplay.innerHTML = guestName;
-        // 2. Isi otomatis form nama di RSVP paling bawah web
         wishNameInput.value = guestName;
 
-        // 3. Animasi pergantian form tengah (Gate 1 hilang, Gate 2 muncul)
         gate1Content.classList.remove('active');
         gate1Content.classList.add('hidden');
         
         gate2Content.classList.remove('hidden');
         gate2Content.classList.add('active');
 
-        // 4. Kirim notifikasi diam-diam ke Bot Telegram
         kirimNotifikasiTelegram(guestName);
     });
 
-    // Fitur ngetik nama lalu pencet 'Enter' di keyboard langsung lanjut
     guestNameInput.addEventListener("keypress", function(event) {
         if (event.key === "Enter") {
             event.preventDefault();
@@ -65,10 +100,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function kirimNotifikasiTelegram(nama) {
-        // Abaikan kalau token belum diganti
         if(TELEGRAM_BOT_TOKEN === 'TOKEN_BOT_KAMU_DISINI') return;
 
-        const pesan = `🔔 *Notifikasi Undangan Guru*\n\nTamu atas nama: *${nama}* baru saja login ke Gerbang 2 (Halaman Amplop).`;
+        const pesan = `🔔 *Undangan Adib & Nabila*\n\nTamu atas nama: *${nama}* baru saja login ke Gerbang 2 (Halaman Amplop).`;
         const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
         
         fetch(url, {
@@ -79,32 +113,30 @@ document.addEventListener("DOMContentLoaded", () => {
                 text: pesan,
                 parse_mode: 'Markdown'
             })
-        }).catch(err => console.log("Telegram notif error/pending setup."));
+        }).catch(err => console.log("Telegram notif pending setup."));
     }
 
     // ==========================================
-    // 3. LOGIKA GERBANG 2 -> GERBANG 3 (BUKA UNDANGAN)
+    // 4. LOGIKA GERBANG 2 -> GERBANG 3 (BUKA)
     // ==========================================
     btnOpenInvitation.addEventListener('click', () => {
-        // 1. Geser seluruh Layout 3 Panel ke atas sampai hilang
         gateWrapper.classList.add('slide-up-hidden');
         
-        // 2. Tampilkan isi undangan (Gerbang 3)
         gate3.classList.remove('hidden');
         gate3.classList.add('active');
 
-        // 3. Mainkan musik otomatis
+        // Mainkan musik otomatis
         bgMusic.play().catch(() => console.log("Autoplay musik ditahan browser"));
         
-        // 4. Jalankan deteksi animasi scroll
+        // Jalankan deteksi animasi scroll
         initScrollAnimation();
         
-        // 5. Pastikan web mulai dari posisi paling atas
+        // Pastikan web mulai dari posisi paling atas
         window.scrollTo(0, 0);
     });
 
     // ==========================================
-    // 4. FITUR MUSIK & TEMA (DARK/LIGHT MODE)
+    // 5. FITUR MUSIK & TEMA (DARK/LIGHT)
     // ==========================================
     let isMusicPlaying = true;
     musicToggle.addEventListener('click', () => {
@@ -119,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     themeToggle.addEventListener('click', () => {
-        const htmlElement = document.documentElement; // Ambil tag <html>
+        const htmlElement = document.documentElement;
         const currentTheme = htmlElement.getAttribute('data-theme');
         
         if (currentTheme === 'light') {
@@ -132,20 +164,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ==========================================
-    // 5. FITUR RSVP & BUKU TAMU
+    // 6. FITUR RSVP & BUKU TAMU
     // ==========================================
     rsvpForm.addEventListener('submit', (e) => {
-        e.preventDefault(); // Biar web nggak refresh/reload
+        e.preventDefault();
 
         const name = wishNameInput.value;
         const attendance = document.getElementById('attendance').value;
         const message = document.getElementById('wish-message').value;
 
-        // Buat elemen visual untuk ucapan baru
         const wishCard = document.createElement('div');
         wishCard.classList.add('wish-card');
         
-        // Warna label: Hijau kalau hadir, Abu-abu kalau tidak
         const badgeColor = attendance === 'Hadir' ? '#28a745' : '#6c757d';
 
         wishCard.innerHTML = `
@@ -156,18 +186,13 @@ document.addEventListener("DOMContentLoaded", () => {
             <p style="font-size: 0.95rem;">${message}</p>
         `;
 
-        // Masukkan ucapan baru ke tumpukan paling atas
         wishesList.prepend(wishCard);
-
-        // Kosongkan text area setelah dikirim
         document.getElementById('wish-message').value = '';
-        
-        // Notif sukses
         alert("Terima kasih! Ucapan Anda berhasil dikirim.");
     });
 
     // ==========================================
-    // 6. ANIMASI SAAT DI-SCROLL KE BAWAH
+    // 7. ANIMASI SCROLL KETIKA BUKA UNDANGAN
     // ==========================================
     function initScrollAnimation() {
         const elements = document.querySelectorAll('.animate-on-scroll');
@@ -176,13 +201,16 @@ document.addEventListener("DOMContentLoaded", () => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    // Kalau mau animasinya cuma jalan sekali (nggak ngulang pas discroll ke atas), nyalakan kode di bawah:
-                    // observer.unobserve(entry.target); 
                 }
             });
-        }, { threshold: 0.1 }); // Elemen muncul saat 10% bagiannya masuk layar
+        }, { threshold: 0.1 });
 
         elements.forEach(el => observer.observe(el));
     }
+
+    // ==========================================
+    // 8. INITIALIZE ALL (Nyalakan emotes saat web dimuat)
+    // ==========================================
+    startFlyingEmotes(); // Nyalakan emotes di gerbang depan
 
 });
