@@ -7,11 +7,13 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital@0;1&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital@0;1&family=Montserrat:wght@300;400;500;600&family=Parisienne&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="floating-emotes-container"></div>
+
     <audio id="bg-music" loop>
         <source src="assets/audio/wedding-song.mp3" type="audio/mpeg">
     </audio>
@@ -25,24 +27,22 @@
         
         <div class="panel panel-left">
             <img src="assets/img/nama1.png" alt="" class="bg-name-overlay nama-left">
-            <img src="assets/img/png2.png" alt="Nabila" class="person-img img-nabila">
+            <img src="assets/img/png2.png" alt="Nabila" class="person-img img-nabila tappable-img">
         </div>
 
         <div class="panel panel-center">
             <div class="center-bg" style="background-image: url('assets/img/bg1.jpg');">
-                <img src="assets/img/A&N.png" alt="A&N Logo" class="bg-logo">
+                <img src="assets/img/A&N.png" alt="A&N Logo" class="bg-logo tappable-img">
             </div>
             
-            <div class="center-text-wrapper">
-                <p class="invite-text animate-slide-up">WE INVITE TO JOIN OUR WEDDING</p>
-                
-                <img src="assets/img/text1.png" alt="Adib and Nabila" class="center-text-img animate-fade-in">
+            <div class="center-text-wrapper animate-slide-up">
+                <p class="invite-text">WE INVITE TO JOIN OUR WEDDING</p>
+                <img src="assets/img/text1.png" alt="Adib and Nabila" class="center-text-img tappable-img">
             </div>
 
             <div id="gate-1" class="center-content active">
                 <div class="glass-form animate-slide-up">
                     <p class="subtitle-font">Masukkan nama Anda</p>
-                    
                     <div class="input-group-inline">
                         <input type="text" id="guest-name-input" placeholder="Budi Santoso" autocomplete="off" required>
                         <button id="btn-submit-name" class="btn-icon" aria-label="Lanjut">➔</button>
@@ -63,13 +63,12 @@
 
         <div class="panel panel-right">
             <img src="assets/img/nama2.png" alt="" class="bg-name-overlay nama-right">
-            <img src="assets/img/png1.png" alt="Adib" class="person-img img-adib">
+            <img src="assets/img/png1.png" alt="Adib" class="person-img img-adib tappable-img">
         </div>
 
     </div>
 
     <main id="gate-3" class="gate-section hidden scrollable">
-        
         <section class="bismillah-section container text-center animate-on-scroll">
             <h2 class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم</h2>
             <p class="pre-title">THE WEDDING OF</p>
@@ -77,7 +76,7 @@
             
             <div class="arch-frame-wrapper">
                 <div class="arch-frame">
-                    <img src="assets/img/prewed-main.jpg" alt="Prewedding Adib Nabila">
+                    <img src="assets/img/prewed-main.jpg" alt="Prewedding Adib Nabila" class="tappable-img">
                 </div>
             </div>
         </section>
@@ -129,11 +128,11 @@
         <section class="galeri container animate-on-scroll">
             <h2 class="title-font text-center mb-4">Momen Bahagia</h2>
             <div class="masonry-gallery">
-                <img src="assets/img/gal1.jpg" alt="Galeri 1" class="gal-img img-tall">
-                <img src="assets/img/gal2.jpg" alt="Galeri 2" class="gal-img img-wide">
-                <img src="assets/img/gal3.jpg" alt="Galeri 3" class="gal-img">
-                <img src="assets/img/gal4.jpg" alt="Galeri 4" class="gal-img">
-                <img src="assets/img/gal5.jpg" alt="Galeri 5" class="gal-img img-tall">
+                <img src="assets/img/gal1.jpg" alt="Galeri 1" class="gal-img img-tall tappable-img">
+                <img src="assets/img/gal2.jpg" alt="Galeri 2" class="gal-img img-wide tappable-img">
+                <img src="assets/img/gal3.jpg" alt="Galeri 3" class="gal-img tappable-img">
+                <img src="assets/img/gal4.jpg" alt="Galeri 4" class="gal-img tappable-img">
+                <img src="assets/img/gal5.jpg" alt="Galeri 5" class="gal-img img-tall tappable-img">
             </div>
         </section>
 
@@ -150,7 +149,6 @@
                     <textarea id="wish-message" class="input-form" rows="4" placeholder="Tulis doa dan harapan..." required></textarea>
                     <button type="submit" class="btn-primary w-100">Kirim Ucapan</button>
                 </form>
-                
                 <div class="wishes-board" id="wishes-list"></div>
             </div>
         </section>
