@@ -1,8 +1,8 @@
 /* ==========================================
-   1. CSS VARIABLES (WARNA BARU)
+   1. CSS VARIABLES (TEMA WARNA)
    ========================================== */
 :root {
-    /* Warna panel samping baru biar senada sama foto referensi */
+    /* Warna panel samping (Nabila & Adib) */
     --panel-nude: #f4ece9;
     --panel-nude-dark: #b8acab;
 
@@ -101,7 +101,7 @@ body {
 .float-btn:hover { transform: scale(1.1); }
 
 /* ==========================================
-   4. LAYOUT 3 PANEL (Triptych) - LAPTOP
+   4. LAYOUT 3 PANEL (LAPTOP)
    ========================================== */
 .triptych-layout {
     position: fixed;
@@ -126,22 +126,21 @@ body {
     overflow: hidden;
 }
 
-/* Warna Panel Kiri (Nabila) & Kanan (Adib) */
 .panel-left {
     flex: 1;
-    background-color: var(--panel-nude); /* Lebih cerah buat Nabila */
+    background-color: var(--panel-nude);
 }
 
 .panel-right {
     flex: 1;
-    background-color: var(--panel-nude-dark); /* Lebih calm buat Adib */
+    background-color: var(--panel-nude-dark);
 }
 
-/* Tingkatkan mepet (overlap) foto */
+/* Penempatan Foto 1000x1000 */
 .person-img {
     position: absolute;
     bottom: 0;
-    width: 140%; /* Lebih besar */
+    width: 140%; 
     max-width: 800px;
     height: auto;
     object-fit: contain;
@@ -149,13 +148,8 @@ body {
     pointer-events: none;
 }
 
-.panel-left .person-img {
-    right: -35%; /* Lebih mepet ke tengah nabrak kain */
-}
-
-.panel-right .person-img {
-    left: -35%; /* Lebih mepet ke tengah nabrak kain */
-}
+.panel-left .person-img { right: -35%; }
+.panel-right .person-img { left: -35%; }
 
 /* Panel Tengah */
 .panel-center {
@@ -188,7 +182,7 @@ body {
     margin-top: -60px;
 }
 
-/* Konten Gerbang 1 & 2 */
+/* Konten Form Tengah */
 .center-content {
     position: relative;
     z-index: 10; 
@@ -200,290 +194,197 @@ body {
 .center-content.active { opacity: 1; visibility: visible; }
 .center-content.hidden { opacity: 0; visibility: hidden; position: absolute; }
 
-.input-wrapper {
-    background-color: rgba(255, 255, 255, 0.95);
-    padding: 30px 20px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+/* ==========================================
+   5. EFEK KACA (GLASSMORPHISM) & FORM
+   ========================================== */
+.glass-form {
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    padding: 25px 20px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
     text-align: center;
+}
+
+.subtitle-font {
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Kotak Input & Tombol Gabung */
+.input-group-inline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 30px;
+    padding: 5px 5px 5px 15px;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.input-group-inline:focus-within {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid var(--text-accent);
+    box-shadow: 0 0 15px rgba(209, 163, 159, 0.5);
+    transform: scale(1.03);
 }
 
 #guest-name-input {
-    width: 100%;
-    padding: 12px;
-    margin: 15px 0;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    background-color: var(--bg-main);
-    color: var(--text-main);
-    font-family: 'Montserrat', sans-serif;
-    text-align: center;
-}
-
-.btn-primary {
-    background-color: var(--btn-bg);
-    color: var(--btn-text);
     border: none;
-    padding: 12px 25px;
-    border-radius: 8px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 500;
+    background: transparent;
     width: 100%;
+    outline: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-main);
 }
 
-.btn-primary:hover { background-color: var(--btn-hover); }
-
-.guest-info-box {
-    background-color: rgba(255, 255, 255, 0.95);
-    padding: 30px 20px;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+/* Tombol Bulat Kecil */
+.btn-icon {
+    background-color: var(--btn-bg);
+    color: white;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s, background-color 0.3s;
+    font-size: 1rem;
+    flex-shrink: 0;
 }
 
-.guest-name { font-size: 1.5rem; margin: 10px 0; }
-.mohon-maaf { font-size: 0.7rem; color: #888; margin-bottom: 20px; }
+.btn-icon:hover {
+    transform: scale(1.15) rotate(15deg);
+    background-color: var(--btn-hover);
+}
+
+/* Teks Amplop Gate 2 */
+.to-text { font-size: 0.85rem; color: #333; }
+.guest-name { font-size: 1.5rem; margin: 10px 0; color: #222; }
 
 .btn-gold-outline {
     background-color: var(--btn-bg);
     color: var(--btn-text);
     border: none;
-    padding: 12px 25px;
-    border-radius: 5px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 0.8rem;
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s;
+    margin-top: 10px;
     width: 100%;
 }
 
 .btn-gold-outline:hover { background-color: var(--btn-hover); }
 
 /* ==========================================
-   5. GERBANG 3 (INTI UNDANGAN)
+   6. GERBANG 3 (INTI UNDANGAN)
    ========================================== */
 .gate-section.hidden { opacity: 0; visibility: hidden; height: 0; overflow: hidden; }
 .gate-section.active { opacity: 1; visibility: visible; }
 .scrollable { position: relative; display: block; }
 
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 80px 20px;
-}
-
-.pre-title {
-    letter-spacing: 3px;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-}
-
+.container { max-width: 800px; margin: 0 auto; padding: 80px 20px; }
+.pre-title { letter-spacing: 3px; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 10px; }
 .section-title { font-size: 3rem; margin-bottom: 30px; }
 
-/* Arch Frame */
-.arch-frame-wrapper {
-    display: flex;
-    justify-content: center;
-    margin-top: 40px;
-}
-
+.arch-frame-wrapper { display: flex; justify-content: center; margin-top: 40px; }
 .arch-frame {
-    width: 300px;
-    height: 400px;
-    border-radius: 150px 150px 0 0;
-    overflow: hidden;
-    border: 8px solid var(--bg-card);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    width: 300px; height: 400px; border-radius: 150px 150px 0 0;
+    overflow: hidden; border: 8px solid var(--bg-card); box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
-
 .arch-frame img { width: 100%; height: 100%; object-fit: cover; }
 
-/* Mempelai */
-.couple-layout {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    margin-top: 40px;
-}
-
+.couple-layout { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-top: 40px; }
 .person { flex: 1; }
 .person .name { font-size: 1.5rem; margin-bottom: 10px; }
 .dan-separator { font-size: 2rem; flex: 0.2; text-align: center; }
 
-/* Acara */
-.event-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-top: 40px;
-}
-
-.event-card {
-    background-color: var(--bg-card);
-    padding: 40px 20px;
-    border-radius: 15px;
-    border: 1px solid var(--border-color);
-    text-align: center;
-}
-
+.event-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
+.event-card { background-color: var(--bg-card); padding: 40px 20px; border-radius: 15px; border: 1px solid var(--border-color); text-align: center; }
 .text-gold { color: var(--text-accent); margin-bottom: 15px; }
-
-.divider-small {
-    width: 50px;
-    height: 1px;
-    background-color: var(--text-accent);
-    margin: 20px auto;
-}
-
-.btn-map {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: var(--btn-bg);
-    color: var(--btn-text);
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 0.9rem;
-    transition: 0.3s;
-}
-
+.divider-small { width: 50px; height: 1px; background-color: var(--text-accent); margin: 20px auto; }
+.btn-map { display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: var(--btn-bg); color: var(--btn-text); text-decoration: none; border-radius: 5px; font-size: 0.9rem; transition: 0.3s; }
 .btn-map:hover { background-color: var(--btn-hover); }
 
-/* Galeri */
-.masonry-gallery {
-    column-count: 2;
-    column-gap: 15px;
-}
+.masonry-gallery { column-count: 2; column-gap: 15px; }
+.gal-img { width: 100%; border-radius: 8px; margin-bottom: 15px; display: block; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
 
-.gal-img {
-    width: 100%;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    display: block;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
-
-/* RSVP */
-.rsvp-box {
-    background-color: var(--bg-card);
-    padding: 40px;
-    border-radius: 15px;
-    border: 1px solid var(--border-color);
-}
-
-.input-form {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    background-color: var(--bg-main);
-    color: var(--text-main);
-    font-family: 'Montserrat', sans-serif;
-}
-
-.wishes-board {
-    margin-top: 40px;
-    max-height: 400px;
-    overflow-y: auto;
-    padding-right: 10px;
-}
-
-.wish-card {
-    background-color: var(--badge-bg);
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    border-left: 4px solid var(--text-accent);
-}
-
-.wish-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-    font-size: 0.9rem;
-}
-
-/* Footer */
-.footer {
-    background-color: var(--bg-card);
-    padding: 60px 20px;
-    border-top: 1px solid var(--border-color);
-}
-
+.rsvp-box { background-color: var(--bg-card); padding: 40px; border-radius: 15px; border: 1px solid var(--border-color); }
+.input-form { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--bg-main); color: var(--text-main); font-family: 'Montserrat', sans-serif; }
+.wishes-board { margin-top: 40px; max-height: 400px; overflow-y: auto; padding-right: 10px; }
+.wish-card { background-color: var(--badge-bg); padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid var(--text-accent); }
+.wish-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; }
+.footer { background-color: var(--bg-card); padding: 60px 20px; border-top: 1px solid var(--border-color); }
 .huge-title { font-size: 3.5rem; margin: 10px 0; }
 
 /* ==========================================
-   6. ANIMASI
+   7. ANIMASI
    ========================================== */
 .animate-fade-in { animation: fadeIn 1.5s ease forwards; }
 .animate-slide-up { animation: slideUp 1.5s ease forwards; }
-
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-.animate-on-scroll {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
+.animate-on-scroll { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
 .animate-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
 
 /* ==========================================
-   7. RESPONSIF (HP / Mobile)
+   8. RESPONSIF (HP / Mobile) - VERSI MAKSIMAL
    ========================================= */
 @media screen and (max-width: 768px) {
-    /* Kembalikan ke konsep 3 kolom ke samping (Horizontal) persis kayak laptop */
     .triptych-layout {
         flex-direction: row; 
         overflow: hidden;
     }
 
-    /* Atur proporsi lebar: Panel kiri & kanan menyempit, Tengah membesar buat form */
-    .panel-left { flex: 0.8; }
-    .panel-right { flex: 0.8; }
-    .panel-center { flex: 3; } 
+    /* Background kain tengah dikecilin (flex 2), samping dilebarin (flex 1.2) */
+    .panel-left { flex: 1.2; }
+    .panel-right { flex: 1.2; }
+    .panel-center { flex: 2; } 
 
-    /* Besarkan gambar di HP karena panel sampingnya mengecil */
+    /* FOTO DIANGKAT KE TENGAH PERSIS */
     .person-img {
-        width: 300%; /* Tarik gambarnya biar besar */
-        height: auto;
-        bottom: 0;
+        width: 250%; /* Tarik gambar biar besar */
+        bottom: auto;
+        top: 50%;
+        transform: translateY(-50%); /* Kunci biar pas di tengah secara vertikal */
     }
 
-    /* Tarik fotonya ke tengah biar greget nutupin pinggiran kain */
-    .panel-left .person-img {
-        right: -120%; 
-    }
+    /* Digeser nutupin background kain tengah */
+    .panel-left .person-img { right: -85%; }
+    .panel-right .person-img { left: -85%; }
 
-    .panel-right .person-img {
-        left: -120%;
-    }
-
-    /* Penyesuaian Form & Teks Tengah di HP */
+    /* Form & Logo Tengah Dikecilin */
     .center-text-img {
-        width: 95%;
-        margin-top: -30px;
-        margin-bottom: 20px;
+        width: 90%;
+        margin-top: -20px;
+        margin-bottom: 15px;
     }
 
     .center-content {
         width: 100%;
-        padding: 0 5px;
+        padding: 0 10px;
         z-index: 10;
-        margin-bottom: 15vh; /* Naikin form sedikit biar ga nabrak dada/bahu foto */
+        margin-bottom: 0; 
     }
 
-    .input-wrapper, .guest-info-box {
-        padding: 20px 10px;
+    .glass-form {
+        padding: 20px 15px;
     }
 
-    /* --- Gerbang 3 Responsif Mobile Tetap Sama --- */
+    .subtitle-font { font-size: 0.75rem; }
+    .guest-name { font-size: 1.2rem; }
+    
+    /* --- Gerbang 3 Responsif Mobile --- */
     .huge-title { font-size: 2.5rem; }
     .section-title { font-size: 2rem; }
     .couple-layout { flex-direction: column; text-align: center; }
