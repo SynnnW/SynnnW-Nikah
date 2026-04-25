@@ -1,11 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
     
     // ==========================================
-    // 1. DEKLARASI VARIABEL
+    // 1. DEKLARASI ELEMEN DOM
     // ==========================================
-    const gate1 = document.getElementById('gate-1');
-    const gate2 = document.getElementById('gate-2');
-    const gate3 = document.getElementById('gate-3');
+    const gateWrapper = document.getElementById('gate-wrapper'); // Pembungkus layout 3 panel
+    const gate1Content = document.getElementById('gate-1');
+    const gate2Content = document.getElementById('gate-2');
+    const gate3 = document.getElementById('gate-3'); // Isi undangan lengkap
     
     const guestNameInput = document.getElementById('guest-name-input');
     const btnSubmitName = document.getElementById('btn-submit-name');
@@ -22,8 +23,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const wishesList = document.getElementById('wishes-list');
 
     // ==========================================
-    // SETUP TELEGRAM BOT (Ganti pakai data kamu)
+    // SETUP BOT TELEGRAM (Biar HP kamu bunyi)
     // ==========================================
+    // Nanti isi dengan Token & Chat ID milikmu
     const TELEGRAM_BOT_TOKEN = 'TOKEN_BOT_KAMU_DISINI'; 
     const TELEGRAM_CHAT_ID = 'CHAT_ID_KAMU_DISINI';
 
@@ -34,29 +36,39 @@ document.addEventListener("DOMContentLoaded", () => {
         const guestName = guestNameInput.value.trim();
         
         if (guestName === "") {
-            alert("Tolong masukkan nama Anda terlebih dahulu ya!");
+            alert("Tolong ketik nama Anda terlebih dahulu ya!");
             return;
         }
 
-        // Tampilkan nama di amplop (Gate 2) dan isi otomatis form RSVP
+        // 1. Tampilkan nama di amplop (Gate 2)
         guestNameDisplay.innerHTML = guestName;
+        // 2. Isi otomatis form nama di RSVP paling bawah web
         wishNameInput.value = guestName;
 
-        // Animasi pindah gerbang
-        gate1.classList.remove('active');
-        gate1.classList.add('hidden');
-        gate2.classList.remove('hidden');
-        gate2.classList.add('active');
+        // 3. Animasi pergantian form tengah (Gate 1 hilang, Gate 2 muncul)
+        gate1Content.classList.remove('active');
+        gate1Content.classList.add('hidden');
+        
+        gate2Content.classList.remove('hidden');
+        gate2Content.classList.add('active');
 
-        // Kirim notifikasi Telegram di belakang layar
+        // 4. Kirim notifikasi diam-diam ke Bot Telegram
         kirimNotifikasiTelegram(guestName);
     });
 
+    // Fitur ngetik nama pencet 'Enter' langsung lanjut
+    guestNameInput.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            btnSubmitName.click();
+        }
+    });
+
     function kirimNotifikasiTelegram(nama) {
-        // Jika token belum diisi, fungsi ini ga akan bikin web error
+        // Abaikan kalau token belum diganti
         if(TELEGRAM_BOT_TOKEN === 'TOKEN_BOT_KAMU_DISINI') return;
 
-        const pesan = `🔔 *Notifikasi Undangan Guru*\n\nTamu atas nama: *${nama}* baru saja masuk ke halaman Welcome.`;
+        const pesan = `🔔 *Notifikasi Undangan Guru*\n\nTamu atas nama: *${nama}* baru saja login ke Gerbang 2 (Halaman Amplop).`;
         const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
         
         fetch(url, {
@@ -67,26 +79,27 @@ document.addEventListener("DOMContentLoaded", () => {
                 text: pesan,
                 parse_mode: 'Markdown'
             })
-        }).catch(err => console.log("Telegram notif pending setup."));
+        }).catch(err => console.log("Telegram notif error/pending setup."));
     }
 
     // ==========================================
     // 3. LOGIKA GERBANG 2 -> GERBANG 3 (BUKA UNDANGAN)
     // ==========================================
     btnOpenInvitation.addEventListener('click', () => {
-        // Pindah ke isi undangan
-        gate2.classList.remove('active');
-        gate2.classList.add('hidden');
+        // 1. Geser seluruh Layout 3 Panel ke atas sampai hilang
+        gateWrapper.classList.add('slide-up-hidden');
+        
+        // 2. Tampilkan isi undangan (Gerbang 3)
         gate3.classList.remove('hidden');
         gate3.classList.add('active');
 
-        // Mulai mainkan musik
-        bgMusic.play().catch(error => console.log("Autoplay musik dicegah browser"));
+        // 3. Mainkan musik otomatis (biasanya browser ngijinin karena user udah klik tombol)
+        bgMusic.play().catch(() => console.log("Autoplay musik ditahan browser"));
         
-        // Mulai pantau animasi scroll
+        // 4. Jalankan deteksi animasi scroll
         initScrollAnimation();
         
-        // Scroll ke paling atas
+        // 5. Pastikan web mulai dari posisi paling atas
         window.scrollTo(0, 0);
     });
 
@@ -106,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     themeToggle.addEventListener('click', () => {
-        const htmlElement = document.documentElement;
+        const htmlElement = document.documentElement; // Ambil tag <html>
         const currentTheme = htmlElement.getAttribute('data-theme');
         
         if (currentTheme === 'light') {
@@ -122,37 +135,39 @@ document.addEventListener("DOMContentLoaded", () => {
     // 5. FITUR RSVP & BUKU TAMU
     // ==========================================
     rsvpForm.addEventListener('submit', (e) => {
-        e.preventDefault(); // Mencegah halaman reload
+        e.preventDefault(); // Biar web nggak refresh/reload
 
         const name = wishNameInput.value;
         const attendance = document.getElementById('attendance').value;
         const message = document.getElementById('wish-message').value;
 
-        // Membuat elemen HTML untuk ucapan baru
+        // Buat elemen visual untuk ucapan baru
         const wishCard = document.createElement('div');
         wishCard.classList.add('wish-card');
         
-        // Badge warna hijau untuk hadir, abu-abu untuk tidak
+        // Warna label: Hijau kalau hadir, Abu-abu kalau tidak
         const badgeColor = attendance === 'Hadir' ? '#28a745' : '#6c757d';
 
         wishCard.innerHTML = `
             <div class="wish-header">
                 <strong>${name}</strong>
-                <span style="background-color: ${badgeColor}; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px;">${attendance}</span>
+                <span style="background-color: ${badgeColor}; color: white; padding: 2px 10px; border-radius: 12px; font-size: 11px;">${attendance}</span>
             </div>
-            <p class="wish-text">${message}</p>
+            <p style="font-size: 0.95rem;">${message}</p>
         `;
 
-        // Masukkan ucapan ke paling atas daftar
+        // Masukkan ucapan baru ke tumpukan paling atas
         wishesList.prepend(wishCard);
 
-        // Reset text area
+        // Kosongkan text area setelah dikirim
         document.getElementById('wish-message').value = '';
+        
+        // Notif sukses
         alert("Terima kasih! Ucapan Anda berhasil dikirim.");
     });
 
     // ==========================================
-    // 6. ANIMASI SAAT DI-SCROLL (INTERSECTION OBSERVER)
+    // 6. ANIMASI SAAT DI-SCROLL KE BAWAH
     // ==========================================
     function initScrollAnimation() {
         const elements = document.querySelectorAll('.animate-on-scroll');
@@ -161,9 +176,11 @@ document.addEventListener("DOMContentLoaded", () => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
+                    // Kalau mau animasinya cuma jalan sekali, nyalakan kode di bawah ini:
+                    // observer.unobserve(entry.target); 
                 }
             });
-        }, { threshold: 0.1 }); // Muncul saat 10% elemen masuk layar
+        }, { threshold: 0.1 }); // Elemen muncul saat 10% bagiannya masuk layar
 
         elements.forEach(el => observer.observe(el));
     }
