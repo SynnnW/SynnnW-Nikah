@@ -58,37 +58,14 @@ body {
     color: var(--text-accent);
 }
 
-.text-center {
-    text-align: center;
-}
-
-.text-right {
-    text-align: right;
-}
-
-.text-left {
-    text-align: left;
-}
-
-.fw-bold {
-    font-weight: 600;
-}
-
-.mb-4 {
-    margin-bottom: 1.5rem;
-}
-
-.mt-2 {
-    margin-top: 0.5rem;
-}
-
-.mt-4 {
-    margin-top: 1.5rem;
-}
-
-.w-100 {
-    width: 100%;
-}
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-left { text-align: left; }
+.fw-bold { font-weight: 600; }
+.mb-4 { margin-bottom: 1.5rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-4 { margin-top: 1.5rem; }
+.w-100 { width: 100%; }
 
 /* ==========================================================================
    3. FITUR GAMBAR DITEKAN & EMOTE TERBANG
@@ -125,20 +102,10 @@ body {
 }
 
 @keyframes flyUp {
-    0% {
-        transform: translateY(0) translateX(0) scale(0.8);
-        opacity: 0;
-    }
-    10% {
-        opacity: 0.8;
-    }
-    80% {
-        opacity: 0.8;
-    }
-    100% {
-        transform: translateY(-110vh) translateX(50px) scale(1.2);
-        opacity: 0;
-    }
+    0% { transform: translateY(0) translateX(0) scale(0.8); opacity: 0; }
+    10% { opacity: 0.8; }
+    80% { opacity: 0.8; }
+    100% { transform: translateY(-110vh) translateX(50px) scale(1.2); opacity: 0; }
 }
 
 /* ==========================================================================
@@ -173,7 +140,7 @@ body {
 }
 
 /* ==========================================================================
-   5. LAYOUT LAPTOP (DESKTOP DEFAULT)
+   5. LAYOUT LAPTOP (DESKTOP)
    ========================================================================== */
 .triptych-layout {
     position: fixed;
@@ -192,12 +159,12 @@ body {
     pointer-events: none;
 }
 
-/* DI LAPTOP: PANEL KIRI DAN KANAN (NAMA VERTIKAL) DISEMBUNYIKAN! */
+/* Panel Samping Disembunyikan di Laptop */
 .panel-side {
     display: none;
 }
 
-/* DI LAPTOP: PANEL TENGAH MEMAKAN SELURUH LAYAR (100VW) */
+/* Panel Tengah Full Screen di Laptop */
 .panel-center {
     width: 100vw;
     height: 100vh;
@@ -221,7 +188,6 @@ body {
     z-index: 1;
 }
 
-/* LOGO A&N DI POJOK KANAN ATAS */
 .bg-logo {
     position: absolute;
     top: 40px;
@@ -231,7 +197,6 @@ body {
     z-index: 10;
 }
 
-/* AREA TEKS TENGAH (WE INVITE & ADIB NABILA) */
 .center-text-wrapper {
     position: relative;
     z-index: 10;
@@ -257,27 +222,19 @@ body {
     max-width: 500px;
 }
 
-/* FOTO ADIB & NABILA DI TENGAH (LAPTOP) */
+/* Foto Adib & Nabila di Laptop */
 .person-img-center {
     position: absolute;
     bottom: 0;
-    height: 85vh; /* Tinggi pas untuk laptop */
+    height: 85vh;
     width: auto;
     z-index: 4;
     pointer-events: none;
 }
 
-/* Posisikan foto Nabila di kiri tengah layar laptop */
-.img-nabila-overlap {
-    right: 55%;
-}
+.img-nabila-overlap { right: 55%; }
+.img-adib-overlap { left: 55%; }
 
-/* Posisikan foto Adib di kanan tengah layar laptop */
-.img-adib-overlap {
-    left: 55%;
-}
-
-/* WADAH FORM KACA */
 .center-content {
     position: relative;
     z-index: 10;
@@ -286,19 +243,11 @@ body {
     transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
-.center-content.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.center-content.hidden {
-    opacity: 0;
-    visibility: hidden;
-    position: absolute;
-}
+.center-content.active { opacity: 1; visibility: visible; }
+.center-content.hidden { opacity: 0; visibility: hidden; position: absolute; }
 
 /* ==========================================================================
-   6. GLASSMORPHISM (EFEK KACA FORM)
+   6. GLASSMORPHISM FORM
    ========================================================================== */
 .glass-form {
     background: rgba(255, 255, 255, 0.4);
@@ -311,11 +260,7 @@ body {
     text-align: center;
 }
 
-.subtitle-font {
-    font-size: 0.95rem;
-    color: #222222;
-    font-weight: 500;
-}
+.subtitle-font { font-size: 0.95rem; color: #222222; font-weight: 500; }
 
 .input-group-inline {
     display: flex;
@@ -367,16 +312,8 @@ body {
     background-color: var(--btn-hover);
 }
 
-.to-text {
-    font-size: 0.9rem;
-    color: #333333;
-}
-
-.guest-name {
-    font-size: 1.6rem;
-    margin: 10px 0;
-    color: #222222;
-}
+.to-text { font-size: 0.9rem; color: #333333; }
+.guest-name { font-size: 1.6rem; margin: 10px 0; color: #222222; }
 
 .btn-gold-outline {
     background-color: var(--btn-bg);
@@ -391,382 +328,169 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.btn-gold-outline:hover {
-    background-color: var(--btn-hover);
-}
+.btn-gold-outline:hover { background-color: var(--btn-hover); }
 
 /* ==========================================================================
    7. GERBANG 3 (INTI UNDANGAN)
    ========================================================================== */
-.gate-section.hidden {
-    opacity: 0;
-    visibility: hidden;
-    height: 0;
-    overflow: hidden;
-}
+.gate-section.hidden { opacity: 0; visibility: hidden; height: 0; overflow: hidden; }
+.gate-section.active { opacity: 1; visibility: visible; }
+.scrollable { position: relative; display: block; }
 
-.gate-section.active {
-    opacity: 1;
-    visibility: visible;
-}
+.container { max-width: 800px; margin: 0 auto; padding: 80px 20px; }
+.pre-title { letter-spacing: 3px; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 10px; }
+.section-title { font-size: 3rem; margin-bottom: 30px; }
 
-.scrollable {
-    position: relative;
-    display: block;
-}
+.arch-frame-wrapper { display: flex; justify-content: center; margin-top: 40px; }
+.arch-frame { width: 300px; height: 400px; border-radius: 150px 150px 0 0; overflow: hidden; border: 8px solid var(--bg-card); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+.arch-frame img { width: 100%; height: 100%; object-fit: cover; }
 
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 80px 20px;
-}
+.couple-layout { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-top: 40px; }
+.person { flex: 1; }
+.person .name { font-size: 1.5rem; margin-bottom: 10px; }
+.dan-separator { font-size: 2rem; flex: 0.2; text-align: center; }
 
-.pre-title {
-    letter-spacing: 3px;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-}
+.event-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
+.event-card { background-color: var(--bg-card); padding: 40px 20px; border-radius: 15px; border: 1px solid var(--border-color); text-align: center; }
+.text-gold { color: var(--text-accent); margin-bottom: 15px; }
+.divider-small { width: 50px; height: 1px; background-color: var(--text-accent); margin: 20px auto; }
 
-.section-title {
-    font-size: 3rem;
-    margin-bottom: 30px;
-}
+.btn-map { display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: var(--btn-bg); color: var(--btn-text); text-decoration: none; border-radius: 5px; font-size: 0.9rem; transition: background-color 0.3s ease; }
+.btn-map:hover { background-color: var(--btn-hover); }
 
-.arch-frame-wrapper {
-    display: flex;
-    justify-content: center;
-    margin-top: 40px;
-}
+.masonry-gallery { column-count: 2; column-gap: 15px; }
+.gal-img { width: 100%; border-radius: 8px; margin-bottom: 15px; display: block; }
 
-.arch-frame {
-    width: 300px;
-    height: 400px;
-    border-radius: 150px 150px 0 0;
-    overflow: hidden;
-    border: 8px solid var(--bg-card);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-}
-
-.arch-frame img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.couple-layout {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    margin-top: 40px;
-}
-
-.person {
-    flex: 1;
-}
-
-.person .name {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-}
-
-.dan-separator {
-    font-size: 2rem;
-    flex: 0.2;
-    text-align: center;
-}
-
-.event-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-top: 40px;
-}
-
-.event-card {
-    background-color: var(--bg-card);
-    padding: 40px 20px;
-    border-radius: 15px;
-    border: 1px solid var(--border-color);
-    text-align: center;
-}
-
-.text-gold {
-    color: var(--text-accent);
-    margin-bottom: 15px;
-}
-
-.divider-small {
-    width: 50px;
-    height: 1px;
-    background-color: var(--text-accent);
-    margin: 20px auto;
-}
-
-.btn-map {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: var(--btn-bg);
-    color: var(--btn-text);
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 0.9rem;
-    transition: background-color 0.3s ease;
-}
-
-.btn-map:hover {
-    background-color: var(--btn-hover);
-}
-
-.masonry-gallery {
-    column-count: 2;
-    column-gap: 15px;
-}
-
-.gal-img {
-    width: 100%;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    display: block;
-}
-
-.rsvp-box {
-    background-color: var(--bg-card);
-    padding: 40px;
-    border-radius: 15px;
-    border: 1px solid var(--border-color);
-}
-
-.input-form {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    background-color: var(--bg-main);
-    color: var(--text-main);
-    font-family: 'Montserrat', sans-serif;
-}
-
-.wishes-board {
-    margin-top: 40px;
-    max-height: 400px;
-    overflow-y: auto;
-    padding-right: 10px;
-}
-
-.wish-card {
-    background-color: var(--badge-bg);
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    border-left: 4px solid var(--text-accent);
-}
-
-.wish-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-    font-size: 0.9rem;
-}
-
-.footer {
-    background-color: var(--bg-card);
-    padding: 60px 20px;
-    border-top: 1px solid var(--border-color);
-}
-
-.huge-title {
-    font-size: 3.5rem;
-    margin: 10px 0;
-}
+.rsvp-box { background-color: var(--bg-card); padding: 40px; border-radius: 15px; border: 1px solid var(--border-color); }
+.input-form { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--bg-main); color: var(--text-main); font-family: 'Montserrat', sans-serif; }
+.wishes-board { margin-top: 40px; max-height: 400px; overflow-y: auto; padding-right: 10px; }
+.wish-card { background-color: var(--badge-bg); padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid var(--text-accent); }
+.wish-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; }
+.footer { background-color: var(--bg-card); padding: 60px 20px; border-top: 1px solid var(--border-color); }
+.huge-title { font-size: 3.5rem; margin: 10px 0; }
 
 /* ==========================================================================
    8. KEYFRAMES ANIMASI
    ========================================================================== */
-.animate-fade-in {
-    animation: fadeIn 1.5s ease forwards;
-}
+.animate-fade-in { animation: fadeIn 1.5s ease forwards; }
+.animate-slide-up { animation: slideUp 1.5s ease forwards; }
 
-.animate-slide-up {
-    animation: slideUp 1.5s ease forwards;
-}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-on-scroll {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
-.animate-on-scroll.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
+.animate-on-scroll { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+.animate-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
 
 /* ==========================================================================
-   9. MOBILE FIRST LAYOUT (STRATEGI KHUSUS HP VERTIKAL)
+   9. MOBILE FIRST LAYOUT (SUPER AMAN - ANTI KEPOTONG)
    ========================================================================== */
 @media screen and (max-width: 768px) {
     
-    /* Nyalakan kembali layout 3 kolom di HP */
     .triptych-layout {
+        display: flex;
         flex-direction: row;
+        overflow: hidden; /* Cuma layar luar yang di-clip */
     }
 
-    /* Tampilkan kembali kolom kiri & kanan khusus di HP */
+    /* Panel Kiri & Kanan (Nama Vertikal) */
     .panel-side {
         display: flex;
-        flex: 0.8; /* Lebar kolom nama vertikal */
+        flex: 0.8;
         position: relative;
-        overflow: hidden;
         z-index: 1;
+        overflow: hidden;
     }
 
-    .panel-nabila-name {
-        background-color: var(--panel-nude);
-    }
+    .panel-nabila-name { background-color: var(--panel-nude); }
+    .panel-adib-name { background-color: var(--panel-nude-dark); }
 
-    .panel-adib-name {
-        background-color: var(--panel-nude-dark);
-    }
-
-    /* Penataan Teks Nama Vertikal (nama1.png & nama2.png) */
     .vertical-name-mobile {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        height: 60%; /* Tinggi tulisan vertikal */
+        height: 60vh;
         width: auto;
         opacity: 0.5;
         z-index: 2;
     }
+    .panel-nabila-name .vertical-name-mobile { left: 2px; }
+    .panel-adib-name .vertical-name-mobile { right: 2px; }
 
-    /* Tempelkan tulisan ke pinggir luar layar HP */
-    .panel-nabila-name .vertical-name-mobile {
-        left: 5px;
-    }
-
-    .panel-adib-name .vertical-name-mobile {
-        right: 5px;
-    }
-
-    /* Panel Tengah HP (Kain) */
+    /* PANEL TENGAH (Kain, Foto, Form) */
     .panel-center {
-        width: auto;
-        flex: 2.8; /* Lebar kain tengah */
+        flex: 3;
+        position: relative;
         z-index: 2;
-        overflow: visible; /* Penting! Biar foto Adib-Nabila bisa keluar meluap ke panel samping */
+        overflow: visible; /* KUNCI UTAMA: BIAR FOTO ADIB NABILA GA KEPOTONG */
     }
 
-    /* LOGO A&N DI HP */
     .bg-logo {
-        top: 25px;
-        right: 25px;
+        top: 20px;
+        right: 20px;
         width: 45px;
-    }
-
-    /* FOTO ADIB & NABILA DI HP (OVERLAP) */
-    .person-img-center {
-        bottom: auto;
-        top: 45%; /* Posisikan ke tengah layar */
-        transform: translateY(-50%);
-        height: auto;
-        width: 150%; /* Besarkan ukuran foto di HP */
-        max-width: none;
-        z-index: 3; /* Pastikan di atas kain tapi di bawah form */
-    }
-
-    /* Tarik foto membelah kain dan panel samping */
-    .img-nabila-overlap {
-        right: 45%;
-    }
-
-    .img-adib-overlap {
-        left: 45%;
-    }
-
-    /* AREA TEKS TENGAH DI HP (Dinaikkan agar tidak ketutupan muka) */
-    .center-text-wrapper {
-        margin-top: -140px; /* Angkat tinggi banget */
-        margin-bottom: 20px;
         z-index: 10;
+    }
+
+    /* Teks Atas Dipaku Jaraknya */
+    .center-text-wrapper {
+        position: absolute;
+        top: 8%; /* Turunin dikit biar ga ketutupan notch hp */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        z-index: 10;
+        margin: 0;
     }
 
     .invite-text {
-        font-size: 0.6rem;
+        font-size: 0.55rem;
         letter-spacing: 4px;
-        margin-bottom: 12px;
+        margin-bottom: 10px;
     }
 
     .center-text-img {
-        width: 98%;
-        max-width: 320px;
+        width: 95%;
+        max-width: 280px;
     }
 
-    /* FORM KACA DI HP (Z-INDEX TERTINGGI) */
+    /* FOTO ADIB NABILA DIPAKU DI TENGAH (Membelah Panel) */
+    .person-img-center {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 150%; /* Ukuran diperbesar */
+        max-width: 250px;
+        height: auto;
+        z-index: 5;
+        bottom: auto; /* Matikan bottom dari desktop */
+    }
+
+    .img-nabila-overlap { right: 40%; } /* Geser tembus ke panel kiri */
+    .img-adib-overlap { left: 40%; } /* Geser tembus ke panel kanan */
+
+    /* FORM DIPAKU DI BAWAH */
     .center-content {
-        width: 100%;
-        padding: 0 10px;
-        z-index: 10;
-        margin-bottom: 12vh; /* Beri jarak ke bawah */
+        position: absolute;
+        bottom: 10%; /* Amankan form di bagian bawah */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 95%;
+        max-width: 320px;
+        z-index: 15; /* Z-index tertinggi biar bisa ditekan */
+        margin: 0;
     }
 
-    .glass-form {
-        padding: 20px 15px;
-    }
+    .glass-form { padding: 15px; }
+    .subtitle-font { font-size: 0.8rem; }
+    .guest-name { font-size: 1.3rem; }
 
-    .subtitle-font {
-        font-size: 0.8rem;
-    }
-
-    .guest-name {
-        font-size: 1.3rem;
-    }
-
-    /* RESPONSIVITAS GERBANG 3 DI HP */
-    .huge-title {
-        font-size: 2.5rem;
-    }
-
-    .section-title {
-        font-size: 2rem;
-    }
-
-    .couple-layout {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .person {
-        text-align: center;
-    }
-
-    .dan-separator {
-        margin: 20px 0;
-    }
-
-    .event-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .arch-frame {
-        width: 250px;
-        height: 330px;
-    }
-
-    .masonry-gallery {
-        column-count: 1;
-    }
+    /* GERBANG 3 RESPONSIF */
+    .huge-title { font-size: 2.5rem; }
+    .section-title { font-size: 2rem; }
+    .couple-layout { flex-direction: column; text-align: center; }
+    .person { text-align: center; }
+    .dan-separator { margin: 20px 0; }
+    .event-grid { grid-template-columns: 1fr; }
+    .arch-frame { width: 250px; height: 330px; }
+    .masonry-gallery { column-count: 1; }
 }
