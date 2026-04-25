@@ -15,6 +15,14 @@
   const wishesList     = document.getElementById('wishes-list');
   const rsvpForm       = document.getElementById('rsvp-form');
 
+  // DOM RSVP Stats
+  const countHadir     = document.getElementById('count-hadir');
+  const countTidak     = document.getElementById('count-tidak');
+
+  // DOM Wedding Gift
+  const btnToggleGift  = document.getElementById('btn-toggle-gift');
+  const giftContainer  = document.getElementById('gift-container');
+
   const bgMusic        = document.getElementById('bg-music');
   const musicToggle    = document.getElementById('music-toggle');
   const themeToggle    = document.getElementById('theme-toggle');
@@ -66,14 +74,16 @@
     guestName = val;
     guestDisplay.textContent = val;
     wishName.value = val;
+    
+    // Update nama di bagian Hero Section
+    const guestNameHero = document.getElementById('guest-name-hero');
+    if (guestNameHero) guestNameHero.textContent = val;
 
     gate1.classList.remove('active');
     gate1.classList.add('hidden');
 
     gate2.classList.remove('hidden');
     setTimeout(() => gate2.classList.add('active'), 20);
-
-    sendTelegram(val);
   }
 
   btnSubmit.addEventListener('click', goToGate2);
@@ -105,15 +115,19 @@
   });
 
   /* ==============================================================
-     4. TELEGRAM NOTIFICATION
+     4. TELEGRAM NOTIFICATION (KHUSUS RSVP & WISHES)
      ============================================================== */
-  function sendTelegram(nama) {
-    const msg = `🔔 *Undangan Adib & Nabila*\n\nTamu: *${nama}* membuka amplop undangan.`;
+  function sendTelegramRSVP(nama, attend, message) {
+    const icon = attend === 'Hadir' ? '✅' : '❌';
+    const msg = `💌 *RSVP Baru: Adib & Nabila*\n\n👤 *Nama:* ${nama}\n${icon} *Kehadiran:* ${attend}\n💬 *Pesan:*\n_${message}_`;
+    
     fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ chat_id: CHAT_ID, text: msg, parse_mode: 'Markdown' })
-    }).catch(() => {});
+    }).catch(() => {
+      console.log('Gagal mengirim ke Telegram');
+    });
   }
 
   /* ==============================================================
@@ -155,7 +169,7 @@
   });
 
   /* ==============================================================
-     7. COUNTDOWN
+     7. COUNTDOWN (Target: 31 Mei 2026 - Akad Nikah)
      ============================================================== */
   function initCountdown() {
     const target = new Date('2026-05-31T08:00:00+07:00').getTime();
@@ -216,27 +230,107 @@
   });
 
   /* ==============================================================
-     10. RSVP / BUKU TAMU
+     10. WEDDING GIFT (BUKA REKENING & COPY CLIPBOARD)
+     ============================================================== */
+  if(btnToggleGift && giftContainer) {
+    btnToggleGift.addEventListener('click', () => {
+      if (giftContainer.classList.contains('hidden')) {
+        giftContainer.classList.remove('hidden');
+        btnToggleGift.textContent = 'Tutup Rekening 🎁';
+        // Animasi slide down / fade in dibantu CSS
+        giftContainer.style.animation = 'fadeIn 0.5s ease forwards';
+      } else {
+        giftContainer.classList.add('hidden');
+        btnToggleGift.textContent = 'Buka Rekening 🎁';
+      }
+    });
+  }
+
+  // Fungsi Copy ke Clipboard (Dibuat global agar bisa dipanggil dari HTML onclick)
+  window.copyRekening = function(elementId) {
+    const textToCopy = document.getElementById(elementId).innerText;
+    
+    // Fallback menggunakan execCommand untuk kompabilitas Canvas
+    const tempInput = document.createElement('input');
+    tempInput.value = textToCopy;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
+
+    showToast('Nomor Rekening Berhasil Disalin!');
+  };
+
+  // Custom Notifikasi / Toast (Pengganti Alert)
+  function showToast(message) {
+    const toast = document.createElement('div');
+    toast.textContent = message;
+    toast.style.position = 'fixed';
+    toast.style.bottom = '80px';
+    toast.style.left = '50%';
+    toast.style.transform = 'translateX(-50%)';
+    toast.style.background = 'rgba(0, 0, 0, 0.8)';
+    toast.style.color = '#fff';
+    toast.style.padding = '12px 24px';
+    toast.style.borderRadius = '50px';
+    toast.style.zIndex = '10000';
+    toast.style.fontSize = '0.85rem';
+    toast.style.fontWeight = '500';
+    toast.style.transition = 'opacity 0.3s ease';
+    toast.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
+    
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      setTimeout(() => toast.remove(), 300);
+    }, 2500);
+  }
+
+  /* ==============================================================
+     11. RSVP / BUKU TAMU & STATISTIK
      ============================================================== */
   rsvpForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    const name     = wishName.value || guestName;
+    const name     = wishName.value || guestName || 'Tamu';
     const attend   = document.getElementById('attendance').value;
     const message  = document.getElementById('wish-message').value.trim();
 
     if (!attend || !message) return;
 
+    // Update Statistik Angka
+    if (attend === 'Hadir' && countHadir) {
+      countHadir.textContent = parseInt(countHadir.textContent) + 1;
+    } else if (attend === 'Tidak Hadir' && countTidak) {
+      countTidak.textContent = parseInt(countTidak.textContent) + 1;
+    }
+
+    // Buat inisial untuk Avatar
+    const initial = name.charAt(0).toUpperCase();
+
+    // Tambah Komentar Baru ke Daftar
     const card = document.createElement('div');
     card.className = 'wish-card';
     card.innerHTML = `
-      <div class="wish-head">
-        <strong>${escapeHtml(name)}</strong>
-        <span class="badge ${attend === 'Hadir' ? 'badge-hadir' : 'badge-tidak'}">${attend}</span>
+      <div class="wish-avatar">${initial}</div>
+      <div class="wish-content-box">
+        <div class="wish-head">
+          <strong>${escapeHtml(name)}</strong>
+          <span class="badge ${attend === 'Hadir' ? 'badge-hadir' : 'badge-tidak'}">
+            ${attend === 'Hadir' ? '✅' : '❌'}
+          </span>
+        </div>
+        <div class="wish-msg">${escapeHtml(message)}</div>
+        <div class="wish-time">Baru saja</div>
       </div>
-      <div class="wish-msg">${escapeHtml(message)}</div>
     `;
     wishesList.prepend(card);
 
+    // Kirim Data ke Bot Telegram
+    sendTelegramRSVP(name, attend, message);
+
+    // Tampilkan notifikasi dan Reset Form
+    showToast('Terima kasih atas ucapan & doanya! ✨');
     document.getElementById('wish-message').value = '';
     document.getElementById('attendance').value   = '';
 
