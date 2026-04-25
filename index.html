@@ -4,14 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Undangan Pernikahan | Adib & Nabila</title>
+  
+  <!-- Font Integrations -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Parisienne&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
   
+  <!-- Panggil file CSS eksternal -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<!-- AUDIO & FLOATING CONTROLS -->
 <audio id="bg-music" loop>
   <source src="assets/audio/wedding-song.mp3" type="audio/mpeg">
 </audio>
@@ -23,13 +27,18 @@
 
 <div id="emote-container"></div>
 
+<!-- LIGHTBOX -->
 <div id="lightbox">
   <button id="lightbox-close">✕</button>
   <img id="lightbox-img" src="" alt="">
 </div>
 
+<!-- ============================================================
+     COVER — GERBANG 1 & 2
+     ============================================================ -->
 <div id="cover-wrapper">
 
+  <!-- GATE 1: Input Nama -->
   <div id="gate1" class="gate-content active">
     <div class="glass-card anim-fadein">
       <p class="glass-label">Masukkan nama Anda</p>
@@ -40,6 +49,7 @@
     </div>
   </div>
 
+  <!-- GATE 2: Welcome -->
   <div id="gate2" class="gate-content hidden">
     <div class="glass-card">
       <p class="to-text">Kepada Yth.<br>Bapak / Ibu / Saudara/i</p>
@@ -49,77 +59,137 @@
   </div>
 
 </div>
+
+<!-- ============================================================
+     GATE 3 — ISI UNDANGAN (MAIN CONTENT)
+     ============================================================ -->
 <main id="gate3">
 
+  <!-- 1. HERO SECTION -->
   <section class="hero-section reveal">
     <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم</div>
     <div class="divider"><div class="divider-line"></div><span class="divider-symbol">✦</span><div class="divider-line"></div></div>
+    
     <span class="pre-label" style="margin-top:18px;">The Wedding of</span>
     <h1 class="hero-title">Adib & Nabila</h1>
 
-    <p style="font-size:0.72rem;color:var(--text-light);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;">Save the Date — 31 Mei 2026</p>
-    <div class="countdown-wrapper">
-      <div class="countdown-block">
-        <span class="countdown-num" id="cd-hari">--</span>
-        <span class="countdown-label">Hari</span>
-      </div>
-      <div class="countdown-block">
-        <span class="countdown-num" id="cd-jam">--</span>
-        <span class="countdown-label">Jam</span>
-      </div>
-      <div class="countdown-block">
-        <span class="countdown-num" id="cd-menit">--</span>
-        <span class="countdown-label">Menit</span>
-      </div>
-      <div class="countdown-block">
-        <span class="countdown-num" id="cd-detik">--</span>
-        <span class="countdown-label">Detik</span>
-      </div>
+    <!-- Foto Utama Hero -->
+    <div class="hero-photo-wrapper">
+      <img src="assets/img/hero-couple.jpg" alt="Adib & Nabila" class="hero-img" onerror="this.src='assets/img/bg1.jpg'">
     </div>
 
-    <div class="arch-wrapper">
-      <div class="arch-frame">
-        <img src="assets/img/prewed.jpg" alt="Adib & Nabila Prewedding" onerror="this.src='assets/img/bg1.jpg'">
-      </div>
+    <!-- Teks Sambutan Tamu -->
+    <div class="hero-greeting">
+      <p>Dear, <span id="guest-name-hero" style="font-weight:600; color:var(--text-accent);">Nama Tamu</span></p>
+      <p style="font-family:'Playfair Display', serif; font-style:italic; font-size:1.1rem; margin-top:4px;">You're invited to our wedding ceremony</p>
     </div>
   </section>
 
-  <section class="section mukadimah reveal">
-    <div class="divider" style="margin-bottom:28px;"><div class="divider-line"></div><span class="divider-symbol">✦</span><div class="divider-line"></div></div>
-    <p class="salam">Assalamu'alaikum Warahmatullahi Wabarakatuh.</p>
-    <p class="body-text" style="margin-top:14px;">
-      Dengan memohon Rahmat & Ridho Allah SWT., kami bermaksud mengundang Bapak / Ibu / Saudara(i) untuk menghadiri acara pernikahan kami.
+  <!-- 2. QUOTE & INITIALS SECTION (Ar-Rum) -->
+  <section class="quote-section reveal">
+    <!-- Gambar Inisial A&N (Format PNG) -->
+    <div class="initial-logo" style="text-align: center; margin-bottom: 24px;">
+      <img src="assets/img/inisial-an.png" alt="Inisial A & N" class="initial-img" style="max-width: 120px; height: auto; object-fit: contain;">
+    </div>
+
+    <p class="quran-text">
+      "Di antara tanda-tanda (kebesaran)-Nya ialah bahwa Dia menciptakan pasangan-pasangan untukmu dari (jenis) dirimu sendiri agar kamu merasa tenteram kepadanya. Dia menjadikan di antaramu rasa cinta dan kasih sayang. Sesungguhnya pada yang demikian itu benar-benar terdapat tanda-tanda (kebesaran Allah) bagi kaum yang berpikir."<br><br>
+      <span style="font-weight:600;">(QS. Ar-Rum: 21)</span>
     </p>
   </section>
 
+  <!-- 3. BRIDE & GROOM SECTION -->
   <section class="couple-section reveal">
-    <span class="pre-label">Kami yang berbahagia</span>
-    <h2 class="section-title" style="margin-top:6px;">Mempelai</h2>
+    <div class="rings-icon">💍</div>
+    <h2 class="section-title" style="font-size:2.2rem; margin-bottom:10px;">Bride & Groom</h2>
+    <p class="body-text" style="text-align:center; margin-bottom:40px; font-style:italic;">The honour of your presence is<br>requested at the wedding of</p>
 
-    <div class="couple-grid">
-      <div>
-        <div class="couple-name">Nabilatus Sholeha, S.Kes., Ftr.</div>
-        <div class="couple-title">Mempelai Wanita</div>
-        <div class="couple-parents">Putri dari<br>Bapak H. Supat Sholeh<br>& Almh. Ibu Hj. Raudah</div>
+    <!-- Mempelai Pria (Adib) -->
+    <div class="profile-card">
+      <div class="circle-frame">
+        <img src="assets/img/adib1.jpg" alt="Groom" onerror="this.style.backgroundColor='#d9ccc6'">
       </div>
+      <h3 class="couple-name-big">Mohammad Adibillah, S.Psi., Gr.</h3>
+      <p class="couple-parents-detail">Putra dari<br>Bapak H. Zainul Hasan & Ibu Hj. Subaida</p>
+      
+      <!-- IG Icon Adib -->
+      <a href="https://www.instagram.com/angin.musimpanas?igsh=Y2ZsMjVoZmJ5ZDNp" target="_blank" class="ig-btn">
+        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+        <span>@angin.musimpanas</span>
+      </a>
+    </div>
 
-      <div class="dan-text">dengan</div>
+    <!-- Simbol Dan -->
+    <div class="dan-symbol">&</div>
 
-      <div>
-        <div class="couple-name">Mohammad Adibillah, S.Psi., Gr.</div>
-        <div class="couple-title">Mempelai Pria</div>
-        <div class="couple-parents">Putra dari<br>Bapak H. Zainul Hasan<br>& Ibu Hj. Subaida</div>
+    <!-- Mempelai Wanita (Nabila) -->
+    <div class="profile-card">
+      <div class="circle-frame">
+        <img src="assets/img/nabila1.jpg" alt="Bride" onerror="this.style.backgroundColor='#d9ccc6'">
       </div>
+      <h3 class="couple-name-big">Nabilatus Sholeha, S.Kes., Ftr.</h3>
+      <p class="couple-parents-detail">Putri dari<br>Bapak H. Supat Sholeh & Almh Ibu Hj. Raudah</p>
+      
+      <!-- IG Icon Nabila -->
+      <a href="https://www.instagram.com/nabilatusshl?igsh=aWk4b2JmZHEwa2tq" target="_blank" class="ig-btn">
+        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+        <span>@nabilatusshl</span>
+      </a>
     </div>
   </section>
 
+  <!-- 4. SAVE THE DATE & COUNTDOWN -->
+  <section class="savethedate-section reveal">
+    <div class="std-typography">
+      <span class="std-small">Save</span>
+      <span class="std-medium">The</span>
+      <span class="std-large">Date</span>
+    </div>
+
+    <p class="std-subtitle">THE WEDDING OF</p>
+    <h2 class="std-names">Adib & Nabila</h2>
+    <p class="std-date-text">May 31<sup>st</sup> 2026<br>June 7<sup>th</sup> 2026</p>
+
+    <!-- Deretan 4 Foto Bulat -->
+    <div class="photo-row">
+      <div class="photo-item"><img src="assets/img/row1.jpg" alt="foto1" onerror="this.style.backgroundColor='#ccc'"></div>
+      <div class="photo-item"><img src="assets/img/row2.jpg" alt="foto2" onerror="this.style.backgroundColor='#bbb'"></div>
+      <div class="photo-item"><img src="assets/img/row3.jpg" alt="foto3" onerror="this.style.backgroundColor='#aaa'"></div>
+      <div class="photo-item"><img src="assets/img/row4.jpg" alt="foto4" onerror="this.style.backgroundColor='#999'"></div>
+    </div>
+
+    <!-- Countdown Timer (Dipindah ke sini) -->
+    <div class="countdown-wrapper" style="margin-top:40px;">
+      <div class="countdown-block">
+        <span class="countdown-num" id="cd-hari">--</span>
+        <span class="countdown-label">Days</span>
+      </div>
+      <div class="countdown-block">
+        <span class="countdown-num" id="cd-jam">--</span>
+        <span class="countdown-label">Hours</span>
+      </div>
+      <div class="countdown-block">
+        <span class="countdown-num" id="cd-menit">--</span>
+        <span class="countdown-label">Minutes</span>
+      </div>
+      <div class="countdown-block">
+        <span class="countdown-num" id="cd-detik">--</span>
+        <span class="countdown-label">Seconds</span>
+      </div>
+    </div>
+    
+    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Pernikahan+Adib+%26+Nabila&dates=20260531T010000Z/20260531T060000Z&details=Acara+Pernikahan+Adib+dan+Nabila" target="_blank" class="btn-calendar">ADD TO CALENDAR</a>
+  </section>
+
+  <!-- 5. EVENT DETAILS SECTION -->
   <section class="event-section reveal">
-    <p class="body-text" style="text-align:center;font-style:italic;margin-bottom:30px;">yang akan dilaksanakan pada:</p>
     <h2 class="section-title">Rangkaian Acara</h2>
+    <p class="body-text" style="text-align:center;font-style:italic;margin-bottom:40px;">yang akan dilaksanakan pada:</p>
 
     <div class="event-grid" style="max-width:680px;margin:0 auto;">
-
+      <!-- Akad Nikah -->
       <div class="event-card">
+        <div class="event-icon">🕌</div>
         <span class="event-type">Akad Nikah</span>
         <div class="event-date">31</div>
         <div class="event-day">Minggu, 31 Mei 2026</div>
@@ -127,10 +197,12 @@
         <div class="hr-deco"></div>
         <div class="event-place-title">Kediaman Mempelai Wanita</div>
         <p class="event-place-desc">Dusun Sumber Rejo, RT09/RW05<br>Desa Selogudig Kulon<br>Kec. Pajarakan, Kab. Probolinggo</p>
-        <a href="https://maps.google.com/?q=-7.806222,113.371444" target="_blank" class="btn-map">📍 Google Maps</a>
+        <a href="https://maps.google.com/?q=-7.806222,113.371444" target="_blank" class="btn-map">LIHAT LOKASI</a>
       </div>
 
+      <!-- Resepsi -->
       <div class="event-card">
+        <div class="event-icon">🥂</div>
         <span class="event-type">Resepsi</span>
         <div class="event-date">07</div>
         <div class="event-day">Minggu, 07 Juni 2026</div>
@@ -138,12 +210,12 @@
         <div class="hr-deco"></div>
         <div class="event-place-title">Kediaman Mempelai Pria</div>
         <p class="event-place-desc">Dusun Talar 2, RT07/RW03<br>Desa Sumberan<br>Kec. Besuk, Kab. Probolinggo</p>
-        <a href="https://maps.google.com/?q=-7.754444,113.447778" target="_blank" class="btn-map">📍 Google Maps</a>
+        <a href="https://maps.google.com/?q=-7.754444,113.447778" target="_blank" class="btn-map">LIHAT LOKASI</a>
       </div>
-
     </div>
   </section>
 
+  <!-- 6. MAP / DENAH SECTION (Sesuai pesan: jangan dihapus) -->
   <section class="section map-section reveal">
     <h2 class="section-title" style="text-align:center;">Lokasi Akad</h2>
     <p style="text-align:center;font-size:0.78rem;color:var(--text-light);margin-bottom:0;">
@@ -157,13 +229,9 @@
       referrerpolicy="no-referrer-when-downgrade"
       title="Lokasi Akad Nikah">
     </iframe>
-    <div style="text-align:center;margin-top:16px;">
-      <a href="https://maps.google.com/?q=-7.806222,113.371444" target="_blank" class="btn-map" style="display:inline-block;">
-        🗺 Buka di Google Maps
-      </a>
-    </div>
   </section>
 
+  <!-- 7. GALLERY SECTION (Sesuai pesan: jangan dihapus) -->
   <section class="gallery-section reveal">
     <h2 class="section-title" style="text-align:center;">Momen Bahagia</h2>
     <div class="masonry">
@@ -176,41 +244,130 @@
     </div>
   </section>
 
+  <!-- 8. WEDDING GIFT SECTION (AMPLOP DIGITAL) -->
+  <section class="gift-section reveal">
+    <h2 class="section-title" style="margin-bottom:10px;">Wedding Gift</h2>
+    <p class="body-text gift-desc">
+      Your blessing and coming to our wedding are enough for us. However, if you want to give a gift we provide a Digital Envelope to make it easier for you. Thank you.
+    </p>
+    
+    <button id="btn-toggle-gift" class="btn-primary" style="max-width:200px; margin:20px auto; display:block;">Buka Rekening 🎁</button>
+
+    <!-- Container Rekening (Disembunyikan via CSS/JS nanti) -->
+    <div id="gift-container" class="gift-container hidden">
+      
+      <!-- Kartu BNI -->
+      <div class="bank-card bni-card">
+        <h3 class="bank-name">BNI</h3>
+        <p class="acc-label">Nomor Rekening</p>
+        <p class="acc-number" id="rek-bni">1795081635</p>
+        <p class="acc-label" style="margin-top:10px;">Atas Nama</p>
+        <p class="acc-name">NABILATUS SHOLEHA</p>
+        <button class="btn-copy" onclick="copyRekening('rek-bni')">Salin No. Rek</button>
+      </div>
+
+      <!-- Kartu BCA -->
+      <div class="bank-card bca-card">
+        <h3 class="bank-name">BCA</h3>
+        <p class="acc-label">Nomor Rekening</p>
+        <p class="acc-number" id="rek-bca">3151688452</p>
+        <p class="acc-label" style="margin-top:10px;">Atas Nama</p>
+        <p class="acc-name">MOH. ADIBILLAH</p>
+        <button class="btn-copy" onclick="copyRekening('rek-bca')">Salin No. Rek</button>
+      </div>
+
+      <!-- Kado Fisik -->
+      <div class="physical-gift">
+        <div class="event-icon" style="font-size:2rem;">🎁</div>
+        <h4>Kirim Kado</h4>
+        <p>Perum Samawa Land Pajarakan Blok F12<br>Jl. Raya Pajarakan, Karangpranti, Kec. Pajarakan,<br>Kab. Probolinggo, Jawa Timur 67281</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 9. WISHES & RSVP SECTION -->
   <section class="rsvp-section reveal">
-    <h2 class="section-title" style="text-align:center;">Kehadiran & Ucapan</h2>
+    <h2 class="section-title" style="text-align:center;">Wishes & RSVP</h2>
+    <p class="body-text" style="text-align:center; margin-bottom:20px;">
+      Sampaikan ucapan & doa terbaik untuk kedua mempelai. Pastikan kehadiran Bapak/Ibu/Saudara/i tercatat di halaman ini agar kami siap menyambutnya.
+    </p>
+
+    <!-- Statistik Kehadiran -->
+    <div class="rsvp-stats">
+      <div class="stat-box">
+        <span class="stat-num" id="count-hadir">4</span>
+        <span class="stat-label">Hadir</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num" id="count-tidak">13</span>
+        <span class="stat-label">Tidak Hadir</span>
+      </div>
+    </div>
+
+    <!-- Form RSVP -->
     <div class="rsvp-box">
       <form id="rsvp-form">
-        <input type="text"    id="wish-name"    class="input-field" placeholder="Nama Anda" readonly>
+        <input type="text" id="wish-name" class="input-field" placeholder="Nama Anda" readonly>
+        <textarea id="wish-message" class="input-field" rows="4" placeholder="Tulis doa & ucapan..." required></textarea>
         <select id="attendance" class="input-field" required>
           <option value="" disabled selected>Konfirmasi Kehadiran</option>
           <option value="Hadir">✅ Hadir</option>
           <option value="Tidak Hadir">🙏 Tidak Hadir</option>
         </select>
-        <textarea id="wish-message" class="input-field" rows="4" placeholder="Tulis doa & ucapan terbaik untuk Adib & Nabila..." required></textarea>
-        <button type="submit" class="btn-primary">Kirim Ucapan ✦</button>
+        <button type="submit" class="btn-primary" style="max-width:150px; margin-top:10px;">KIRIM</button>
       </form>
 
-      <div class="wishes-list" id="wishes-list"></div>
+      <!-- Daftar Komentar -->
+      <div class="wishes-list" id="wishes-list">
+        <!-- Mockup komentar awal (Bisa dihapus nanti jika pakai database) -->
+        <div class="wish-card">
+          <div class="wish-avatar">D</div>
+          <div class="wish-content-box">
+            <div class="wish-head"><strong>Dita Wulansari</strong> <span class="badge badge-tidak">❌</span></div>
+            <div class="wish-msg">Congratulations on your wedding. May you be rich in blessings and be poor in misfortunes. Grow old together for the rest of your lives.</div>
+            <div class="wish-time">3 minggu lalu</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paginasi (Mockup tampilan bawah) -->
+      <div class="pagination">
+        <span class="page-link disabled">← Previous</span>
+        <span class="page-link active">1</span>
+        <span class="page-link">2</span>
+        <span class="page-link">3</span>
+        <span class="page-link">Next →</span>
+      </div>
     </div>
   </section>
 
+  <!-- 10. FOOTER -->
   <footer class="footer reveal">
     <div class="divider" style="margin:0 auto 28px;max-width:220px;"><div class="divider-line"></div><span class="divider-symbol">✦</span><div class="divider-line"></div></div>
+    
+    <p class="footer-closing" style="margin-bottom:16px;">Assalamu'alaikum Warahmatullahi Wabarakatuh.</p>
     <p class="footer-body">
-      Merupakan sebuah kehormatan dan kebahagiaan bagi kami,<br>
-      apabila Bapak / Ibu / Saudara(i) berkenan hadir<br>
-      dan memberikan doa restu untuk kedua mempelai.
+      Dengan memohon Rahmat & Ridho Allah SWT., kami bermaksud mengundang Bapak / Ibu / Saudara (i) untuk menghadiri acara pernikahan putra-putri kami:<br><br>
+      Merupakan sebuah kehormatan dan kebahagiaan bagi kami, apabila Bapak / Ibu / Saudara (i) berkenan hadir dan memberikan doa restu untuk kedua mempelai.
     </p>
-    <p class="footer-closing" style="margin-top:18px;">
-      Kel. Bapak H. Supat Sholeh & Almh. Ibu Hj. Raudah<br>
+    
+    <p class="footer-closing" style="margin-top:24px;">Kami yang berbahagia,</p>
+    <p class="footer-closing" style="font-weight:400;">
+      Kel. Bapak H. Supat Sholeh & Almh Ibu Hj. Raudah<br>
       Kel. Bapak H. Zainul Hasan & Ibu Hj. Subaida
     </p>
-    <p class="footer-closing" style="margin-top:16px;">Wassalamu'alaikum Warahmatullahi Wabarakatuh.</p>
+    
+    <p class="footer-closing" style="margin-top:20px;">Wassalamu'alaikum Warahmatullahi Wabarakatuh.</p>
+    
     <div class="footer-big-name">Adib & Nabila</div>
-    <p style="font-size:0.7rem;color:var(--text-light);margin-top:30px;">31 • 05 • 2026</p>
+    <p style="font-size:0.7rem;color:var(--text-light);margin-top:30px; letter-spacing:4px;">31 • 05 • 2026</p>
   </footer>
 
 </main>
+<!-- end gate3 -->
+
+<!-- Panggil file JS eksternal -->
 <script src="script.js"></script>
 
 </body>
