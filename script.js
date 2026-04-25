@@ -1,250 +1,252 @@
-document.addEventListener("DOMContentLoaded", function() {
+(function() {
+  'use strict';
 
-    // =========================================================================
-    // 1. DEKLARASI VARIABEL DOM (Mencari elemen di dalam HTML)
-    // =========================================================================
-    const gateWrapper = document.getElementById('gate-wrapper');
-    const gate1Content = document.getElementById('gate-1');
-    const gate2Content = document.getElementById('gate-2');
-    const gate3 = document.getElementById('gate-3');
+  /* ---- DOM refs ---- */
+  const coverWrapper = document.getElementById('cover-wrapper');
+  const gate1        = document.getElementById('gate1');
+  const gate2        = document.getElementById('gate2');
+  const gate3        = document.getElementById('gate3');
 
-    const guestNameInput = document.getElementById('guest-name-input');
-    const btnSubmitName = document.getElementById('btn-submit-name');
+  const nameInput      = document.getElementById('name-input');
+  const btnSubmit      = document.getElementById('btn-submit');
+  const guestDisplay   = document.getElementById('guest-name-display');
+  const btnOpen        = document.getElementById('btn-open');
+  const wishName       = document.getElementById('wish-name');
+  const wishesList     = document.getElementById('wishes-list');
+  const rsvpForm       = document.getElementById('rsvp-form');
 
-    const guestNameDisplay = document.getElementById('guest-name-display');
-    const btnOpenInvitation = document.getElementById('btn-open-invitation');
+  const bgMusic        = document.getElementById('bg-music');
+  const musicToggle    = document.getElementById('music-toggle');
+  const themeToggle    = document.getElementById('theme-toggle');
 
-    const bgMusic = document.getElementById('bg-music');
-    const musicToggle = document.getElementById('music-toggle');
-    const themeToggle = document.getElementById('theme-toggle');
+  const emoteContainer = document.getElementById('emote-container');
+  const lightbox       = document.getElementById('lightbox');
+  const lightboxImg    = document.getElementById('lightbox-img');
+  const lightboxClose  = document.getElementById('lightbox-close');
 
-    const rsvpForm = document.getElementById('rsvp-form');
-    const wishNameInput = document.getElementById('wish-name');
-    const wishesList = document.getElementById('wishes-list');
+  /* ---- Telegram Config ---- */
+  const BOT_TOKEN = '7230058914:AAH5Z_7fK17zR4I5b0N-rR9U-pW7gM_0_Gg';
+  const CHAT_ID   = '7017267151';
 
-    const emotesContainer = document.getElementById('floating-emotes-container');
+  /* ---- State ---- */
+  let guestName    = '';
+  let musicPlaying = false;
 
-    // =========================================================================
-    // SETUP TELEGRAM BOT (Untuk Notifikasi Rahasia)
-    // =========================================================================
-    const TELEGRAM_BOT_TOKEN = '7230058914:AAH5Z_7fK17zR4I5b0N-rR9U-pW7gM_0_Gg';
-    const TELEGRAM_CHAT_ID = '7017267151';
+  /* ==============================================================
+     1. FLOATING EMOTES
+     ============================================================== */
+  const EMOTES = ['🤍', '✨', '🌸', '💍'];
 
-    // =========================================================================
-    // 2. FITUR FLYING EMOTES (Efek Terbang Sesekali)
-    // =========================================================================
-    const emoteTypes = ['🤍', '✨']; // Emote elegan, tidak norak
-    let emoteInterval;
+  function spawnEmote() {
+    if (gate3.classList.contains('active')) return;
+    const el = document.createElement('span');
+    el.className = 'emote';
+    el.textContent = EMOTES[Math.floor(Math.random() * EMOTES.length)];
+    el.style.left = (Math.random() * 80 + 10) + 'vw';
+    el.style.fontSize = (Math.random() * 0.5 + 1.1) + 'rem';
+    emoteContainer.appendChild(el);
+    setTimeout(() => el.remove(), 11500);
+  }
 
-    function createEmote() {
-        // Berhenti memunculkan emote kalau sudah masuk ke isi undangan (Gerbang 3)
-        if (gate3.classList.contains('active')) {
-            clearInterval(emoteInterval);
-            return;
-        }
+  spawnEmote();
+  setInterval(spawnEmote, Math.random() * 4000 + 5000);
 
-        const emote = document.createElement('span');
-        emote.classList.add('flying-emote');
-
-        // Pilih emote secara acak (Hati putih atau kilauan)
-        const randomEmote = emoteTypes[Math.floor(Math.random() * emoteTypes.length)];
-        emote.textContent = randomEmote;
-
-        // Posisi muncul acak dari kiri ke kanan (10% sampai 90% layar)
-        emote.style.left = Math.floor(Math.random() * 80 + 10) + 'vw';
-
-        // Ukuran acak sedikit biar bervariasi (antara 1.2rem sampai 1.7rem)
-        const randomSize = Math.random() * 0.5 + 1.2; 
-        emote.style.fontSize = randomSize + 'rem';
-
-        emotesContainer.appendChild(emote);
-
-        // Hapus emote dari layar setelah 12 detik (sesuai durasi animasi CSS nanti)
-        setTimeout(function() {
-            emote.remove();
-        }, 12000);
+  /* ==============================================================
+     2. GATE 1 → GATE 2 (Nama → Amplop)
+     ============================================================== */
+  function goToGate2() {
+    const val = nameInput.value.trim();
+    if (!val) {
+      nameInput.style.animation = 'none';
+      nameInput.offsetHeight; /* reflow */
+      nameInput.style.animation = 'shake 0.4s ease';
+      return;
     }
 
-    function startFlyingEmotes() {
-        // Munculkan 1 emote di awal
-        createEmote();
-        // Lalu munculkan lagi setiap 5 sampai 8 detik (Sangat jarang biar ga rame)
-        emoteInterval = setInterval(createEmote, Math.random() * 3000 + 5000);
+    guestName = val;
+    guestDisplay.textContent = val;
+    wishName.value = val;
+
+    gate1.classList.remove('active');
+    gate1.classList.add('hidden');
+
+    gate2.classList.remove('hidden');
+    setTimeout(() => gate2.classList.add('active'), 20);
+
+    sendTelegram(val);
+  }
+
+  btnSubmit.addEventListener('click', goToGate2);
+  nameInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); goToGate2(); }
+  });
+
+  /* Touch ripple on input */
+  nameInput.addEventListener('focus', () => {
+    nameInput.closest('.input-row').style.transform = 'scale(1.02)';
+  });
+  nameInput.addEventListener('blur', () => {
+    nameInput.closest('.input-row').style.transform = 'scale(1)';
+  });
+
+  /* ==============================================================
+     3. GATE 2 → GATE 3 (Amplop → Isi Undangan)
+     ============================================================== */
+  btnOpen.addEventListener('click', function () {
+    coverWrapper.classList.add('exit');
+
+    setTimeout(function () {
+      gate3.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      initScrollObserver();
+      initCountdown();
+      tryPlayMusic();
+    }, 800);
+  });
+
+  /* ==============================================================
+     4. TELEGRAM NOTIFICATION
+     ============================================================== */
+  function sendTelegram(nama) {
+    const msg = `🔔 *Undangan Adib & Nabila*\n\nTamu: *${nama}* membuka amplop undangan.`;
+    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: CHAT_ID, text: msg, parse_mode: 'Markdown' })
+    }).catch(() => {});
+  }
+
+  /* ==============================================================
+     5. MUSIK
+     ============================================================== */
+  function tryPlayMusic() {
+    bgMusic.play().then(() => {
+      musicPlaying = true;
+      musicToggle.textContent = '🎵';
+    }).catch(() => {
+      musicPlaying = false;
+      musicToggle.textContent = '🔇';
+    });
+  }
+
+  musicToggle.addEventListener('click', function () {
+    if (musicPlaying) {
+      bgMusic.pause();
+      musicToggle.textContent = '🔇';
+    } else {
+      bgMusic.play();
+      musicToggle.textContent = '🎵';
+    }
+    musicPlaying = !musicPlaying;
+  });
+
+  /* ==============================================================
+     6. DARK / LIGHT MODE
+     ============================================================== */
+  themeToggle.addEventListener('click', function () {
+    const html = document.documentElement;
+    if (html.getAttribute('data-theme') === 'light') {
+      html.setAttribute('data-theme', 'dark');
+      themeToggle.textContent = '☀️';
+    } else {
+      html.setAttribute('data-theme', 'light');
+      themeToggle.textContent = '🌙';
+    }
+  });
+
+  /* ==============================================================
+     7. COUNTDOWN
+     ============================================================== */
+  function initCountdown() {
+    const target = new Date('2026-05-31T08:00:00+07:00').getTime();
+
+    function tick() {
+      const now  = Date.now();
+      const diff = target - now;
+
+      if (diff <= 0) {
+        document.getElementById('cd-hari').textContent   = '0';
+        document.getElementById('cd-jam').textContent    = '0';
+        document.getElementById('cd-menit').textContent  = '0';
+        document.getElementById('cd-detik').textContent  = '0';
+        return;
+      }
+
+      const days    = Math.floor(diff / 86400000);
+      const hours   = Math.floor((diff % 86400000) / 3600000);
+      const minutes = Math.floor((diff % 3600000)  / 60000);
+      const seconds = Math.floor((diff % 60000)    / 1000);
+
+      document.getElementById('cd-hari').textContent   = String(days).padStart(2,'0');
+      document.getElementById('cd-jam').textContent    = String(hours).padStart(2,'0');
+      document.getElementById('cd-menit').textContent  = String(minutes).padStart(2,'0');
+      document.getElementById('cd-detik').textContent  = String(seconds).padStart(2,'0');
     }
 
-    // =========================================================================
-    // 3. LOGIKA GERBANG 1 KE GERBANG 2 (INPUT NAMA)
-    // =========================================================================
-    btnSubmitName.addEventListener('click', function() {
-        const guestName = guestNameInput.value.trim();
+    tick();
+    setInterval(tick, 1000);
+  }
 
-        if (guestName === "") {
-            alert("Tolong masukkan nama Anda terlebih dahulu ya!");
-            return;
-        }
+  /* ==============================================================
+     8. SCROLL REVEAL ANIMATION
+     ============================================================== */
+  function initScrollObserver() {
+    const els = gate3.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    els.forEach(el => observer.observe(el));
+  }
 
-        // Memasukkan nama ke Gerbang 2 dan form RSVP di bawah
-        guestNameDisplay.innerHTML = guestName;
-        wishNameInput.value = guestName;
-
-        // Efek transisi: Gerbang 1 hilang, Gerbang 2 muncul
-        gate1Content.classList.remove('active');
-        gate1Content.classList.add('hidden');
-
-        gate2Content.classList.remove('hidden');
-        gate2Content.classList.add('active');
-
-        // Panggil fungsi kirim notif ke Telegram kamu
-        kirimNotifikasiTelegram(guestName);
+  /* ==============================================================
+     9. GALLERY LIGHTBOX
+     ============================================================== */
+  document.querySelectorAll('.gal-img').forEach(img => {
+    img.addEventListener('click', () => {
+      lightboxImg.src = img.src;
+      lightbox.classList.add('open');
     });
+  });
 
-    // Fitur tekan 'Enter' di keyboard untuk lanjut
-    guestNameInput.addEventListener("keypress", function(event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            btnSubmitName.click();
-        }
-    });
+  lightboxClose.addEventListener('click', () => lightbox.classList.remove('open'));
+  lightbox.addEventListener('click', e => {
+    if (e.target === lightbox) lightbox.classList.remove('open');
+  });
 
-    // Fungsi kirim notifikasi ke Telegram via Fetch API
-    function kirimNotifikasiTelegram(nama) {
-        const pesan = `🔔 *Undangan Adib & Nabila*\n\nTamu atas nama: *${nama}* baru saja login ke Halaman Amplop.`;
-        const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+  /* ==============================================================
+     10. RSVP / BUKU TAMU
+     ============================================================== */
+  rsvpForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const name     = wishName.value || guestName;
+    const attend   = document.getElementById('attendance').value;
+    const message  = document.getElementById('wish-message').value.trim();
 
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                chat_id: TELEGRAM_CHAT_ID,
-                text: pesan,
-                parse_mode: 'Markdown'
-            })
-        }).catch(function(error) {
-            console.log("Telegram notifikasi gagal dikirim.");
-        });
-    }
+    if (!attend || !message) return;
 
-    // =========================================================================
-    // 4. LOGIKA GERBANG 2 KE GERBANG 3 (BUKA UNDANGAN)
-    // =========================================================================
-    btnOpenInvitation.addEventListener('click', function() {
-        // Layout 3 Panel utama ditarik ke atas sampai hilang
-        gateWrapper.classList.add('slide-up-hidden');
+    const card = document.createElement('div');
+    card.className = 'wish-card';
+    card.innerHTML = `
+      <div class="wish-head">
+        <strong>${escapeHtml(name)}</strong>
+        <span class="badge ${attend === 'Hadir' ? 'badge-hadir' : 'badge-tidak'}">${attend}</span>
+      </div>
+      <div class="wish-msg">${escapeHtml(message)}</div>
+    `;
+    wishesList.prepend(card);
 
-        // Gerbang 3 (Isi Web) dimunculkan
-        gate3.classList.remove('hidden');
-        gate3.classList.add('active');
+    document.getElementById('wish-message').value = '';
+    document.getElementById('attendance').value   = '';
 
-        // Musik dimainkan otomatis
-        bgMusic.play().catch(function() {
-            console.log("Browser menahan autoplay musik.");
-        });
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
 
-        // Mulai memantau animasi elemen saat di-scroll
-        initScrollAnimation();
+  function escapeHtml(text) {
+    const d = document.createElement('div');
+    d.appendChild(document.createTextNode(text));
+    return d.innerHTML;
+  }
 
-        // Paksa halaman mulai dari posisi paling atas
-        window.scrollTo(0, 0);
-    });
-
-    // =========================================================================
-    // 5. FITUR MUSIK DAN TEMA (DARK/LIGHT MODE)
-    // =========================================================================
-    let isMusicPlaying = true;
-
-    musicToggle.addEventListener('click', function() {
-        if (isMusicPlaying) {
-            bgMusic.pause();
-            musicToggle.textContent = '🔇';
-        } else {
-            bgMusic.play();
-            musicToggle.textContent = '🎵';
-        }
-        isMusicPlaying = !isMusicPlaying;
-    });
-
-    themeToggle.addEventListener('click', function() {
-        const htmlElement = document.documentElement;
-        const currentTheme = htmlElement.getAttribute('data-theme');
-
-        // Toggle antara Light dan Dark
-        if (currentTheme === 'light') {
-            htmlElement.setAttribute('data-theme', 'dark');
-            themeToggle.textContent = '☀️'; // Berubah jadi matahari
-        } else {
-            htmlElement.setAttribute('data-theme', 'light');
-            themeToggle.textContent = '🌙'; // Berubah jadi bulan
-        }
-    });
-
-    // =========================================================================
-    // 6. FITUR BUKU TAMU / RSVP
-    // =========================================================================
-    rsvpForm.addEventListener('submit', function(event) {
-        event.preventDefault(); // Cegah web reload/refresh
-
-        const name = wishNameInput.value;
-        const attendance = document.getElementById('attendance').value;
-        const message = document.getElementById('wish-message').value;
-
-        // Bikin elemen HTML untuk ucapan baru
-        const wishCard = document.createElement('div');
-        wishCard.classList.add('wish-card');
-
-        // Atur warna label/badge (Hijau = Hadir, Abu = Tidak)
-        let badgeColor;
-        if (attendance === 'Hadir') {
-            badgeColor = '#28a745'; 
-        } else {
-            badgeColor = '#6c757d'; 
-        }
-
-        wishCard.innerHTML = `
-            <div class="wish-header">
-                <strong>${name}</strong>
-                <span style="background-color: ${badgeColor}; color: white; padding: 2px 10px; border-radius: 12px; font-size: 11px;">
-                    ${attendance}
-                </span>
-            </div>
-            <p style="font-size: 0.95rem; margin-top: 8px;">${message}</p>
-        `;
-
-        // Tambahkan ucapan baru ke daftar paling atas
-        wishesList.prepend(wishCard);
-
-        // Bersihkan kolom teks ucapan setelah sukses terkirim
-        document.getElementById('wish-message').value = '';
-
-        alert("Terima kasih! Ucapan Anda berhasil dikirim.");
-    });
-
-    // =========================================================================
-    // 7. ANIMASI SCROLL (MUNCUL PERLAHAN DARI BAWAH)
-    // =========================================================================
-    function initScrollAnimation() {
-        const elements = document.querySelectorAll('.animate-on-scroll');
-
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(function(entry) {
-                // Jika elemen masuk ke dalam layar
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                }
-            });
-        }, {
-            threshold: 0.1 // Muncul saat 10% bagian elemen sudah terlihat di layar
-        });
-
-        elements.forEach(function(element) {
-            observer.observe(element);
-        });
-    }
-
-    // =========================================================================
-    // 8. JALANKAN FITUR AWAL (Saat web pertama kali dibuka)
-    // =========================================================================
-    startFlyingEmotes(); // Jalankan emote terbang
-
-});
+})();
