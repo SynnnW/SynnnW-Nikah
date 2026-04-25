@@ -2,24 +2,24 @@
    1. CSS VARIABLES (TEMA WARNA)
    ========================================== */
 :root {
-    /* LIGHT MODE (Soft Pink / Nude dari Undangan Fisik) */
-    --bg-main: #fdf5f4;
+    /* LIGHT MODE (Sesuai palet pink cerah & gelap) */
+    --bg-main: #fdf5f4; /* Background utama Gerbang 3 */
     --bg-card: #ffffff;
     --text-main: #4a3b38;
-    --text-accent: #b58c7e; /* Coklat/Pink Gold */
+    --text-accent: #d1a39f; /* Warna gold/pink-gelap untuk judul */
     --border-color: #e8d0c8;
-    --btn-bg: #b58c7e;
+    --btn-bg: #d1a39f;
     --btn-text: #ffffff;
-    --btn-hover: #9c7568;
+    --btn-hover: #b88b87;
     --badge-bg: #f5ebe8;
 }
 
 [data-theme="dark"] {
-    /* DARK MODE (Sesuai request kodemu + teks putih biar kelihatan) */
+    /* DARK MODE (Hitam elegan sesuai kodemu) */
     --bg-main: #0a0a0a;
     --bg-card: #181717;
-    --text-main: #e0e0e0; /* Putih keabuan biar nyaman di mata */
-    --text-accent: #ffffff; /* Putih bersih untuk judul */
+    --text-main: #e0e0e0;
+    --text-accent: #ffffff;
     --border-color: #222222;
     --btn-bg: #2d2d2d;
     --btn-text: #ffffff;
@@ -53,7 +53,7 @@ body {
 
 .arabic-text {
     font-family: 'Amiri', serif;
-    font-size: 2rem;
+    font-size: 2.5rem;
     margin-bottom: 10px;
     color: var(--text-accent);
 }
@@ -99,70 +99,123 @@ body {
 }
 
 /* ==========================================
-   4. SISTEM GERBANG (GATE SECTION)
+   4. LAYOUT 3 PANEL (GERBANG 1 & 2)
    ========================================== */
-.gate-section {
+.triptych-layout {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: opacity 0.8s ease, visibility 0.8s ease, transform 0.8s ease;
-    z-index: 10;
+    z-index: 20;
+    transition: transform 1s ease-in-out, opacity 1s ease-in-out;
     background-color: var(--bg-main);
 }
 
-.gate-section.active {
+.triptych-layout.slide-up-hidden {
+    transform: translateY(-100vh);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.panel {
+    height: 100vh;
+    position: relative;
+}
+
+/* Warna Panel Kiri (Nabila) & Kanan (Adib) */
+.panel-left {
+    flex: 1;
+    background-color: #f7d6d3; /* Pink Cerah */
+    z-index: 2;
+}
+
+.panel-right {
+    flex: 1;
+    background-color: #d1a39f; /* Pink Gelap/Dominan */
+    z-index: 2;
+}
+
+/* Penyesuaian Foto Kotak 1000x1000 px */
+.person-img {
+    position: absolute;
+    bottom: 0;
+    width: 130%; 
+    max-width: 700px;
+    height: auto;
+    object-fit: contain;
+    z-index: 3;
+    pointer-events: none; /* Biar ngga ganggu form kalau kepencet */
+}
+
+/* Efek Overlap (Motong background tengah) */
+.panel-left .person-img {
+    right: -25%; 
+}
+
+.panel-right .person-img {
+    left: -25%; 
+}
+
+/* Panel Tengah */
+.panel-center {
+    flex: 1.2; 
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.center-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.4); /* Efek gelap di pinggir */
+}
+
+.center-text-img {
+    position: relative;
+    z-index: 2;
+    width: 80%;
+    max-width: 350px;
+    margin-bottom: 20px;
+    margin-top: -60px;
+}
+
+/* Konten Form Gerbang 1 & 2 */
+.center-content {
+    position: relative;
+    z-index: 10; 
+    width: 85%;
+    max-width: 320px;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.center-content.active {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
 }
 
-.gate-section.hidden {
+.center-content.hidden {
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-20px);
-    z-index: -1;
-}
-
-.scrollable {
-    position: relative;
-    height: auto;
-    min-height: 100vh;
-    display: block; 
-}
-
-/* ==========================================
-   5. GERBANG 1 (INPUT NAMA)
-   ========================================== */
-.gate-box {
-    text-align: center;
-    padding: 40px;
-    max-width: 400px;
-    width: 90%;
-}
-
-.small-title {
-    font-size: 1rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-}
-
-.main-title {
-    font-size: 3rem;
-    margin-bottom: 30px;
+    position: absolute; 
 }
 
 .input-wrapper {
-    background-color: var(--bg-card);
+    background-color: rgba(255, 255, 255, 0.95);
     padding: 30px 20px;
     border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    text-align: center;
 }
 
 #guest-name-input {
@@ -188,91 +241,87 @@ body {
     transition: background-color 0.3s;
     font-family: 'Montserrat', sans-serif;
     font-weight: 500;
+    width: 100%;
 }
 
 .btn-primary:hover {
     background-color: var(--btn-hover);
 }
 
-/* ==========================================
-   6. GERBANG 2 (COVER UNDANGAN)
-   ========================================== */
-#gate-2 {
-    background-image: url('assets/img/hero-bg.jpg'); /* Ganti dengan background yang pas */
-    background-size: cover;
-    background-position: center;
-}
-
-.cover-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Overlay gelap agar teks terbaca */
-    z-index: 1;
-}
-
-.cover-content {
-    position: relative;
-    z-index: 2;
-    color: #ffffff; /* Teks di cover selalu putih */
-}
-
-.cover-content .title-font {
-    color: #ffffff;
-}
-
-.huge-title {
-    font-size: 4.5rem;
-    margin: 10px 0;
-    line-height: 1.2;
-}
-
 .guest-info-box {
-    margin: 40px 0;
-    padding: 20px;
-    border-top: 1px solid rgba(255,255,255,0.3);
-    border-bottom: 1px solid rgba(255,255,255,0.3);
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 30px 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
 }
 
 .guest-name {
-    font-size: 1.8rem;
-    margin-top: 10px;
+    font-size: 1.5rem;
+    margin: 10px 0;
+}
+
+.mohon-maaf {
+    font-size: 0.7rem;
+    color: #888;
+    margin-bottom: 20px;
 }
 
 .btn-gold-outline {
-    background: transparent;
-    color: #ffffff;
-    border: 1px solid #ffffff;
-    padding: 12px 30px;
-    border-radius: 30px;
-    font-size: 0.9rem;
-    letter-spacing: 2px;
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-weight: bold;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: 0.3s;
+    width: 100%;
 }
 
 .btn-gold-outline:hover {
-    background: #ffffff;
-    color: #000000;
+    background-color: var(--btn-hover);
 }
 
 /* ==========================================
-   7. INTI UNDANGAN (GATE 3)
+   5. GERBANG 3 (INTI UNDANGAN)
    ========================================== */
+.gate-section.hidden {
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
+}
+
+.gate-section.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.scrollable {
+    position: relative;
+    display: block; 
+}
+
 .container {
     max-width: 800px;
     margin: 0 auto;
     padding: 80px 20px;
 }
 
-/* Section Bismillah & Frame Prewed */
+.pre-title {
+    letter-spacing: 3px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
 .section-title {
     font-size: 3rem;
     margin-bottom: 30px;
 }
 
+/* Frame Lengkung (Arch) */
 .arch-frame-wrapper {
     display: flex;
     justify-content: center;
@@ -294,7 +343,7 @@ body {
     object-fit: cover;
 }
 
-/* Section Mempelai */
+/* Mempelai */
 .couple-layout {
     display: flex;
     justify-content: space-between;
@@ -303,22 +352,16 @@ body {
     margin-top: 40px;
 }
 
-.person {
-    flex: 1;
-}
-
-.person .name {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-}
+.person { flex: 1; }
+.person .name { font-size: 1.5rem; margin-bottom: 10px; }
 
 .dan-separator {
-    font-size: 2.5rem;
+    font-size: 2rem;
     flex: 0.2;
     text-align: center;
 }
 
-/* Section Acara */
+/* Kartu Acara */
 .event-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -333,6 +376,8 @@ body {
     border: 1px solid var(--border-color);
     text-align: center;
 }
+
+.text-gold { color: var(--text-accent); margin-bottom: 15px; }
 
 .divider-small {
     width: 50px;
@@ -353,9 +398,7 @@ body {
     transition: 0.3s;
 }
 
-.btn-map:hover {
-    background-color: var(--btn-hover);
-}
+.btn-map:hover { background-color: var(--btn-hover); }
 
 /* Galeri Masonry */
 .masonry-gallery {
@@ -419,16 +462,16 @@ body {
     border-top: 1px solid var(--border-color);
 }
 
-/* ==========================================
-   8. ANIMASI (SCROLL & LOAD)
-   ========================================== */
-.animate-fade-in {
-    animation: fadeIn 1.5s ease forwards;
+.huge-title {
+    font-size: 3.5rem;
+    margin: 10px 0;
 }
 
-.animate-slide-up {
-    animation: slideUp 1.5s ease forwards;
-}
+/* ==========================================
+   6. ANIMASI (LOAD & SCROLL)
+   ========================================== */
+.animate-fade-in { animation: fadeIn 1.5s ease forwards; }
+.animate-slide-up { animation: slideUp 1.5s ease forwards; }
 
 @keyframes fadeIn {
     from { opacity: 0; }
@@ -440,7 +483,6 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Animasi untuk Scroll API via JS */
 .animate-on-scroll {
     opacity: 0;
     transform: translateY(40px);
@@ -453,27 +495,41 @@ body {
 }
 
 /* ==========================================
-   9. RESPONSIVE DESIGN (MOBILE)
+   7. RESPONSIF (MOBILE & TABLET)
    ========================================== */
 @media screen and (max-width: 768px) {
-    .huge-title {
-        font-size: 3rem;
-    }
-    
-    .couple-layout {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .person {
-        text-align: center;
+    /* Layout Gerbang 1 & 2 numpuk di bawah untuk HP */
+    .panel-left, .panel-right {
+        position: absolute;
+        width: 50%;
+        height: 45%;
+        bottom: 0;
+        z-index: 2; 
+        background-color: transparent; 
     }
 
-    .dan-separator {
-        margin: 20px 0;
+    .panel-left { left: 0; }
+    .panel-right { right: 0; }
+
+    .panel-left .person-img { right: auto; left: -30%; width: 160%; }
+    .panel-right .person-img { left: auto; right: -30%; width: 160%; }
+
+    .panel-center {
+        flex: none;
+        width: 100%;
+        height: 100vh;
+        z-index: 1;
+    }
+    
+    .center-content {
+        margin-bottom: 15vh; /* Naikin form biar ga ketutup foto HP */
     }
 
-    .event-grid {
-        grid-template-columns: 1fr;
-    }
+    /* Gerbang 3 Responsif */
+    .huge-title { font-size: 2.5rem; }
+    .section-title { font-size: 2rem; }
+    .couple-layout { flex-direction: column; text-align: center; }
+    .person { text-align: center; }
+    .dan-separator { margin: 20px 0; }
+    .event-grid { grid-template-columns: 1fr; }
 }
