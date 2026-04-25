@@ -33,21 +33,23 @@
             <img src="assets/img/text1.png" alt="Adib and Nabila" class="center-text-img">
 
             <div id="gate-1" class="center-content active">
-                <div class="input-wrapper animate-slide-up">
-                    <p class="subtitle-font">Silakan masukkan nama Anda</p>
-                    <input type="text" id="guest-name-input" placeholder="Contoh: Budi Santoso" autocomplete="off" required>
-                    <button id="btn-submit-name" class="btn-primary">Lanjut</button>
+                <div class="glass-form animate-slide-up">
+                    <p class="subtitle-font">Masukkan nama Anda</p>
+                    
+                    <div class="input-group-inline">
+                        <input type="text" id="guest-name-input" placeholder="Budi Santoso" autocomplete="off" required>
+                        <button id="btn-submit-name" class="btn-icon" aria-label="Lanjut">➔</button>
+                    </div>
                 </div>
             </div>
 
             <div id="gate-2" class="center-content hidden">
-                <div class="guest-info-box animate-fade-in">
+                <div class="glass-form animate-fade-in">
                     <p class="to-text">Kepada Yth.<br>Bapak/Ibu/Saudara/i</p>
                     <div class="name-box">
                         <h3 id="guest-name-display" class="guest-name title-font">Nama Tamu</h3>
                     </div>
-                    <p class="mohon-maaf">Mohon maaf apabila terdapat kesalahan penulisan nama/gelar.</p>
-                    <button id="btn-open-invitation" class="btn-gold-outline">BUKA UNDANGAN</button>
+                    <button id="btn-open-invitation" class="btn-gold-outline small-btn">Buka Undangan</button>
                 </div>
             </div>
         </div>
@@ -59,6 +61,7 @@
     </div>
 
     <main id="gate-3" class="gate-section hidden scrollable">
+        
         <section class="bismillah-section container text-center animate-on-scroll">
             <h2 class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم</h2>
             <p class="pre-title">THE WEDDING OF</p>
@@ -139,6 +142,7 @@
                     <textarea id="wish-message" class="input-form" rows="4" placeholder="Tulis doa dan harapan..." required></textarea>
                     <button type="submit" class="btn-primary w-100">Kirim Ucapan</button>
                 </form>
+                
                 <div class="wishes-board" id="wishes-list"></div>
             </div>
         </section>
