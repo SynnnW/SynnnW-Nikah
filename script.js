@@ -15,14 +15,6 @@
   const wishesList     = document.getElementById('wishes-list');
   const rsvpForm       = document.getElementById('rsvp-form');
 
-  // DOM RSVP Stats
-  const countHadir     = document.getElementById('count-hadir');
-  const countTidak     = document.getElementById('count-tidak');
-
-  // DOM Wedding Gift
-  const btnToggleGift  = document.getElementById('btn-toggle-gift');
-  const giftContainer  = document.getElementById('gift-container');
-
   const bgMusic        = document.getElementById('bg-music');
   const musicToggle    = document.getElementById('music-toggle');
   const themeToggle    = document.getElementById('theme-toggle');
@@ -32,17 +24,33 @@
   const lightboxImg    = document.getElementById('lightbox-img');
   const lightboxClose  = document.getElementById('lightbox-close');
 
+  /* ---- Element baru dari HTML upgrade ---- */
+  const heroGuestEl    = document.getElementById('hero-guest-name');
+  const petalLayer     = document.getElementById('petal-layer');
+  const sectionDots    = document.getElementById('section-dots');
+  const dotEls         = sectionDots ? sectionDots.querySelectorAll('.sec-dot') : [];
+  const countHadirEl   = document.getElementById('count-hadir');
+  const countTidakEl   = document.getElementById('count-tidak');
+  const btnToggleRek   = document.getElementById('btn-toggle-rekening');
+  const rekeningCards  = document.getElementById('rekening-cards');
+  const rekeningLabel  = document.getElementById('rekening-btn-label');
+  const copyToast      = document.getElementById('copy-toast');
+
   /* ---- Telegram Config ---- */
   const BOT_TOKEN = '7230058914:AAH5Z_7fK17zR4I5b0N-rR9U-pW7gM_0_Gg';
   const CHAT_ID   = '7017267151';
 
   /* ---- State ---- */
-  let guestName    = '';
-  let musicPlaying = false;
+  let guestName     = '';
+  let musicPlaying  = false;
+  let rekeningOpen  = false;
+  let countHadir    = 0;
+  let countTidak    = 0;
+  let petalInterval = null;
 
   /* ==============================================================
      1. FLOATING EMOTES
-     ============================================================== */
+  ============================================================== */
   const EMOTES = ['🤍', '✨', '🌸', '💍'];
 
   function spawnEmote() {
@@ -61,7 +69,7 @@
 
   /* ==============================================================
      2. GATE 1 → GATE 2 (Nama → Amplop)
-     ============================================================== */
+  ============================================================== */
   function goToGate2() {
     const val = nameInput.value.trim();
     if (!val) {
@@ -74,16 +82,14 @@
     guestName = val;
     guestDisplay.textContent = val;
     wishName.value = val;
-    
-    // Update nama di bagian Hero Section
-    const guestNameHero = document.getElementById('guest-name-hero');
-    if (guestNameHero) guestNameHero.textContent = val;
 
     gate1.classList.remove('active');
     gate1.classList.add('hidden');
 
     gate2.classList.remove('hidden');
     setTimeout(() => gate2.classList.add('active'), 20);
+
+    sendTelegram(val);
   }
 
   btnSubmit.addEventListener('click', goToGate2);
@@ -101,13 +107,25 @@
 
   /* ==============================================================
      3. GATE 2 → GATE 3 (Amplop → Isi Undangan)
-     ============================================================== */
+  ============================================================== */
   btnOpen.addEventListener('click', function () {
     coverWrapper.classList.add('exit');
 
     setTimeout(function () {
       gate3.classList.add('active');
       window.scrollTo({ top: 0, behavior: 'instant' });
+
+      // ** FITUR BARU: sinkronisasi nama tamu ke hero intro **
+      if (heroGuestEl && guestName) {
+        heroGuestEl.textContent = guestName;
+      }
+
+      // ** FITUR BARU: mulai petal rain **
+      startPetalRain();
+
+      // ** FITUR BARU: tampilkan section dots **
+      if (sectionDots) sectionDots.classList.add('visible');
+
       initScrollObserver();
       initCountdown();
       tryPlayMusic();
@@ -115,24 +133,20 @@
   });
 
   /* ==============================================================
-     4. TELEGRAM NOTIFICATION (KHUSUS RSVP & WISHES)
-     ============================================================== */
-  function sendTelegramRSVP(nama, attend, message) {
-    const icon = attend === 'Hadir' ? '✅' : '❌';
-    const msg = `💌 *RSVP Baru: Adib & Nabila*\n\n👤 *Nama:* ${nama}\n${icon} *Kehadiran:* ${attend}\n💬 *Pesan:*\n_${message}_`;
-    
+     4. TELEGRAM NOTIFICATION
+  ============================================================== */
+  function sendTelegram(nama) {
+    const msg = `🔔 *Undangan Adib & Nabila*\n\nTamu: *${nama}* membuka amplop undangan.`;
     fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ chat_id: CHAT_ID, text: msg, parse_mode: 'Markdown' })
-    }).catch(() => {
-      console.log('Gagal mengirim ke Telegram');
-    });
+    }).catch(() => {});
   }
 
   /* ==============================================================
      5. MUSIK
-     ============================================================== */
+  ============================================================== */
   function tryPlayMusic() {
     bgMusic.play().then(() => {
       musicPlaying = true;
@@ -156,7 +170,7 @@
 
   /* ==============================================================
      6. DARK / LIGHT MODE
-     ============================================================== */
+  ============================================================== */
   themeToggle.addEventListener('click', function () {
     const html = document.documentElement;
     if (html.getAttribute('data-theme') === 'light') {
@@ -169,8 +183,8 @@
   });
 
   /* ==============================================================
-     7. COUNTDOWN (Target: 31 Mei 2026 - Akad Nikah)
-     ============================================================== */
+     7. COUNTDOWN
+  ============================================================== */
   function initCountdown() {
     const target = new Date('2026-05-31T08:00:00+07:00').getTime();
 
@@ -203,7 +217,7 @@
 
   /* ==============================================================
      8. SCROLL REVEAL ANIMATION
-     ============================================================== */
+  ============================================================== */
   function initScrollObserver() {
     const els = gate3.querySelectorAll('.reveal');
     const observer = new IntersectionObserver(entries => {
@@ -216,7 +230,7 @@
 
   /* ==============================================================
      9. GALLERY LIGHTBOX
-     ============================================================== */
+  ============================================================== */
   document.querySelectorAll('.gal-img').forEach(img => {
     img.addEventListener('click', () => {
       lightboxImg.src = img.src;
@@ -230,117 +244,215 @@
   });
 
   /* ==============================================================
-     10. WEDDING GIFT (BUKA REKENING & COPY CLIPBOARD)
-     ============================================================== */
-  if(btnToggleGift && giftContainer) {
-    btnToggleGift.addEventListener('click', () => {
-      if (giftContainer.classList.contains('hidden')) {
-        giftContainer.classList.remove('hidden');
-        btnToggleGift.textContent = 'Tutup Rekening 🎁';
-        // Animasi slide down / fade in dibantu CSS
-        giftContainer.style.animation = 'fadeIn 0.5s ease forwards';
-      } else {
-        giftContainer.classList.add('hidden');
-        btnToggleGift.textContent = 'Buka Rekening 🎁';
+     10. PETAL RAIN (Fitur Baru)
+  ============================================================== */
+  const PETALS = ['🌸', '🌺', '✿', '❀', '🌷'];
+  function spawnPetal() {
+    if (!petalLayer) return;
+    const el = document.createElement('span');
+    el.className = 'petal';
+    el.textContent = PETALS[Math.floor(Math.random() * PETALS.length)];
+    el.style.left = (Math.random() * 95) + 'vw';
+    el.style.fontSize = (Math.random() * 0.6 + 0.75) + 'rem';
+    el.style.animationDuration = (Math.random() * 5 + 7) + 's';
+    el.style.animationDelay = (Math.random() * 1.5) + 's';
+    el.style.opacity = (Math.random() * 0.4 + 0.3).toString();
+    petalLayer.appendChild(el);
+    setTimeout(() => el.remove(), 14000);
+  }
+
+  function startPetalRain() {
+    if (petalInterval) return;
+    spawnPetal();
+    petalInterval = setInterval(spawnPetal, 2200);
+  }
+
+  /* ==============================================================
+     11. SECTION NAVIGATION DOTS (Fitur Baru)
+  ============================================================== */
+  if (dotEls.length > 0) {
+    const sections = gate3.querySelectorAll('section');
+    const dotSpy = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          const idx = Array.from(sections).indexOf(entry.target);
+          dotEls.forEach(function(d, i) {
+            d.classList.toggle('active', i === idx);
+          });
+        }
+      });
+    }, { threshold: 0.45 });
+    sections.forEach(function(s) { dotSpy.observe(s); });
+
+    dotEls.forEach(function(dot, i) {
+      dot.addEventListener('click', function() {
+        if (sections[i]) sections[i].scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  }
+
+  /* ==============================================================
+     12. WEDDING GIFT — TOGGLE REKENING (Fitur Baru)
+  ============================================================== */
+  if (btnToggleRek && rekeningCards) {
+    btnToggleRek.addEventListener('click', function() {
+      rekeningOpen = !rekeningOpen;
+      rekeningCards.classList.toggle('open', rekeningOpen);
+      if (rekeningLabel) {
+        rekeningLabel.textContent = rekeningOpen ? 'Tutup Rekening' : 'Buka Rekening';
+      }
+      if (rekeningOpen) {
+        setTimeout(function() {
+          rekeningCards.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 150);
       }
     });
   }
 
-  // Fungsi Copy ke Clipboard (Dibuat global agar bisa dipanggil dari HTML onclick)
-  window.copyRekening = function(elementId) {
-    const textToCopy = document.getElementById(elementId).innerText;
-    
-    // Fallback menggunakan execCommand untuk kompabilitas Canvas
-    const tempInput = document.createElement('input');
-    tempInput.value = textToCopy;
-    document.body.appendChild(tempInput);
-    tempInput.select();
-    document.execCommand('copy');
-    document.body.removeChild(tempInput);
-
-    showToast('Nomor Rekening Berhasil Disalin!');
+  /* ==============================================================
+     13. COPY NOMOR REKENING (Fitur Baru)
+  ============================================================== */
+  window.copyBankNum = function(elId) {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    const text = el.textContent.trim().replace(/\s+/g, '');
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(function() {
+        showToast('✓ Nomor disalin!');
+      }).catch(fallbackCopy);
+    } else {
+      fallbackCopy();
+    }
+    function fallbackCopy() {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); showToast('✓ Nomor disalin!'); } catch(e) {}
+      document.body.removeChild(ta);
+    }
   };
 
-  // Custom Notifikasi / Toast (Pengganti Alert)
-  function showToast(message) {
-    const toast = document.createElement('div');
-    toast.textContent = message;
-    toast.style.position = 'fixed';
-    toast.style.bottom = '80px';
-    toast.style.left = '50%';
-    toast.style.transform = 'translateX(-50%)';
-    toast.style.background = 'rgba(0, 0, 0, 0.8)';
-    toast.style.color = '#fff';
-    toast.style.padding = '12px 24px';
-    toast.style.borderRadius = '50px';
-    toast.style.zIndex = '10000';
-    toast.style.fontSize = '0.85rem';
-    toast.style.fontWeight = '500';
-    toast.style.transition = 'opacity 0.3s ease';
-    toast.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
-    
-    document.body.appendChild(toast);
-    
-    setTimeout(() => {
-      toast.style.opacity = '0';
-      setTimeout(() => toast.remove(), 300);
-    }, 2500);
+  function showToast(msg) {
+    if (!copyToast) return;
+    copyToast.textContent = msg;
+    copyToast.classList.add('show');
+    setTimeout(function() { copyToast.classList.remove('show'); }, 2400);
   }
 
   /* ==============================================================
-     11. RSVP / BUKU TAMU & STATISTIK
-     ============================================================== */
-  rsvpForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    const name     = wishName.value || guestName || 'Tamu';
-    const attend   = document.getElementById('attendance').value;
-    const message  = document.getElementById('wish-message').value.trim();
+     14. RSVP — COUNTER + TELEGRAM + CONFETTI + AVATAR (Fitur Baru)
+  ============================================================== */
+  if (rsvpForm) {
+    rsvpForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const name     = wishName.value || guestName;
+      const attend   = document.getElementById('attendance').value;
+      const message  = document.getElementById('wish-message').value.trim();
 
-    if (!attend || !message) return;
+      if (!attend || !message) return;
 
-    // Update Statistik Angka
-    if (attend === 'Hadir' && countHadir) {
-      countHadir.textContent = parseInt(countHadir.textContent) + 1;
-    } else if (attend === 'Tidak Hadir' && countTidak) {
-      countTidak.textContent = parseInt(countTidak.textContent) + 1;
-    }
+      // Counter update
+      if (attend === 'Hadir') {
+        countHadir++;
+        if (countHadirEl) {
+          countHadirEl.textContent = countHadir;
+          countHadirEl.style.transform = 'scale(1.3)';
+          setTimeout(() => { countHadirEl.style.transform = 'scale(1)'; }, 300);
+        }
+      } else {
+        countTidak++;
+        if (countTidakEl) {
+          countTidakEl.textContent = countTidak;
+          countTidakEl.style.transform = 'scale(1.3)';
+          setTimeout(() => { countTidakEl.style.transform = 'scale(1)'; }, 300);
+        }
+      }
 
-    // Buat inisial untuk Avatar
-    const initial = name.charAt(0).toUpperCase();
+      // Buat card ucapan
+      const card = document.createElement('div');
+      card.className = 'wish-card';
+      card.setAttribute('data-enhanced', '1');
 
-    // Tambah Komentar Baru ke Daftar
-    const card = document.createElement('div');
-    card.className = 'wish-card';
-    card.innerHTML = `
-      <div class="wish-avatar">${initial}</div>
-      <div class="wish-content-box">
-        <div class="wish-head">
-          <strong>${escapeHtml(name)}</strong>
-          <span class="badge ${attend === 'Hadir' ? 'badge-hadir' : 'badge-tidak'}">
-            ${attend === 'Hadir' ? '✅' : '❌'}
-          </span>
-        </div>
-        <div class="wish-msg">${escapeHtml(message)}</div>
-        <div class="wish-time">Baru saja</div>
-      </div>
-    `;
-    wishesList.prepend(card);
+      const av = document.createElement('div');
+      av.className = 'wish-avatar';
+      av.textContent = name.charAt(0).toUpperCase();
 
-    // Kirim Data ke Bot Telegram
-    sendTelegramRSVP(name, attend, message);
+      const head = document.createElement('div');
+      head.className = 'wish-head';
+      head.innerHTML = `<strong>${escapeHtml(name)}</strong> <span class="badge ${attend === 'Hadir' ? 'badge-hadir' : 'badge-tidak'}">${attend}</span>`;
 
-    // Tampilkan notifikasi dan Reset Form
-    showToast('Terima kasih atas ucapan & doanya! ✨');
-    document.getElementById('wish-message').value = '';
-    document.getElementById('attendance').value   = '';
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'wish-msg';
+      msgDiv.textContent = message;
 
-    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  });
+      const timeDiv = document.createElement('div');
+      timeDiv.className = 'wish-time';
+      const now = new Date();
+      timeDiv.textContent = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) +
+        ' · ' + now.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
+
+      card.appendChild(av);
+      card.appendChild(head);
+      card.appendChild(timeDiv);
+      card.appendChild(msgDiv);
+
+      wishesList.prepend(card);
+
+      // Reset form
+      document.getElementById('wish-message').value = '';
+      document.getElementById('attendance').value   = '';
+
+      card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      // Confetti burst jika hadir
+      if (attend === 'Hadir') spawnConfetti();
+
+      // Kirim ke Telegram
+      const emoji = attend === 'Hadir' ? '✅' : '🙏';
+      const tgMsg = '💌 *Wishes & RSVP — Adib & Nabila*\n\n' +
+                    '👤 *' + name + '*\n' +
+                    emoji + ' *' + attend + '*\n' +
+                    '📝 ' + message;
+      fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: CHAT_ID, text: tgMsg, parse_mode: 'Markdown' })
+      }).catch(() => {});
+    });
+  }
 
   function escapeHtml(text) {
     const d = document.createElement('div');
     d.appendChild(document.createTextNode(text));
     return d.innerHTML;
+  }
+
+  /* ==============================================================
+     15. CONFETTI BURST (Fitur Baru)
+  ============================================================== */
+  const CONFETTI_COLORS = ['#c4937e', '#b8926a', '#d4b08e', '#e8d0b8', '#f0e8e0'];
+  function spawnConfetti() {
+    const cx = window.innerWidth / 2;
+    const cy = window.innerHeight * 0.55;
+    for (let i = 0; i < 30; i++) {
+      (function() {
+        const el = document.createElement('div');
+        el.className = 'confetti-piece';
+        const dx = (Math.random() - 0.5) * 260;
+        const dy = (Math.random() - 0.8) * 220;
+        el.style.setProperty('--dx', dx + 'px');
+        el.style.setProperty('--dy', dy + 'px');
+        el.style.left = cx + 'px';
+        el.style.top  = cy + 'px';
+        el.style.background = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
+        el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        el.style.width  = (Math.random() * 6 + 5) + 'px';
+        el.style.height = (Math.random() * 6 + 5) + 'px';
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 1400);
+      })();
+    }
   }
 
 })();
