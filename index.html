@@ -7,11 +7,12 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital@0;1&family=Montserrat:wght@300;400;500;600&family=Parisienne&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital@0;1&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Parisienne&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    
     <div id="floating-emotes-container"></div>
 
     <audio id="bg-music" loop>
@@ -26,14 +27,16 @@
     <div id="gate-wrapper" class="triptych-layout">
         
         <div class="panel panel-left">
-            <img src="assets/img/nama1.png" alt="" class="bg-name-overlay nama-left">
+            <img src="assets/img/nama1.png" alt="Dekorasi Nama" class="bg-name-overlay nama-left">
+            
             <img src="assets/img/png2.png" alt="Nabila" class="person-img img-nabila tappable-img">
         </div>
 
         <div class="panel panel-center">
-            <div class="center-bg" style="background-image: url('assets/img/bg1.jpg');">
-                <img src="assets/img/A&N.png" alt="A&N Logo" class="bg-logo tappable-img">
-            </div>
+            
+            <div class="center-bg" style="background-image: url('assets/img/bg1.jpg');"></div>
+            
+            <img src="assets/img/A&N.png" alt="A&N Logo" class="bg-logo tappable-img">
             
             <div class="center-text-wrapper animate-slide-up">
                 <p class="invite-text">WE INVITE TO JOIN OUR WEDDING</p>
@@ -43,8 +46,9 @@
             <div id="gate-1" class="center-content active">
                 <div class="glass-form animate-slide-up">
                     <p class="subtitle-font">Masukkan nama Anda</p>
+                    
                     <div class="input-group-inline">
-                        <input type="text" id="guest-name-input" placeholder="Budi Santoso" autocomplete="off" required>
+                        <input type="text" id="guest-name-input" placeholder="Contoh: Budi Santoso" autocomplete="off" required>
                         <button id="btn-submit-name" class="btn-icon" aria-label="Lanjut">➔</button>
                     </div>
                 </div>
@@ -53,22 +57,27 @@
             <div id="gate-2" class="center-content hidden">
                 <div class="glass-form animate-fade-in">
                     <p class="to-text">Kepada Yth.<br>Bapak/Ibu/Saudara/i</p>
+                    
                     <div class="name-box">
                         <h3 id="guest-name-display" class="guest-name title-font">Nama Tamu</h3>
                     </div>
+                    
                     <button id="btn-open-invitation" class="btn-gold-outline small-btn">Buka Undangan</button>
                 </div>
             </div>
+
         </div>
 
         <div class="panel panel-right">
-            <img src="assets/img/nama2.png" alt="" class="bg-name-overlay nama-right">
+            <img src="assets/img/nama2.png" alt="Dekorasi Nama" class="bg-name-overlay nama-right">
+            
             <img src="assets/img/png1.png" alt="Adib" class="person-img img-adib tappable-img">
         </div>
 
     </div>
 
     <main id="gate-3" class="gate-section hidden scrollable">
+        
         <section class="bismillah-section container text-center animate-on-scroll">
             <h2 class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم</h2>
             <p class="pre-title">THE WEDDING OF</p>
@@ -92,7 +101,9 @@
                     <h2 class="title-font name">Mohammad Adibillah, S.Psi., Gr.</h2>
                     <p class="parents">Putra dari Bapak H. Zainul Hasan & Ibu Hj. Subaida</p>
                 </div>
+                
                 <div class="dan-separator title-font">dengan</div>
+                
                 <div class="person text-left">
                     <h2 class="title-font name">Nabilatus Sholeha, S.Kes., Ftr.</h2>
                     <p class="parents">Putri dari Bapak H. Supat Sholeh & Almh Ibu Hj. Raudah</p>
@@ -102,14 +113,18 @@
 
         <section class="acara container animate-on-scroll">
             <p class="italic-text text-center">yang akan dilaksanakan pada:</p>
+            
             <div class="event-grid">
                 <div class="event-card">
                     <h3 class="title-font text-gold">AKAD NIKAH</h3>
                     <p class="fw-bold">Minggu, 31 Mei 2026</p>
                     <p>Pukul 08.00 WIB</p>
+                    
                     <div class="divider-small"></div>
+                    
                     <p class="location-title">Bertempat di Kediaman Mempelai Wanita</p>
                     <p class="location-desc">Dusun Sumber Rejo, RT09/RW05, Desa Selogudig Kulon, Kec. Pajarakan, Kab. Probolinggo</p>
+                    
                     <a href="https://maps.google.com" class="btn-map" target="_blank">Lihat Google Maps</a>
                 </div>
 
@@ -117,9 +132,12 @@
                     <h3 class="title-font text-gold">RESEPSI</h3>
                     <p class="fw-bold">Minggu, 07 Juni 2026</p>
                     <p>JAM BEBAS</p>
+                    
                     <div class="divider-small"></div>
+                    
                     <p class="location-title">Bertempat di Kediaman Mempelai Pria</p>
                     <p class="location-desc">Dusun Talar 2, RT07/RW03, Desa Sumberan, Kec. Besuk, Kab. Probolinggo</p>
+                    
                     <a href="https://maps.google.com" class="btn-map" target="_blank">Lihat Google Maps</a>
                 </div>
             </div>
@@ -139,16 +157,21 @@
         <section class="rsvp container animate-on-scroll">
             <div class="rsvp-box">
                 <h2 class="title-font text-center">Kehadiran & Ucapan</h2>
+                
                 <form id="rsvp-form">
                     <input type="text" id="wish-name" class="input-form" placeholder="Nama Anda" readonly>
+                    
                     <select id="attendance" class="input-form" required>
                         <option value="" disabled selected>Konfirmasi Kehadiran</option>
                         <option value="Hadir">Hadir</option>
                         <option value="Tidak Hadir">Tidak Hadir</option>
                     </select>
+                    
                     <textarea id="wish-message" class="input-form" rows="4" placeholder="Tulis doa dan harapan..." required></textarea>
+                    
                     <button type="submit" class="btn-primary w-100">Kirim Ucapan</button>
                 </form>
+                
                 <div class="wishes-board" id="wishes-list"></div>
             </div>
         </section>
@@ -158,6 +181,7 @@
             <p class="fw-bold mt-2">Wassalamu'alaikum Warahmatullahi Wabarakatuh.</p>
             <h2 class="title-font huge-title mt-4">Adib & Nabila</h2>
         </footer>
+        
     </main>
 
     <script src="script.js"></script>
