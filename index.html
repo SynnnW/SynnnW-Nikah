@@ -21,35 +21,42 @@
         <button id="music-toggle" class="float-btn" aria-label="Play/Pause Music">🎵</button>
     </div>
 
-    <section id="gate-1" class="gate-section active">
-        <div class="gate-box animate-fade-in">
-            <h2 class="title-font small-title">Welcome To The Wedding Of</h2>
-            <h1 class="title-font main-title">Adib & Nabila</h1>
-            
-            <div class="input-wrapper">
-                <p class="subtitle-font">Silakan masukkan nama Anda</p>
-                <input type="text" id="guest-name-input" placeholder="Contoh: Budi Santoso" autocomplete="off" required>
-                <button id="btn-submit-name" class="btn-primary">Lanjut</button>
-            </div>
-        </div>
-    </section>
-
-    <section id="gate-2" class="gate-section hidden">
-        <div class="cover-bg"></div>
+    <div id="gate-wrapper" class="triptych-layout">
         
-        <div class="cover-content text-center animate-slide-up">
-            <p class="pre-title">THE WEDDING OF</p>
-            <h1 class="title-font huge-title">Adib & Nabila</h1>
-            <p class="date-text">31 Mei & 07 Juni 2026</p>
+        <div class="panel panel-left">
+            <img src="assets/img/png2.png" alt="Nabila" class="person-img">
+        </div>
 
-            <div class="guest-info-box">
-                <p class="to-text">Kepada Yth.<br>Bapak/Ibu/Saudara/i</p>
-                <h3 id="guest-name-display" class="guest-name title-font">Nama Tamu</h3>
+        <div class="panel panel-center">
+            <div class="center-bg" style="background-image: url('assets/img/bg1.jpg');"></div>
+            
+            <img src="assets/img/text1.png" alt="Adib and Nabila" class="center-text-img">
+
+            <div id="gate-1" class="center-content active">
+                <div class="input-wrapper animate-slide-up">
+                    <p class="subtitle-font">Silakan masukkan nama Anda</p>
+                    <input type="text" id="guest-name-input" placeholder="Contoh: Budi Santoso" autocomplete="off" required>
+                    <button id="btn-submit-name" class="btn-primary">Lanjut</button>
+                </div>
             </div>
 
-            <button id="btn-open-invitation" class="btn-gold-outline">BUKA UNDANGAN</button>
+            <div id="gate-2" class="center-content hidden">
+                <div class="guest-info-box animate-fade-in">
+                    <p class="to-text">Kepada Yth.<br>Bapak/Ibu/Saudara/i</p>
+                    <div class="name-box">
+                        <h3 id="guest-name-display" class="guest-name title-font">Nama Tamu</h3>
+                    </div>
+                    <p class="mohon-maaf">Mohon maaf apabila terdapat kesalahan penulisan nama/gelar.</p>
+                    <button id="btn-open-invitation" class="btn-gold-outline">BUKA UNDANGAN</button>
+                </div>
+            </div>
         </div>
-    </section>
+
+        <div class="panel panel-right">
+            <img src="assets/img/png1.png" alt="Adib" class="person-img">
+        </div>
+
+    </div>
 
     <main id="gate-3" class="gate-section hidden scrollable">
 
@@ -58,10 +65,6 @@
             <p class="pre-title">THE WEDDING OF</p>
             <h1 class="title-font section-title">Adib & Nabila</h1>
             
-            <div class="line-art-hands">
-                <img src="assets/img/holding-hands-art.png" alt="Holding Hands" class="art-icon">
-            </div>
-
             <div class="arch-frame-wrapper">
                 <div class="arch-frame">
                     <img src="assets/img/prewed-main.jpg" alt="Prewedding Adib Nabila">
