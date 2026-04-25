@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const wishesList = document.getElementById('wishes-list');
 
     // ==========================================
-    // SETUP BOT TELEGRAM (Biar HP kamu bunyi)
+    // SETUP BOT TELEGRAM (Notifikasi Rahasia)
     // ==========================================
     // Nanti isi dengan Token & Chat ID milikmu
     const TELEGRAM_BOT_TOKEN = 'TOKEN_BOT_KAMU_DISINI'; 
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
         kirimNotifikasiTelegram(guestName);
     });
 
-    // Fitur ngetik nama pencet 'Enter' langsung lanjut
+    // Fitur ngetik nama lalu pencet 'Enter' di keyboard langsung lanjut
     guestNameInput.addEventListener("keypress", function(event) {
         if (event.key === "Enter") {
             event.preventDefault();
@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
         gate3.classList.remove('hidden');
         gate3.classList.add('active');
 
-        // 3. Mainkan musik otomatis (biasanya browser ngijinin karena user udah klik tombol)
+        // 3. Mainkan musik otomatis
         bgMusic.play().catch(() => console.log("Autoplay musik ditahan browser"));
         
         // 4. Jalankan deteksi animasi scroll
@@ -176,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    // Kalau mau animasinya cuma jalan sekali, nyalakan kode di bawah ini:
+                    // Kalau mau animasinya cuma jalan sekali (nggak ngulang pas discroll ke atas), nyalakan kode di bawah:
                     // observer.unobserve(entry.target); 
                 }
             });
