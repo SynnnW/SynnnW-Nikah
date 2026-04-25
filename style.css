@@ -2,11 +2,8 @@
    1. CSS VARIABLES (TEMA WARNA)
    ========================================================================== */
 :root {
-    /* Warna panel samping (Nabila & Adib) */
     --panel-nude: #f4ece9;
     --panel-nude-dark: #b8acab;
-
-    /* LIGHT MODE (Gerbang 3) */
     --bg-main: #fdf5f4;
     --bg-card: #ffffff;
     --text-main: #4a3b38;
@@ -19,7 +16,6 @@
 }
 
 [data-theme="dark"] {
-    /* DARK MODE (Hitam elegan) */
     --bg-main: #0a0a0a;
     --bg-card: #181717;
     --text-main: #e0e0e0;
@@ -95,10 +91,8 @@ body {
 }
 
 /* ==========================================================================
-   3. FITUR BARU: GAMBAR BISA DITEKAN & EMOTE TERBANG
+   3. FITUR GAMBAR DITEKAN & EMOTE TERBANG
    ========================================================================== */
-
-/* Efek saat gambar (foto/logo) disentuh/ditekan */
 .tappable-img {
     transition: transform 0.1s ease, filter 0.1s ease;
     cursor: pointer;
@@ -109,14 +103,13 @@ body {
     filter: brightness(0.85);
 }
 
-/* Kontainer Emote Terbang (Lapisan 5) */
 #floating-emotes-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    pointer-events: none; /* Biar klik tetep tembus ke form */
+    pointer-events: none;
     z-index: 5;
     overflow: hidden;
 }
@@ -128,7 +121,7 @@ body {
     color: var(--text-accent);
     opacity: 0;
     font-size: 1.5rem;
-    animation: flyUp 12s linear forwards; /* Durasi terbang 12 detik */
+    animation: flyUp 12s linear forwards;
 }
 
 @keyframes flyUp {
@@ -149,7 +142,7 @@ body {
 }
 
 /* ==========================================================================
-   4. FLOATING CONTROLS (TOMBOL MUSIK & TEMA)
+   4. FLOATING CONTROLS
    ========================================================================== */
 .floating-controls {
     position: fixed;
@@ -180,7 +173,7 @@ body {
 }
 
 /* ==========================================================================
-   5. TRIPTYCH LAYOUT (3 PANEL UTAMA UNTUK LAPTOP)
+   5. LAYOUT LAPTOP (DESKTOP DEFAULT)
    ========================================================================== */
 .triptych-layout {
     position: fixed;
@@ -199,74 +192,22 @@ body {
     pointer-events: none;
 }
 
-.panel {
-    height: 100vh;
-    position: relative;
-    overflow: hidden;
+/* DI LAPTOP: PANEL KIRI DAN KANAN (NAMA VERTIKAL) DISEMBUNYIKAN! */
+.panel-side {
+    display: none;
 }
 
-/* PANEL KIRI & KANAN (WARNA NUDE) - Lapisan 2 */
-.panel-left {
-    flex: 1;
-    background-color: var(--panel-nude);
-    z-index: 2;
-}
-
-.panel-right {
-    flex: 1;
-    background-color: var(--panel-nude-dark);
-    z-index: 2;
-}
-
-/* DEKORASI NAMA VERTIKAL (nama1.png & nama2.png) - Lapisan 3 */
-.bg-name-overlay {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 70%; /* Tinggi dekorasi nama */
-    width: auto;
-    z-index: 3;
-    opacity: 0.7; /* Agak transparan biar nyatu sama background */
-    pointer-events: none;
-}
-
-.nama-left {
-    left: 40px;
-}
-
-.nama-right {
-    right: 40px;
-}
-
-/* FOTO UTAMA ADIB & NABILA - Lapisan 4 */
-.person-img {
-    position: absolute;
-    bottom: 2vh;
-    width: 150%;
-    max-width: 900px;
-    height: auto;
-    object-fit: contain;
-    z-index: 4;
-}
-
-/* Geser foto ke tengah nabrak kain */
-.img-nabila {
-    right: -35%;
-}
-
-.img-adib {
-    left: -35%;
-}
-
-/* PANEL TENGAH - Lapisan 1 */
+/* DI LAPTOP: PANEL TENGAH MEMAKAN SELURUH LAYAR (100VW) */
 .panel-center {
-    flex: 1.2;
+    width: 100vw;
+    height: 100vh;
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     z-index: 1;
+    overflow: hidden;
 }
 
 .center-bg {
@@ -280,50 +221,68 @@ body {
     z-index: 1;
 }
 
-/* LOGO A&N DI POJOK TENGAH - Lapisan 10 */
+/* LOGO A&N DI POJOK KANAN ATAS */
 .bg-logo {
     position: absolute;
-    top: 50px;
-    right: 50px;
-    width: 70px;
+    top: 40px;
+    right: 40px;
+    width: 80px;
     height: auto;
     z-index: 10;
 }
 
-/* WADAH TEKS TENGAH ("We Invite" & "Adib Nabila") - Lapisan 10 */
+/* AREA TEKS TENGAH (WE INVITE & ADIB NABILA) */
 .center-text-wrapper {
     position: relative;
     z-index: 10;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: -100px; /* Angkat area teks ke atas */
+    margin-top: -60px;
     margin-bottom: 30px;
 }
 
-/* TEKS "WE INVITE TO JOIN OUR WEDDING" */
 .invite-text {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.75rem;
-    letter-spacing: 5px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    letter-spacing: 6px;
     color: #444444;
-    font-weight: 500;
+    font-weight: 600;
     margin-bottom: 20px;
     text-align: center;
 }
 
-/* GAMBAR TEKS UTAMA (text1.png) - Diperbesar */
 .center-text-img {
-    width: 95%;
-    max-width: 550px; /* Ukuran maksimal di laptop dibesarkan */
+    width: 100%;
+    max-width: 500px;
 }
 
-/* WADAH FORM TENGAH (GERBANG 1 & 2) - Lapisan 10 */
+/* FOTO ADIB & NABILA DI TENGAH (LAPTOP) */
+.person-img-center {
+    position: absolute;
+    bottom: 0;
+    height: 85vh; /* Tinggi pas untuk laptop */
+    width: auto;
+    z-index: 4;
+    pointer-events: none;
+}
+
+/* Posisikan foto Nabila di kiri tengah layar laptop */
+.img-nabila-overlap {
+    right: 55%;
+}
+
+/* Posisikan foto Adib di kanan tengah layar laptop */
+.img-adib-overlap {
+    left: 55%;
+}
+
+/* WADAH FORM KACA */
 .center-content {
     position: relative;
     z-index: 10;
     width: 85%;
-    max-width: 320px;
+    max-width: 350px;
     transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
@@ -339,22 +298,23 @@ body {
 }
 
 /* ==========================================================================
-   6. EFEK KACA (GLASSMORPHISM) PADA FORM
+   6. GLASSMORPHISM (EFEK KACA FORM)
    ========================================================================== */
 .glass-form {
-    background: rgba(255, 255, 255, 0.35);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.6);
-    padding: 25px 20px;
+    padding: 30px 25px;
     border-radius: 20px;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
     text-align: center;
 }
 
 .subtitle-font {
-    font-size: 0.9rem;
-    color: #333333;
+    font-size: 0.95rem;
+    color: #222222;
+    font-weight: 500;
 }
 
 .input-group-inline {
@@ -363,8 +323,8 @@ body {
     justify-content: space-between;
     background: rgba(255, 255, 255, 0.7);
     border-radius: 30px;
-    padding: 5px 5px 5px 15px;
-    margin-top: 15px;
+    padding: 6px 6px 6px 15px;
+    margin-top: 20px;
     border: 1px solid transparent;
     transition: all 0.3s ease;
 }
@@ -372,7 +332,7 @@ body {
 .input-group-inline:focus-within {
     background: rgba(255, 255, 255, 0.95);
     border: 1px solid var(--text-accent);
-    box-shadow: 0 0 15px rgba(209, 163, 159, 0.5);
+    box-shadow: 0 0 15px rgba(209, 163, 159, 0.6);
     transform: scale(1.03);
 }
 
@@ -382,7 +342,7 @@ body {
     width: 100%;
     outline: none;
     font-family: 'Montserrat', sans-serif;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: var(--text-main);
 }
 
@@ -390,14 +350,14 @@ body {
     background-color: var(--btn-bg);
     color: white;
     border: none;
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1rem;
+    font-size: 1.1rem;
     flex-shrink: 0;
     transition: transform 0.3s ease, background-color 0.3s ease;
 }
@@ -408,12 +368,12 @@ body {
 }
 
 .to-text {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: #333333;
 }
 
 .guest-name {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     margin: 10px 0;
     color: #222222;
 }
@@ -422,11 +382,11 @@ body {
     background-color: var(--btn-bg);
     color: var(--btn-text);
     border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
+    padding: 12px 20px;
+    border-radius: 30px;
     font-weight: bold;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 15px;
     width: 100%;
     transition: background-color 0.3s ease;
 }
@@ -436,7 +396,7 @@ body {
 }
 
 /* ==========================================================================
-   7. GERBANG 3 (ISI UNDANGAN) & ANIMASI
+   7. GERBANG 3 (INTI UNDANGAN)
    ========================================================================== */
 .gate-section.hidden {
     opacity: 0;
@@ -623,7 +583,9 @@ body {
     margin: 10px 0;
 }
 
-/* KEYFRAMES ANIMASI */
+/* ==========================================================================
+   8. KEYFRAMES ANIMASI
+   ========================================================================== */
 .animate-fade-in {
     animation: fadeIn 1.5s ease forwards;
 }
@@ -654,94 +616,157 @@ body {
 }
 
 /* ==========================================================================
-   8. RESPONSIF HP (SANGAT BAR-BAR TAPI DIJAMIN AMAN Z-INDEX NYA)
+   9. MOBILE FIRST LAYOUT (STRATEGI KHUSUS HP VERTIKAL)
    ========================================================================== */
 @media screen and (max-width: 768px) {
     
+    /* Nyalakan kembali layout 3 kolom di HP */
     .triptych-layout {
         flex-direction: row;
+    }
+
+    /* Tampilkan kembali kolom kiri & kanan khusus di HP */
+    .panel-side {
+        display: flex;
+        flex: 0.8; /* Lebar kolom nama vertikal */
+        position: relative;
         overflow: hidden;
+        z-index: 1;
     }
 
-    /* Di HP Panel Tengah dilebarkan agar form lega */
-    .panel-left { flex: 1; z-index: 2; }
-    .panel-right { flex: 1; z-index: 2; }
-    .panel-center { flex: 3; z-index: 1; } 
+    .panel-nabila-name {
+        background-color: var(--panel-nude);
+    }
 
-    /* ============ PERBAIKAN FOTO DI HP ============ */
-    .person-img {
-        width: 300%; /* Foto diperbesar agar jelas di HP */
-        bottom: auto;
-        top: 40%; /* Posisikan persis di tengah layar (vertikal) */
+    .panel-adib-name {
+        background-color: var(--panel-nude-dark);
+    }
+
+    /* Penataan Teks Nama Vertikal (nama1.png & nama2.png) */
+    .vertical-name-mobile {
+        position: absolute;
+        top: 50%;
         transform: translateY(-50%);
-        z-index: 4; /* Pastikan di bawah form (Lapisan 10) */
+        height: 60%; /* Tinggi tulisan vertikal */
+        width: auto;
+        opacity: 0.5;
+        z-index: 2;
     }
 
-    /* Geser ekstrim ke tengah agar nutupin kain */
-    .img-nabila { right: -125%; } 
-    .img-adib { left: -125%; }
-
-    /* ============ PERBAIKAN DEKORASI NAMA DI HP ============ */
-    .bg-name-overlay {
-        height: 50%; /* Dikecilkan dikit agar muat di layar HP */
-        z-index: 3;
+    /* Tempelkan tulisan ke pinggir luar layar HP */
+    .panel-nabila-name .vertical-name-mobile {
+        left: 5px;
     }
-    .nama-left { left: -10px; } 
-    .nama-right { right: -10px; }
 
-    /* ============ PERBAIKAN LOGO A&N DI HP ============ */
+    .panel-adib-name .vertical-name-mobile {
+        right: 5px;
+    }
+
+    /* Panel Tengah HP (Kain) */
+    .panel-center {
+        width: auto;
+        flex: 2.8; /* Lebar kain tengah */
+        z-index: 2;
+        overflow: visible; /* Penting! Biar foto Adib-Nabila bisa keluar meluap ke panel samping */
+    }
+
+    /* LOGO A&N DI HP */
     .bg-logo {
         top: 25px;
         right: 25px;
-        width: 50px;
+        width: 45px;
     }
 
-    /* ============ PERBAIKAN TEKS & FORM TENGAH (PRIORITAS) ============ */
+    /* FOTO ADIB & NABILA DI HP (OVERLAP) */
+    .person-img-center {
+        bottom: auto;
+        top: 45%; /* Posisikan ke tengah layar */
+        transform: translateY(-50%);
+        height: auto;
+        width: 150%; /* Besarkan ukuran foto di HP */
+        max-width: none;
+        z-index: 3; /* Pastikan di atas kain tapi di bawah form */
+    }
+
+    /* Tarik foto membelah kain dan panel samping */
+    .img-nabila-overlap {
+        right: 45%;
+    }
+
+    .img-adib-overlap {
+        left: 45%;
+    }
+
+    /* AREA TEKS TENGAH DI HP (Dinaikkan agar tidak ketutupan muka) */
     .center-text-wrapper {
-        margin-top: -100px; /* Angkat area teks menjauhi form */
+        margin-top: -140px; /* Angkat tinggi banget */
         margin-bottom: 20px;
         z-index: 10;
     }
 
     .invite-text {
-        font-size: 0.55rem;
-        letter-spacing: 3px;
-        margin-bottom: 10px;
-        color: #333333;
+        font-size: 0.6rem;
+        letter-spacing: 4px;
+        margin-bottom: 12px;
     }
 
     .center-text-img {
-        width: 100%;
+        width: 98%;
         max-width: 320px;
     }
 
-    /* Posisi Form Form Utama */
+    /* FORM KACA DI HP (Z-INDEX TERTINGGI) */
     .center-content {
         width: 100%;
-        padding: 0 5px;
-        z-index: 10; /* Z-INDEX TERTINGGI, DI ATAS FOTO ADIB NABILA */
-        margin-bottom: 10vh; /* Jarak antara form dan foto */
+        padding: 0 10px;
+        z-index: 10;
+        margin-bottom: 12vh; /* Beri jarak ke bawah */
     }
 
     .glass-form {
-        padding: 18px 12px;
+        padding: 20px 15px;
     }
 
     .subtitle-font {
-        font-size: 0.75rem;
+        font-size: 0.8rem;
     }
 
     .guest-name {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
     }
-    
-    /* ============ GERBANG 3 RESPONSIF ============ */
-    .huge-title { font-size: 2.5rem; }
-    .section-title { font-size: 2rem; }
-    .couple-layout { flex-direction: column; text-align: center; }
-    .person { text-align: center; }
-    .dan-separator { margin: 20px 0; }
-    .event-grid { grid-template-columns: 1fr; }
-    .arch-frame { width: 250px; height: 330px; }
-    .masonry-gallery { column-count: 1; }
+
+    /* RESPONSIVITAS GERBANG 3 DI HP */
+    .huge-title {
+        font-size: 2.5rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .couple-layout {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .person {
+        text-align: center;
+    }
+
+    .dan-separator {
+        margin: 20px 0;
+    }
+
+    .event-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .arch-frame {
+        width: 250px;
+        height: 330px;
+    }
+
+    .masonry-gallery {
+        column-count: 1;
+    }
 }
