@@ -1,6 +1,125 @@
 (function() {
   'use strict';
 
+  /* ==============================================================
+     0. LOADING SCREEN (VIDEO INTRO) — BARU
+  ============================================================== */
+  const loadingScreen   = document.getElementById('loading-screen');
+  const vidPortrait     = document.getElementById('loading-video-portrait');
+  const vidLandscape    = document.getElementById('loading-video-landscape');
+  const loadingSpinner  = document.getElementById('loading-spinner');
+
+  let chosenVideo = null;
+
+  // Pilih video berdasarkan orientasi
+  function selectVideo() {
+    if (chosenVideo) {
+      chosenVideo.pause();
+      chosenVideo.removeAttribute('autoplay');
+      chosenVideo.style.opacity = '0';
+    }
+
+    if (window.innerWidth < 769) {
+      chosenVideo = vidPortrait;
+      vidPortrait.style.display = 'block';
+      vidLandscape.style.display = 'none';
+    } else {
+      chosenVideo = vidLandscape;
+      vidLandscape.style.display = 'block';
+      vidPortrait.style.display = 'none';
+    }
+  }
+
+  // Sembunyikan spinner
+  function hideSpinner() {
+    if (loadingSpinner) {
+      loadingSpinner.style.opacity = '0';
+      loadingSpinner.style.transition = 'opacity 0.5s ease';
+    }
+  }
+
+  // Sembunyikan loading screen → tampilkan konten utama
+  function finishLoading() {
+    if (loadingScreen) {
+      loadingScreen.style.opacity = '0';
+      loadingScreen.style.transition = 'opacity 0.8s ease';
+      setTimeout(function() {
+        loadingScreen.style.display = 'none';
+        // Pastikan gate3 dan cover-wrapper sudah terlihat
+        document.body.style.overflow = '';
+        // Fallback: jika ada konten yang belum muncul, paksa
+      }, 800);
+    }
+  }
+
+  // Proses utama setelah video siap
+  function onVideoReady() {
+    hideSpinner();
+
+    if (!chosenVideo) return;
+
+    // Fade-in video
+    chosenVideo.style.opacity = '1';
+    chosenVideo.style.transition = 'opacity 0.7s ease';
+
+    chosenVideo.currentTime = 0;
+    chosenVideo.play().then(function() {
+      // Tunggu video selesai (atau minimal 2 detik) lalu fade-out
+      var minDuration = Math.min(chosenVideo.duration || 2, 2) * 1000;
+      setTimeout(function() {
+        finishLoading();
+      }, Math.max(minDuration, 1500)); // minimal 1.5 detik setelah main
+    }).catch(function() {
+      // Jika autoplay gagal, langsung sembunyikan loading screen
+      finishLoading();
+    });
+  }
+
+  // Inisialisasi loading
+  function initLoadingScreen() {
+    if (!loadingScreen || !vidPortrait || !vidLandscape) return;
+
+    // Pastikan body tidak bisa di-scroll selama loading
+    document.body.style.overflow = 'hidden';
+    loadingScreen.style.display = 'flex';
+    loadingScreen.style.opacity = '1';
+    if (loadingSpinner) loadingSpinner.style.opacity = '1';
+
+    selectVideo();
+
+    // Event listener saat video siap diputar
+    function handleReady() {
+      onVideoReady();
+      chosenVideo.removeEventListener('canplaythrough', handleReady);
+      chosenVideo.removeEventListener('loadeddata', handleReady);
+    }
+
+    if (chosenVideo) {
+      chosenVideo.addEventListener('canplaythrough', handleReady);
+      chosenVideo.addEventListener('loadeddata', handleReady);
+      chosenVideo.load(); // mulai preload
+    }
+
+    // Fallback: setelah 5 detik, paksa sembunyikan loading screen
+    setTimeout(function() {
+      if (loadingScreen && loadingScreen.style.display !== 'none') {
+        hideSpinner();
+        finishLoading();
+      }
+    }, 5000);
+  }
+
+  // Orientasi berubah → ulangi pilih video
+  window.addEventListener('resize', function() {
+    if (!loadingScreen || loadingScreen.style.display === 'none') return;
+    selectVideo();
+    // Jika video baru dipilih dan belum siap, kita tidak reset spinner
+    // Tapi jika video sudah siap, kita bisa langsung mainkan
+  });
+
+  // Jalankan loading screen
+  initLoadingScreen();
+
   /* ---- DOM refs ---- */
   const coverWrapper = document.getElementById('cover-wrapper');
   const gate1        = document.getElementById('gate1');
