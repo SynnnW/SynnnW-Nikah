@@ -8,25 +8,22 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&family=Parisienne&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&family=Parisienne&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- ============================================================
-     LOADING SCREEN (VIDEO INTRO) - BARU
+  <!-- ============================================================
+     LOADING SCREEN (VIDEO INTRO) - TIDAK DIUBAH
 ============================================================ -->
 <div id="loading-screen">
-  <!-- Video portrait (HP) -->
   <video id="loading-video-portrait" class="loading-video portrait" muted playsinline preload="auto">
     <source src="assets/img/Vid1.mp4" type="video/mp4">
   </video>
-  <!-- Video landscape (Laptop) -->
   <video id="loading-video-landscape" class="loading-video landscape" muted playsinline preload="auto">
     <source src="assets/img/Vid2.mp4" type="video/mp4">
   </video>
-  <!-- Indikator loading (spinner) -->
   <div id="loading-spinner" class="loading-spinner">
     <div class="spinner-circle"></div>
     <p class="spinner-text">Memuat undangan...</p>
@@ -81,7 +78,7 @@
 </div>
 
 <!-- ============================================================
-     COVER WRAPPER — Gerbang 1 & 2
+     COVER WRAPPER — Gerbang 1 & 2 (LOCKED - TIDAK DIUBAH)
 ============================================================ -->
 <div id="cover-wrapper">
 
@@ -108,81 +105,88 @@
 </div>
 
 <!-- ============================================================
-     GATE 3 — ISI UNDANGAN UTAMA
+     GATE 3 — ISI UNDANGAN UTAMA (DIROMBAK TOTAL)
 ============================================================ -->
 <main id="gate3">
 
   <!-- =====================================================
-       SLIDE 0 — HERO INTRO
-       Bismillah + Nama + Foto + Dear Guest
+     SLIDE 0 — HERO INTRO (NEW: Fullscreen BG Image + Glass)
   ===================================================== -->
   <section class="hero-intro reveal" data-section="hero">
     <div id="petal-layer"></div>
+    <div class="hero-bg-overlay"></div>
 
-    <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم</div>
-    <div class="divider">
-      <div class="divider-line"></div>
-      <span class="divider-symbol">✦</span>
-      <div class="divider-line"></div>
-    </div>
-    <span class="pre-label">The Wedding of</span>
-    <h1 class="hero-title">Adib &amp; Nabila</h1>
+    <div class="hero-content">
+      <div class="bismillah glitch-text" data-text="بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم</div>
 
-    <!-- Foto intro berdua -->
-    <div class="intro-photos-wrap">
-      <div class="intro-photo-item">
-        <img src="assets/img/intro-nabila.jpg" alt="Nabila" onerror="this.src='assets/img/nabila1.jpg'">
-        <span class="intro-photo-label">nabila</span>
+      <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-symbol">✦</span>
+        <div class="divider-line"></div>
       </div>
-      <div class="intro-photo-item">
-        <img src="assets/img/intro-adib.jpg" alt="Adib" onerror="this.src='assets/img/adib1.jpg'">
-        <span class="intro-photo-label">adib</span>
+
+      <span class="pre-label">The Wedding of</span>
+      <h1 class="hero-title glitch-text" data-text="Adib & Nabila">Adib &amp; Nabila</h1>
+
+      <!-- Foto intro berdua dalam glass frame -->
+      <div class="intro-photos-wrap">
+        <div class="intro-photo-item glass-frame">
+          <img src="assets/img/intro-nabila.jpg" alt="Nabila" onerror="this.src='assets/img/nabila1.jpg'">
+          <span class="intro-photo-label">nabila</span>
+        </div>
+        <div class="intro-photo-item glass-frame">
+          <img src="assets/img/intro-adib.jpg" alt="Adib" onerror="this.src='assets/img/adib1.jpg'">
+          <span class="intro-photo-label">adib</span>
+        </div>
       </div>
-    </div>
 
-    <!-- Dear Guest -->
-    <div class="dear-block">
-      <p class="dear-label">Dear,</p>
-      <p class="dear-name" id="hero-guest-name">Tamu Undangan</p>
-      <p class="dear-text">You're invited to our<br><em>Wedding Ceremony</em></p>
-    </div>
+      <!-- Dear Guest dalam glass card -->
+      <div class="dear-block glass-panel">
+        <p class="dear-label">Dear,</p>
+        <p class="dear-name" id="hero-guest-name">Tamu Undangan</p>
+        <p class="dear-text">You're invited to our<br><em>Wedding Ceremony</em></p>
+      </div>
 
-    <div class="scroll-hint">
-      <span>scroll</span>
-      <div class="scroll-line"></div>
+      <div class="scroll-hint">
+        <span>scroll</span>
+        <div class="scroll-line"></div>
+      </div>
     </div>
   </section>
 
   <!-- =====================================================
-       SLIDE 1 — MUKADIMAH
+     SLIDE 1 — MUKADIMAH (NEW: Glass Card Centered)
   ===================================================== -->
   <section class="mukadimah-section reveal">
-    <div class="divider" style="margin-bottom:26px;">
-      <div class="divider-line"></div><span class="divider-symbol">✦</span><div class="divider-line"></div>
-    </div>
-    <p class="salam">Assalamu'alaikum Warahmatullahi Wabarakatuh.</p>
-    <p class="body-text">
-      Dengan memohon Rahmat &amp; Ridho Allah SWT., kami bermaksud mengundang<br>
-      Bapak / Ibu / Saudara(i) untuk menghadiri acara pernikahan kami.
-    </p>
-    <div class="divider" style="margin-top:26px;">
-      <div class="divider-line"></div><span class="divider-symbol">✦</span><div class="divider-line"></div>
+    <div class="glass-panel mukadimah-panel">
+      <div class="divider" style="margin-bottom:26px;">
+        <div class="divider-line"></div><span class="divider-symbol">✦</span><div class="divider-line"></div>
+      </div>
+      <p class="salam">Assalamu'alaikum Warahmatullahi Wabarakatuh.</p>
+      <p class="body-text">
+        Dengan memohon Rahmat &amp; Ridho Allah SWT., kami bermaksud mengundang<br>
+        Bapak / Ibu / Saudara(i) untuk menghadiri acara pernikahan kami.
+      </p>
+      <div class="divider" style="margin-top:26px;">
+        <div class="divider-line"></div><span class="divider-symbol">✦</span><div class="divider-line"></div>
+      </div>
     </div>
   </section>
 
   <!-- =====================================================
-       SLIDE 2 — COUPLE PROFILE + SAVE THE DATE
-       Background: assets/img/bg-couple.jpg (1080×2400px)
+     SLIDE 2 — COUPLE PROFILE + SAVE THE DATE
+     Background: assets/img/bg-couple.jpg
   ===================================================== -->
   <section class="couple-profile-section reveal">
+    <div class="cp-bg-overlay"></div>
 
     <!-- A&N Monogram -->
     <div class="an-mono">
       <img src="assets/img/inisial-an.png" alt="A & N" onerror="this.style.display='none'">
     </div>
 
-    <!-- QS Ar-Rum: 21 -->
-    <div class="quran-block">
+    <!-- QS Ar-Rum: 21 dalam glass card -->
+    <div class="quran-block glass-panel">
       <p class="quran-text">
         "Di antara tanda-tanda (kebesaran)-Nya ialah bahwa Dia menciptakan pasangan-pasangan untukmu
         dari (jenis) dirimu sendiri agar kamu merasa tenteram kepadanya. Dia menjadikan di antaramu
@@ -206,7 +210,7 @@
 
     <!-- ========== GROOM ========== -->
     <div class="profile-person">
-      <div class="circle-photo-wrap">
+      <div class="circle-photo-wrap glass-frame">
         <img src="assets/img/adib1.jpg" alt="Mohammad Adibillah" onerror="this.src='assets/img/prewed.jpg'">
       </div>
       <div class="photo-deco-row">
@@ -216,8 +220,7 @@
       <p class="profile-lineage">
         Putra Pertama dari<br>Bapak H. Zainul Hasan<br>&amp; Ibu Hj. Subaida
       </p>
-      <a href="https://www.instagram.com/angin.musimpanas?igsh=Y2ZsMjVoZmJ5ZDNp"
-         target="_blank" rel="noopener" class="ig-link">
+      <a href="https://www.instagram.com/angin.musimpanas?igsh=Y2ZsMjVoZmJ5ZDNp" target="_blank" rel="noopener" class="ig-link">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
         @angin.musimpanas
       </a>
@@ -228,7 +231,7 @@
 
     <!-- ========== BRIDE ========== -->
     <div class="profile-person">
-      <div class="circle-photo-wrap">
+      <div class="circle-photo-wrap glass-frame">
         <img src="assets/img/nabila1.jpg" alt="Nabilatus Sholeha" onerror="this.src='assets/img/prewed.jpg'">
       </div>
       <div class="photo-deco-row">
@@ -238,15 +241,14 @@
       <p class="profile-lineage">
         Putri dari<br>Bapak H. Supat Sholeh<br>&amp; Almh. Ibu Hj. Raudah
       </p>
-      <a href="https://www.instagram.com/nabilatusshl?igsh=aWk4b2JmZHEwa2tq"
-         target="_blank" rel="noopener" class="ig-link">
+      <a href="https://www.instagram.com/nabilatusshl?igsh=aWk4b2JmZHEwa2tq" target="_blank" rel="noopener" class="ig-link">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
         @nabilatusshl
       </a>
     </div>
 
     <!-- Save the Date + Countdown -->
-    <div class="save-date-wrap">
+    <div class="save-date-wrap glass-panel">
       <span class="save-label">Save the Date</span>
       <span class="save-date-num">31 • 05 • 2026</span>
       <div class="countdown-wrapper">
@@ -259,10 +261,11 @@
   </section>
 
   <!-- =====================================================
-       SLIDE 3 — AKAD & RESEPSI (Dark)
-       Background: assets/img/bg-event.jpg (1080×1920px)
+     SLIDE 3 — AKAD & RESEPSI (Dark Background)
+     Background: assets/img/bg-event.jpg
   ===================================================== -->
   <section class="event-dark-section reveal">
+    <div class="event-dark-bg-overlay"></div>
     <div class="event-dark-inner">
       <div style="display:flex;justify-content:center;margin-bottom:6px;">
         <svg width="60" height="42" viewBox="0 0 90 55" fill="none"><circle cx="30" cy="27" r="21" stroke="rgba(184,146,106,.8)" stroke-width="4.5"/><circle cx="60" cy="27" r="21" stroke="rgba(184,146,106,.8)" stroke-width="4.5"/><text x="45" y="32" text-anchor="middle" font-size="14" fill="rgba(184,146,106,.9)">♥</text></svg>
@@ -272,7 +275,7 @@
 
       <div class="event-dark-grid">
         <!-- Akad Nikah -->
-        <div class="event-dark-card">
+        <div class="event-dark-card glass-panel-dark">
           <span class="event-dark-type">Akad Nikah</span>
           <span class="event-dark-icon">💍</span>
           <div class="event-dark-date-big">31</div>
@@ -285,7 +288,7 @@
           <a href="https://maps.google.com/?q=-7.806222,113.371444" target="_blank" class="btn-map-dark">📍 Google Maps</a>
         </div>
         <!-- Resepsi -->
-        <div class="event-dark-card">
+        <div class="event-dark-card glass-panel-dark">
           <span class="event-dark-type">Resepsi</span>
           <span class="event-dark-icon">🥂</span>
           <div class="event-dark-date-big">07</div>
@@ -302,75 +305,76 @@
   </section>
 
   <!-- =====================================================
-       SLIDE 4 — LOKASI / MAP
+     SLIDE 4 — LOKASI / MAP (NEW: Glass Card)
   ===================================================== -->
   <section class="section map-section reveal">
-    <h2 class="section-title" style="text-align:center;">Lokasi Akad</h2>
-    <p style="text-align:center;font-size:.78rem;color:var(--text-light);margin-bottom:0;">7°48'22.4"S 113°22'17.2"E — Desa Selogudig Kulon, Kec. Pajarakan</p>
-    <iframe class="map-frame" src="https://maps.google.com/maps?q=-7.806222,113.371444&z=15&output=embed" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Lokasi Akad Nikah"></iframe>
-    <div style="text-align:center;margin-top:16px;">
-      <a href="https://maps.google.com/?q=-7.806222,113.371444" target="_blank" class="btn-map" style="display:inline-block;">🗺 Buka di Google Maps</a>
+    <div class="glass-panel map-panel">
+      <h2 class="section-title" style="text-align:center;">Lokasi Akad</h2>
+      <p style="text-align:center;font-size:.78rem;color:var(--text-light);margin-bottom:0;">7°48'22.4"S 113°22'17.2"E — Desa Selogudig Kulon, Kec. Pajarakan</p>
+      <iframe class="map-frame" src="https://maps.google.com/maps?q=-7.806222,113.371444&z=15&output=embed" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Lokasi Akad Nikah"></iframe>
+      <div style="text-align:center;margin-top:16px;">
+        <a href="https://maps.google.com/?q=-7.806222,113.371444" target="_blank" class="btn-map" style="display:inline-block;">🗺 Buka di Google Maps</a>
+      </div>
     </div>
   </section>
 
   <!-- =====================================================
-       SLIDE 5 — GALERI
+     SLIDE 5 — GALERI (NEW: Modern Masonry + Glass Hover)
   ===================================================== -->
   <section class="gallery-section reveal">
     <h2 class="section-title" style="text-align:center;">Momen Bahagia</h2>
     <div class="masonry">
-      <img src="assets/img/gal1.jpg" alt="Galeri 1" class="gal-img" onerror="this.style.display='none'">
-      <img src="assets/img/gal2.jpg" alt="Galeri 2" class="gal-img" onerror="this.style.display='none'">
-      <img src="assets/img/gal3.jpg" alt="Galeri 3" class="gal-img" onerror="this.style.display='none'">
-      <img src="assets/img/gal4.jpg" alt="Galeri 4" class="gal-img" onerror="this.style.display='none'">
-      <img src="assets/img/gal5.jpg" alt="Galeri 5" class="gal-img" onerror="this.style.display='none'">
-      <img src="assets/img/gal6.jpg" alt="Galeri 6" class="gal-img" onerror="this.style.display='none'">
+      <div class="gal-item glass-frame"><img src="assets/img/gal1.jpg" alt="Galeri 1" class="gal-img" onerror="this.style.display='none'"></div>
+      <div class="gal-item glass-frame"><img src="assets/img/gal2.jpg" alt="Galeri 2" class="gal-img" onerror="this.style.display='none'"></div>
+      <div class="gal-item glass-frame"><img src="assets/img/gal3.jpg" alt="Galeri 3" class="gal-img" onerror="this.style.display='none'"></div>
+      <div class="gal-item glass-frame"><img src="assets/img/gal4.jpg" alt="Galeri 4" class="gal-img" onerror="this.style.display='none'"></div>
+      <div class="gal-item glass-frame"><img src="assets/img/gal5.jpg" alt="Galeri 5" class="gal-img" onerror="this.style.display='none'"></div>
+      <div class="gal-item glass-frame"><img src="assets/img/gal6.jpg" alt="Galeri 6" class="gal-img" onerror="this.style.display='none'"></div>
     </div>
   </section>
 
   <!-- =====================================================
-       SLIDE 6 — WEDDING GIFT (Toggle Rekening)
+     SLIDE 6 — WEDDING GIFT (Toggle Rekening)
   ===================================================== -->
   <section class="gift-section reveal">
-    <div class="divider" style="margin:0 auto 28px;max-width:200px;"><div class="divider-line"></div><span class="divider-symbol">✦</span><div class="divider-line"></div></div>
-    <h2 class="section-title" style="text-align:center;">Wedding Gift</h2>
-    <p class="gift-desc">Your blessing and coming to our wedding are enough for us. However, if you want to give a gift we provide a Digital Envelope to make it easier for you. Thank you.</p>
+    <div class="glass-panel gift-panel">
+      <div class="divider" style="margin:0 auto 28px;max-width:200px;"><div class="divider-line"></div><span class="divider-symbol">✦</span><div class="divider-line"></div></div>
+      <h2 class="section-title" style="text-align:center;">Wedding Gift</h2>
+      <p class="gift-desc">Your blessing and coming to our wedding are enough for us. However, if you want to give a gift we provide a Digital Envelope to make it easier for you. Thank you.</p>
 
-    <button id="btn-toggle-rekening" class="btn-toggle-rekening ripple-btn">🎁 <span id="rekening-btn-label">Buka Rekening</span></button>
+      <button id="btn-toggle-rekening" class="btn-toggle-rekening ripple-btn">🎁 <span id="rekening-btn-label">Buka Rekening</span></button>
 
-    <div id="rekening-cards" class="rekening-cards">
-
-      <!-- BNI -->
-      <div class="bank-card">
-        <div class="bank-logo">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="5" fill="#fff"/><text x="12" y="17" text-anchor="middle" font-size="9" font-weight="900" fill="#f15a24">BNI</text></svg>
-          BNI
-          <span class="bank-logo-badge">BANK</span>
+      <div id="rekening-cards" class="rekening-cards">
+        <!-- BNI -->
+        <div class="bank-card">
+          <div class="bank-logo">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="5" fill="#fff"/><text x="12" y="17" text-anchor="middle" font-size="9" font-weight="900" fill="#f15a24">BNI</text></svg>
+            BNI
+            <span class="bank-logo-badge">BANK</span>
+          </div>
+          <span class="bank-card-label">Nomor Rekening</span>
+          <span class="bank-card-number" id="bni-nomor">1795081635</span>
+          <span class="bank-card-name">ZULFA MAZIIDAH</span>
+          <button class="btn-copy-bank" onclick="copyBankNum('bni-nomor')" title="Salin">📋</button>
         </div>
-        <span class="bank-card-label">Nomor Rekening</span>
-        <span class="bank-card-number" id="bni-nomor">1795081635</span>
-        <span class="bank-card-name">ZULFA MAZIIDAH</span>
-        <button class="btn-copy-bank" onclick="copyBankNum('bni-nomor')" title="Salin">📋</button>
-      </div>
-
-      <!-- BCA -->
-      <div class="bank-card" style="background:linear-gradient(135deg,#1a3a5c 0%,#2b5a80 100%);">
-        <div class="bank-logo">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="5" fill="#fff"/><text x="12" y="17" text-anchor="middle" font-size="9" font-weight="900" fill="#0066ae">BCA</text></svg>
-          BCA
-          <span class="bank-logo-badge">BANK</span>
+        <!-- BCA -->
+        <div class="bank-card" style="background:linear-gradient(135deg,#1a3a5c 0%,#2b5a80 100%);">
+          <div class="bank-logo">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="5" fill="#fff"/><text x="12" y="17" text-anchor="middle" font-size="9" font-weight="900" fill="#0066ae">BCA</text></svg>
+            BCA
+            <span class="bank-logo-badge">BANK</span>
+          </div>
+          <span class="bank-card-label">Nomor Rekening</span>
+          <span class="bank-card-number" id="bca-nomor">3151688452</span>
+          <span class="bank-card-name">MOH. BADRIS SHOLEH RAHMATULLAH</span>
+          <button class="btn-copy-bank" onclick="copyBankNum('bca-nomor')" title="Salin">📋</button>
         </div>
-        <span class="bank-card-label">Nomor Rekening</span>
-        <span class="bank-card-number" id="bca-nomor">3151688452</span>
-        <span class="bank-card-name">MOH. BADRIS SHOLEH RAHMATULLAH</span>
-        <button class="btn-copy-bank" onclick="copyBankNum('bca-nomor')" title="Salin">📋</button>
       </div>
-
     </div>
   </section>
 
   <!-- =====================================================
-       SLIDE 7 — WISHES & RSVP
+     SLIDE 7 — WISHES & RSVP (NEW: Glass Cards)
   ===================================================== -->
   <section class="rsvp-section reveal">
     <div class="rsvp-title-area">
@@ -380,11 +384,11 @@
     </div>
 
     <div class="attend-counter">
-      <div class="counter-card counter-hadir-bg"><span class="count-num" id="count-hadir">0</span><span class="count-label">Hadir</span></div>
-      <div class="counter-card counter-tidak-bg"><span class="count-num" id="count-tidak">0</span><span class="count-label">Tidak Hadir</span></div>
+      <div class="counter-card counter-hadir-bg glass-panel"><span class="count-num" id="count-hadir">0</span><span class="count-label">Hadir</span></div>
+      <div class="counter-card counter-tidak-bg glass-panel"><span class="count-num" id="count-tidak">0</span><span class="count-label">Tidak Hadir</span></div>
     </div>
 
-    <div class="rsvp-box">
+    <div class="rsvp-box glass-panel">
       <form id="rsvp-form">
         <input type="text" id="wish-name" class="input-field" placeholder="Nama Anda" readonly>
         <textarea id="wish-message" class="input-field" rows="4" placeholder="Tulis doa & ucapan terbaik untuk Adib & Nabila..." required></textarea>
@@ -400,15 +404,21 @@
   </section>
 
   <!-- =====================================================
-       FOOTER
+     FOOTER (NEW: Glass + Created By SynnnW)
   ===================================================== -->
   <footer class="footer reveal">
-    <div class="divider" style="margin:0 auto 28px;max-width:220px;"><div class="divider-line"></div><span class="divider-symbol">✦</span><div class="divider-line"></div></div>
-    <p class="footer-body">Merupakan sebuah kehormatan dan kebahagiaan bagi kami,<br>apabila Bapak / Ibu / Saudara(i) berkenan hadir<br>dan memberikan doa restu untuk kedua mempelai.</p>
-    <p class="footer-closing">Kel. Bapak H. Supat Sholeh &amp; Almh. Ibu Hj. Raudah<br>Kel. Bapak H. Zainul Hasan &amp; Ibu Hj. Subaida</p>
-    <p class="footer-closing" style="margin-top:16px;">Wassalamu'alaikum Warahmatullahi Wabarakatuh.</p>
-    <div class="footer-big-name">Adib &amp; Nabila</div>
-    <p style="font-size:.7rem;color:var(--text-light);margin-top:30px;">31 • 05 • 2026</p>
+    <div class="footer-inner glass-panel">
+      <div class="divider" style="margin:0 auto 28px;max-width:220px;"><div class="divider-line"></div><span class="divider-symbol">✦</span><div class="divider-line"></div></div>
+      <p class="footer-body">Merupakan sebuah kehormatan dan kebahagiaan bagi kami,<br>apabila Bapak / Ibu / Saudara(i) berkenan hadir<br>dan memberikan doa restu untuk kedua mempelai.</p>
+      <p class="footer-closing">Kel. Bapak H. Supat Sholeh &amp; Almh. Ibu Hj. Raudah<br>Kel. Bapak H. Zainul Hasan &amp; Ibu Hj. Subaida</p>
+      <p class="footer-closing" style="margin-top:16px;">Wassalamu'alaikum Warahmatullahi Wabarakatuh.</p>
+      <div class="footer-big-name">Adib &amp; Nabila</div>
+      <p style="font-size:.7rem;color:var(--text-light);margin-top:8px;">31 • 05 • 2026</p>
+      <div class="footer-credit">
+        <span>Created by</span>
+        <a href="https://synnnw.github.io/SynnnW/" target="_blank" rel="noopener" class="credit-link">SynnnW</a>
+      </div>
+    </div>
   </footer>
 
 </main>
