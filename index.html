@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Undangan Pernikahan | Adib &amp; Nabila</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&family=Parisienne&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============================================================
+     LOADING SCREEN (VIDEO INTRO) — TIDAK DIUBAH
+============================================================ -->
+<div id="loading-screen">
+  <video id="loading-video-portrait" class="loading-video portrait" muted playsinline preload="auto">
+    <source src="assets/img/Vid1.mp4" type="video/mp4">
+  </video>
+  <video id="loading-video-landscape" class="loading-video landscape" muted playsinline preload="auto">
+    <source src="assets/img/Vid2.mp4" type="video/mp4">
+  </video>
+  <div id="loading-spinner" class="loading-spinner">
+    <div class="spinner-circle"></div>
+    <p class="spinner-text">Memuat undangan...</p>
+  </div>
+</div>
+
+<!-- ============================================================
+     AUDIO — TIDAK DIUBAH
+============================================================ -->
+<audio id="bg-music" loop preload="auto">
+  <source src="assets/audio/wedding-song.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ============================================================
+     FLOATING CONTROLS — TIDAK DIUBAH
+============================================================ -->
+<div class="floating-controls">
+  <button id="theme-toggle" class="float-btn" title="Toggle Tema">🌙</button>
+  <button id="music-toggle" class="float-btn" title="Musik">🎵</button>
+</div>
+
+<!-- ============================================================
+     COPY TOAST — TIDAK DIUBAH
+============================================================ -->
+<div id="copy-toast">✓ Nomor disalin!</div>
+
+<!-- ============================================================
+     EMOTE CONTAINER — TIDAK DIUBAH
+============================================================ -->
+<div id="emote-container"></div>
+
+<!-- ============================================================
+     LIGHTBOX — TIDAK DIUBAH
+============================================================ -->
+<div id="lightbox">
+  <button id="lightbox-close">✕</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<!-- ============================================================
+     COVER WRAPPER — GERBANG 1 & 2 (LOCKED — TIDAK DIUBAH)
+============================================================ -->
+<div id="cover-wrapper">
+
+  <!-- Gate 1: Input Nama -->
+  <div id="gate1" class="gate-content active">
+    <div class="glass-card anim-fadein">
+      <p class="glass-label">Masukkan nama Anda</p>
+      <div class="input-row">
+        <input type="text" id="name-input" placeholder="Budi Santoso" autocomplete="off">
+        <button id="btn-submit" class="btn-arrow ripple-btn">→</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gate 2: Amplop -->
+  <div id="gate2" class="gate-content hidden">
+    <div class="glass-card anim-slideup">
+      <p class="to-text">Kepada Yth.<br>Bapak / Ibu / Saudara/i</p>
+      <div id="guest-name-display" class="guest-name-display">—</div>
+      <button id="btn-open" class="btn-open ripple-btn">✦ Buka Undangan ✦</button>
+    </div>
+  </div>
+
+</div><!-- /cover-wrapper -->
+
+
+<!-- ============================================================
+     GATE 3 — ISI UNDANGAN UTAMA — 6 SLIDE PENUH
+============================================================ -->
+<main id="gate3">
+
+
+  <!-- ============================================================
+       SLIDE 1 — HERO / LAYAR SAMBUTAN
+       BG Light: assets/img/bg1.jpg
+       BG Dark : assets/img/bg1-dark.jpg
+  ============================================================ -->
+  <section class="slide slide-hero">
+
+    <!-- Petal rain layer (diisi JS) -->
+    <div id="petal-layer"></div>
+
+    <!-- Background foto fullscreen -->
+    <div class="slide-bg-layer parallax-bg"></div>
+
+    <!-- Overlay gradient agar teks terbaca -->
+    <div class="slide-overlay"></div>
+
+    <!-- Dekoratif atmosfer kiri bawah -->
+    <div class="slide-atmosphere slide-atmosphere-circle"
+         style="width:320px;height:320px;bottom:-80px;left:-80px;animation-delay:0s;"></div>
+    <!-- Dekoratif atmosfer kanan atas -->
+    <div class="slide-atmosphere slide-atmosphere-circle"
+         style="width:200px;height:200px;top:-40px;right:-40px;animation-delay:5s;"></div>
+
+    <!-- Konten utama slide 1 -->
+    <div class="slide-content">
+      <div class="hero-glass-panel panel-reveal">
+
+        <!-- Bismillah -->
+        <div class="bismillah-hero text-reveal reveal-delay-1">
+          بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم
+        </div>
+
+        <!-- Divider -->
+        <div class="hero-divider text-reveal reveal-delay-2">
+          <div class="hero-divider-line"></div>
+          <span class="hero-divider-sym">✦</span>
+          <div class="hero-divider-line"></div>
+        </div>
+
+        <!-- Salam pembuka -->
+        <p class="hero-salam-text text-reveal reveal-delay-2">
+          Assalamu'alaikum Warahmatullahi Wabarakatuh
+        </p>
+
+        <!-- Nama tamu (diisi JS) -->
+        <p class="text-reveal reveal-delay-3"
+           style="font-family:'Montserrat',sans-serif;font-size:0.62rem;letter-spacing:3px;text-transform:uppercase;color:var(--text-light);margin-bottom:4px;">
+          Kepada Yth,
+        </p>
+        <p id="hero-guest-name"
+           class="text-reveal reveal-delay-3"
+           style="font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,3vw,1.3rem);font-weight:600;color:var(--text-accent);font-style:italic;margin-bottom:16px;">
+          Tamu Undangan
+        </p>
+
+        <!-- Nama editorial besar — CORMORANT BOLD, TANPA GLITCH -->
+        <h1 class="hero-editorial-name text-reveal reveal-delay-3">
+          Adib
+          <span class="name-ampersand">&amp;</span>
+          Nabila
+        </h1>
+
+        <!-- Tanggal -->
+        <p class="hero-date-text text-reveal reveal-delay-4">31 • 05 • 2026</p>
+
+        <!-- Countdown Timer — ID DIJAGA agar initCountdown() JS bekerja -->
+        <div class="hero-countdown-row text-reveal reveal-delay-4">
+          <div class="hero-cd-block">
+            <span class="hero-cd-num" id="cd-hari">--</span>
+            <span class="hero-cd-label">Hari</span>
+          </div>
+          <div class="hero-cd-block">
+            <span class="hero-cd-num" id="cd-jam">--</span>
+            <span class="hero-cd-label">Jam</span>
+          </div>
+          <div class="hero-cd-block">
+            <span class="hero-cd-num" id="cd-menit">--</span>
+            <span class="hero-cd-label">Menit</span>
+          </div>
+          <div class="hero-cd-block">
+            <span class="hero-cd-num" id="cd-detik">--</span>
+            <span class="hero-cd-label">Detik</span>
+          </div>
+        </div>
+
+      </div><!-- /hero-glass-panel -->
+    </div><!-- /slide-content -->
+
+    <!-- Scroll indicator animasi bounce ke bawah -->
+    <div class="scroll-indicator">
+      <div class="scroll-indicator-line"></div>
+      <div class="scroll-indicator-dot"></div>
+    </div>
+
+  </section><!-- /slide-hero -->
+
+
+  <!-- ============================================================
+       SLIDE 2 — PROFIL PASANGAN (COUPLE PROFILE)
+       BG Light: assets/img/bg2.jpg
+       BG Dark : assets/img/bg2-dark.jpg
+  ============================================================ -->
+  <section class="slide slide-couple">
+
+    <!-- Background foto -->
+    <div class="slide-bg-layer parallax-bg"></div>
+    <div class="slide-overlay"></div>
+
+    <!-- Atmosfer dekoratif -->
+    <div class="slide-atmosphere slide-atmosphere-circle"
+         style="width:280px;height:280px;top:-60px;left:-60px;animation-delay:3s;"></div>
+
+    <div class="slide-content">
+
+      <!-- Header section -->
+      <div class="couple-slide-header">
+        <span class="couple-slide-prelabel text-reveal">Kami yang berbahagia</span>
+        <h2 class="couple-slide-title text-reveal reveal-delay-1">Mempelai</h2>
+      </div>
+
+      <!-- Grid dua kartu profil + kata "dengan" di tengah -->
+      <div class="couple-cards-grid">
+
+        <!-- Kartu Mempelai Wanita -->
+        <div class="couple-profile-card card-reveal reveal-delay-1">
+          <!-- Foto Nabila -->
+          <div class="couple-profile-photo-wrap">
+            <img src="assets/img/nabila1.png"
+                 alt="Nabilatus Sholeha"
+                 onerror="this.closest('.couple-profile-photo-wrap').style.display='none'; this.closest('.couple-profile-card').querySelector('.profile-icon').style.fontSize='2rem';">
+          </div>
+          <span class="profile-icon" style="display:none;">🌸</span>
+          <h3 class="profile-name">
+            Nabilatus Sholeha,<br>S.Kes., Ftr.
+          </h3>
+          <span class="profile-role">Mempelai Wanita</span>
+          <div class="profile-divider"></div>
+          <p class="profile-parents">
+            Putri dari<br>
+            Bapak H. Supat Sholeh<br>
+            &amp; Almh. Ibu Hj. Raudah
+          </p>
+        </div>
+
+        <!-- Divider "dengan" — Parisienne font -->
+        <div class="couple-dan-divider">
+          <div class="couple-dan-line"></div>
+          <span class="couple-dan-word">dengan</span>
+          <div class="couple-dan-line"></div>
+        </div>
+
+        <!-- Kartu Mempelai Pria -->
+        <div class="couple-profile-card card-reveal reveal-delay-2">
+          <!-- Foto Adib -->
+          <div class="couple-profile-photo-wrap">
+            <img src="assets/img/nabila2.png"
+                 alt="Mohammad Adibillah"
+                 onerror="this.closest('.couple-profile-photo-wrap').style.display='none'; this.closest('.couple-profile-card').querySelector('.profile-icon').style.fontSize='2rem';">
+          </div>
+          <span class="profile-icon" style="display:none;">💍</span>
+          <h3 class="profile-name">
+            Mohammad Adibillah,<br>S.Psi., Gr.
+          </h3>
+          <span class="profile-role">Mempelai Pria</span>
+          <div class="profile-divider"></div>
+          <p class="profile-parents">
+            Putra dari<br>
+            Bapak H. Zainul Hasan<br>
+            &amp; Ibu Hj. Subaida
+          </p>
+        </div>
+
+      </div><!-- /couple-cards-grid -->
+
+    </div><!-- /slide-content -->
+  </section><!-- /slide-couple -->
+
+
+  <!-- ============================================================
+       SLIDE 3 — BENTO GRID ACARA (3 KARTU EVENT)
+       BG Dark: assets/img/bg3-dark.jpg
+  ============================================================ -->
+  <section class="slide slide-events-bento">
+
+    <div class="slide-bg-layer"></div>
+    <div class="slide-overlay"></div>
+
+    <!-- Atmosfer dekoratif kanan bawah -->
+    <div class="slide-atmosphere slide-atmosphere-circle"
+         style="width:240px;height:240px;bottom:-60px;right:-50px;animation-delay:2s;"></div>
+
+    <div class="slide-content" style="justify-content:flex-start;padding-top:40px;padding-bottom:40px;">
+
+      <!-- Header slide acara -->
+      <div class="bento-slide-header">
+        <h2 class="bento-slide-title text-reveal">Rangkaian Acara</h2>
+      </div>
+
+      <!-- Banner undangan full-width -->
+      <div class="bento-banner card-reveal reveal-delay-1">
+        <p class="bento-banner-text">
+          Dengan memohon Rahmat &amp; Ridho Allah SWT., kami bermaksud mengundang<br>
+          Bapak / Ibu / Saudara(i) untuk menghadiri acara pernikahan putra-putri kami:
+        </p>
+      </div>
+
+      <!-- Bento Grid — 3 Kartu Acara -->
+      <div class="bento-grid">
+
+        <!-- ── KARTU 1: Akad Nikah ── -->
+        <div class="bento-card card-reveal reveal-delay-1">
+          <span class="bento-icon">💍</span>
+          <span class="bento-event-type">Akad Nikah</span>
+          <div class="bento-hr"></div>
+          <span class="bento-event-date">Minggu, 31 Mei 2026</span>
+          <span class="bento-event-time">Pukul 08.00 WIB</span>
+          <div class="bento-hr"></div>
+          <span class="bento-event-place">Kediaman Mempelai Wanita</span>
+          <span class="bento-event-address">
+            Dusun Sumber Rejo, RT09/RW05<br>
+            Desa Selogudig Kulon<br>
+            Kec. Pajarakan, Kab. Probolinggo
+          </span>
+          <a href="https://maps.google.com/?q=-7.806222,113.371444"
+             target="_blank" rel="noopener"
+             class="bento-btn-map haptic-target">
+            📍 Google Maps
+          </a>
+        </div>
+
+        <!-- ── KARTU 2: Resepsi Mempelai Wanita (SEBELUMNYA HILANG — KINI DITAMBAH) ── -->
+        <div class="bento-card card-reveal reveal-delay-2">
+          <span class="bento-icon">🌸</span>
+          <span class="bento-event-type">Resepsi</span>
+          <span class="bento-event-sub">Mempelai Wanita</span>
+          <div class="bento-hr"></div>
+          <span class="bento-event-date">Minggu, 31 Mei 2026</span>
+          <span class="bento-event-time">Pukul 11.00 – 14.00 WIB</span>
+          <div class="bento-hr"></div>
+          <span class="bento-event-place">Kediaman Mempelai Wanita</span>
+          <span class="bento-event-address">
+            Dusun Sumber Rejo, RT09/RW05<br>
+            Desa Selogudig Kulon<br>
+            Kec. Pajarakan, Kab. Probolinggo
+          </span>
+          <a href="https://maps.google.com/?q=-7.806222,113.371444"
+             target="_blank" rel="noopener"
+             class="bento-btn-map haptic-target">
+            📍 Google Maps
+          </a>
+        </div>
+
+        <!-- ── KARTU 3: Resepsi Mempelai Pria — accent border karena tanggal berbeda (Juni) ── -->
+        <div class="bento-card bento-card--accent card-reveal reveal-delay-3">
+          <!-- Badge penanda bulan berbeda -->
+          <span class="bento-date-badge">07 Juni</span>
+          <span class="bento-icon">🎊</span>
+          <span class="bento-event-type">Resepsi</span>
+          <span class="bento-event-sub">Mempelai Pria</span>
+          <div class="bento-hr"></div>
+          <span class="bento-event-date">Minggu, 07 Juni 2026</span>
+          <span class="bento-event-time">JAM BEBAS</span>
+          <div class="bento-hr"></div>
+          <span class="bento-event-place">Kediaman Mempelai Pria</span>
+          <span class="bento-event-address">
+            Dusun Talar 2, RT07/RW03<br>
+            Desa Sumberan<br>
+            Kec. Besuk, Kab. Probolinggo
+          </span>
+          <a href="https://maps.google.com/?q=-7.754444,113.447778"
+             target="_blank" rel="noopener"
+             class="bento-btn-map haptic-target">
+            📍 Google Maps
+          </a>
+        </div>
+
+      </div><!-- /bento-grid -->
+
+      <!-- Google Maps Embed — dijaga sesuai brief -->
+      <div class="bento-map-wrapper card-reveal reveal-delay-4">
+        <span class="bento-map-title">Lokasi Akad Nikah</span>
+        <div class="bento-map-glass">
+          <iframe
+            src="https://maps.google.com/maps?q=-7.806222,113.371444&z=15&output=embed"
+            allowfullscreen
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Lokasi Akad Nikah">
+          </iframe>
+        </div>
+      </div>
+
+    </div><!-- /slide-content -->
+  </section><!-- /slide-events-bento -->
+
+
+  <!-- ============================================================
+       SLIDE 4 — GALERI MASONRY + PARALLAX + HOVER ZOOM
+       BG Light : assets/img/bg4.jpg
+       BG Dark  : assets/img/bg4-dark.jpg
+       Galeri   : gal1.jpg – gal6.jpg  (dark: gal1-gelap.jpg – gal6-gelap.jpg)
+       .gal-img dijaga agar lightbox JS berfungsi
+  ============================================================ -->
+  <section class="slide slide-gallery-new">
+
+    <!-- Background foto fullscreen (bg4.jpg via CSS) -->
+    <div class="slide-bg-layer parallax-bg"></div>
+    <!-- Overlay transparan agar foto galeri tetap keliatan -->
+    <div class="slide-overlay"></div>
+
+    <div class="slide-content" style="justify-content:flex-start;padding-top:40px;padding-bottom:40px;">
+
+      <!-- Header galeri -->
+      <div class="gallery-slide-header">
+        <span class="gallery-slide-title text-reveal">Momen Bahagia</span>
+        <span class="gallery-slide-sub text-reveal reveal-delay-1">
+          Kenangan indah sebelum hari istimewa
+        </span>
+      </div>
+
+      <!-- Masonry layout — 3 kolom desktop, 2 kolom mobile -->
+      <!-- Dark mode: siapkan file gal1-gelap.jpg s/d gal6-gelap.jpg di assets/img/ -->
+      <div class="masonry-new">
+
+        <div class="gal-item card-reveal reveal-delay-1">
+          <img src="assets/img/gal1.jpg" alt="Momen 1" class="gal-img"
+               data-dark-src="assets/img/gal1-gelap.jpg"
+               onerror="this.closest('.gal-item').style.display='none'">
+          <div class="gal-item-overlay">
+            <div class="gal-zoom-icon">🔍</div>
+          </div>
+        </div>
+
+        <div class="gal-item card-reveal reveal-delay-2">
+          <img src="assets/img/gal2.jpg" alt="Momen 2" class="gal-img"
+               data-dark-src="assets/img/gal2-gelap.jpg"
+               onerror="this.closest('.gal-item').style.display='none'">
+          <div class="gal-item-overlay">
+            <div class="gal-zoom-icon">🔍</div>
+          </div>
+        </div>
+
+        <div class="gal-item card-reveal reveal-delay-3">
+          <img src="assets/img/gal3.jpg" alt="Momen 3" class="gal-img"
+               data-dark-src="assets/img/gal3-gelap.jpg"
+               onerror="this.closest('.gal-item').style.display='none'">
+          <div class="gal-item-overlay">
+            <div class="gal-zoom-icon">🔍</div>
+          </div>
+        </div>
+
+        <div class="gal-item card-reveal reveal-delay-1">
+          <img src="assets/img/gal4.jpg" alt="Momen 4" class="gal-img"
+               data-dark-src="assets/img/gal4-gelap.jpg"
+               onerror="this.closest('.gal-item').style.display='none'">
+          <div class="gal-item-overlay">
+            <div class="gal-zoom-icon">🔍</div>
+          </div>
+        </div>
+
+        <div class="gal-item card-reveal reveal-delay-2">
+          <img src="assets/img/gal5.jpg" alt="Momen 5" class="gal-img"
+               data-dark-src="assets/img/gal5-gelap.jpg"
+               onerror="this.closest('.gal-item').style.display='none'">
+          <div class="gal-item-overlay">
+            <div class="gal-zoom-icon">🔍</div>
+          </div>
+        </div>
+
+        <div class="gal-item card-reveal reveal-delay-3">
+          <img src="assets/img/gal6.jpg" alt="Momen 6" class="gal-img"
+               data-dark-src="assets/img/gal6-gelap.jpg"
+               onerror="this.closest('.gal-item').style.display='none'">
+          <div class="gal-item-overlay">
+            <div class="gal-zoom-icon">🔍</div>
+          </div>
+        </div>
+
+      </div><!-- /masonry-new -->
+    </div><!-- /slide-content -->
+  </section><!-- /slide-gallery-new -->
+
+
+  <!-- ============================================================
+       SLIDE 5 — RSVP + BUKU TAMU + WEDDING GIFT
+       BG Light : assets/img/bg5.jpg
+       BG Dark  : assets/img/bg5-dark.jpg
+  ============================================================ -->
+  <section class="slide slide-rsvp-new">
+
+    <!-- Background foto fullscreen (bg5.jpg via CSS) -->
+    <div class="slide-bg-layer"></div>
+    <div class="slide-overlay"></div>
+
+    <!-- Atmosfer dekoratif -->
+    <div class="slide-atmosphere slide-atmosphere-circle"
+         style="width:300px;height:300px;bottom:-80px;left:-70px;animation-delay:4s;"></div>
+
+    <div class="slide-content" style="justify-content:flex-start;padding-top:40px;padding-bottom:40px;">
+
+      <!-- === FORM RSVP & UCAPAN === -->
+      <div class="rsvp-glass-wrapper panel-reveal" style="margin-bottom:20px;">
+
+        <h2 class="rsvp-glass-title">Kehadiran &amp; Ucapan</h2>
+        <span class="rsvp-glass-sub">Wishes &amp; RSVP</span>
+
+        <div class="rsvp-divider">
+          <div class="rsvp-divider-line"></div>
+          <span class="rsvp-divider-sym">✦</span>
+          <div class="rsvp-divider-line"></div>
+        </div>
+
+        <!-- Counter kehadiran — centered, kotak proper -->
+        <div class="rsvp-counter-row">
+          <div class="rsvp-counter-card rsvp-counter-hadir">
+            <span id="count-hadir"
+                  style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:#16a34a;display:block;line-height:1;margin-bottom:4px;">0</span>
+            <span class="rsvp-counter-label">✅ Hadir</span>
+          </div>
+          <div class="rsvp-counter-card rsvp-counter-tidak">
+            <span id="count-tidak"
+                  style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:var(--text-light);display:block;line-height:1;margin-bottom:4px;">0</span>
+            <span class="rsvp-counter-label">🙏 Tidak Hadir</span>
+          </div>
+        </div>
+
+        <!-- Form RSVP — semua ID dijaga agar JS bekerja -->
+        <form id="rsvp-form">
+          <input  type="text"
+                  id="wish-name"
+                  class="input-field-glass"
+                  placeholder="Nama Anda"
+                  readonly>
+          <textarea id="wish-message"
+                    class="input-field-glass"
+                    rows="3"
+                    placeholder="Tulis doa &amp; ucapan terbaik untuk Adib &amp; Nabila..."
+                    required
+                    style="resize:none;"></textarea>
+          <select id="attendance" class="input-field-glass" required>
+            <option value="" disabled selected>Konfirmasi Kehadiran</option>
+            <option value="Hadir">✅ Hadir</option>
+            <option value="Tidak Hadir">🙏 Tidak Hadir</option>
+          </select>
+          <button type="submit" class="btn-primary-glass haptic-target">
+            Kirim Ucapan ✦
+          </button>
+        </form>
+
+        <!-- Daftar ucapan — diisi JS, class wish-card-glass / wish-head / wish-msg -->
+        <div class="wishes-list-glass" id="wishes-list"></div>
+
+      </div><!-- /rsvp-glass-wrapper -->
+
+      <!-- === WEDDING GIFT / AMPLOP DIGITAL === -->
+      <div class="rsvp-glass-wrapper panel-reveal reveal-delay-2">
+
+        <h3 class="rsvp-glass-title"
+            style="font-size:clamp(1.2rem,3.5vw,1.8rem);">Wedding Gift</h3>
+        <span class="rsvp-glass-sub">Amplop Digital</span>
+
+        <div class="rsvp-divider">
+          <div class="rsvp-divider-line"></div>
+          <span class="rsvp-divider-sym">✦</span>
+          <div class="rsvp-divider-line"></div>
+        </div>
+
+        <p style="font-family:'Montserrat',sans-serif;font-size:0.78rem;color:var(--text-light);text-align:center;line-height:1.8;margin-bottom:20px;">
+          Your blessing and coming to our wedding are enough for us.<br>
+          However, if you wish to give a gift, we provide a Digital Envelope.
+        </p>
+
+        <!-- Toggle rekening — ID dijaga agar JS bekerja -->
+        <button id="btn-toggle-rekening" class="btn-primary-glass haptic-target">
+          🎁 <span id="rekening-btn-label">Buka Rekening</span>
+        </button>
+
+        <!-- Kartu rekening — ID dijaga agar JS bekerja -->
+        <div id="rekening-cards" class="rekening-cards">
+
+          <!-- BNI -->
+          <div class="bank-card">
+            <div class="bank-logo">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <rect width="24" height="24" rx="5" fill="#fff"/>
+                <text x="12" y="17" text-anchor="middle" font-size="9" font-weight="900" fill="#f15a24">BNI</text>
+              </svg>
+              BNI
+              <span class="bank-logo-badge">BANK</span>
+            </div>
+            <span class="bank-card-label">Nomor Rekening</span>
+            <span class="bank-card-number" id="bni-nomor">1795081635</span>
+            <span class="bank-card-name">ZULFA MAZIIDAH</span>
+            <button class="btn-copy-bank haptic-target"
+                    onclick="copyBankNum('bni-nomor')"
+                    title="Salin">📋</button>
+          </div>
+
+          <!-- BCA -->
+          <div class="bank-card bank-card--bca">
+            <div class="bank-logo">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <rect width="24" height="24" rx="5" fill="#fff"/>
+                <text x="12" y="17" text-anchor="middle" font-size="9" font-weight="900" fill="#0066ae">BCA</text>
+              </svg>
+              BCA
+              <span class="bank-logo-badge">BANK</span>
+            </div>
+            <span class="bank-card-label">Nomor Rekening</span>
+            <span class="bank-card-number" id="bca-nomor">3151688452</span>
+            <span class="bank-card-name">MOH. BADRIS SHOLEH RAHMATULLAH</span>
+            <button class="btn-copy-bank haptic-target"
+                    onclick="copyBankNum('bca-nomor')"
+                    title="Salin">📋</button>
+          </div>
+
+        </div><!-- /rekening-cards -->
+      </div><!-- /wedding-gift-wrapper -->
+
+    </div><!-- /slide-content -->
+  </section><!-- /slide-rsvp-new -->
+
+
+  <!-- ============================================================
+       SLIDE 6 — EPILOG PENUTUP (THE FINALE)
+       BG Dark: assets/img/bg5-dark.jpg
+  ============================================================ -->
+  <section class="slide slide-closing">
+
+    <div class="slide-bg-layer"></div>
+    <div class="slide-overlay"></div>
+
+    <!-- Atmosfer dekoratif -->
+    <div class="slide-atmosphere slide-atmosphere-circle"
+         style="width:360px;height:360px;bottom:-100px;right:-100px;animation-delay:1s;"></div>
+    <div class="slide-atmosphere slide-atmosphere-circle"
+         style="width:180px;height:180px;top:-50px;left:-50px;animation-delay:7s;"></div>
+
+    <div class="slide-content">
+      <div class="closing-glass-panel panel-reveal">
+
+        <!-- Divider atas -->
+        <div class="closing-divider">
+          <div class="closing-divider-line"></div>
+          <span class="closing-divider-sym">✦</span>
+          <div class="closing-divider-line"></div>
+        </div>
+
+        <!-- Teks kehormatan -->
+        <p class="closing-honor-text text-reveal reveal-delay-1">
+          Merupakan sebuah kehormatan dan kebahagiaan bagi kami,<br>
+          apabila Bapak / Ibu / Saudara(i) berkenan hadir<br>
+          dan memberikan doa restu untuk kedua mempelai.
+        </p>
+
+        <!-- Nama keluarga -->
+        <span class="closing-family-names text-reveal reveal-delay-2">
+          Kel. Bapak H. Supat Sholeh &amp; Almh. Ibu Hj. Raudah<br>
+          Kel. Bapak H. Zainul Hasan &amp; Ibu Hj. Subaida
+        </span>
+
+        <!-- Salam penutup -->
+        <span class="closing-salam text-reveal reveal-delay-3">
+          Wassalamu'alaikum Warahmatullahi Wabarakatuh.
+        </span>
+
+        <!-- Nama besar masif -->
+        <span class="closing-big-name text-reveal reveal-delay-4">
+          Adib &amp; Nabila
+        </span>
+
+        <!-- Tanggal kecil -->
+        <span class="closing-date-small text-reveal reveal-delay-5">
+          31 • 05 • 2026
+        </span>
+
+        <!-- Divider bawah -->
+        <div class="closing-bottom-divider">
+          <div class="closing-bottom-divider-line"></div>
+          <span class="closing-bottom-divider-sym">✦</span>
+          <div class="closing-bottom-divider-line"></div>
+        </div>
+
+      </div><!-- /closing-glass-panel -->
+    </div><!-- /slide-content -->
+  </section><!-- /slide-closing -->
+
+
+  <!-- ============================================================
+       CREATOR CREDIT — DI BAWAH SLIDE TERAKHIR
+       Link: https://synnnw.github.io/SynnnW-Nikah/
+  ============================================================ -->
+  <div class="creator-credit-section">
+    <div class="creator-credit-inner">
+      <div class="creator-credit-line"></div>
+      <a href="https://synnnw.github.io/SynnnW-Nikah/"
+         target="_blank"
+         rel="noopener"
+         class="creator-link haptic-target"
+         onclick="if(typeof triggerHaptic==='function') triggerHaptic([25])">
+        Create By SynnnW
+      </a>
+      <div class="creator-credit-line"></div>
+    </div>
+  </div>
+
+</main><!-- /gate3 -->
+
+
+<!-- ============================================================
+     SLIDE NAV DOTS — DI LUAR GATE3
+     CSS: #gate3.active ~ .slide-nav-dots { display: flex }
+     JS : initSlideNav() di script.js (baru)
+============================================================ -->
+<nav class="slide-nav-dots" aria-label="Navigasi Slide">
+  <button class="slide-nav-dot active" data-target="0" title="Hero"></button>
+  <button class="slide-nav-dot"        data-target="1" title="Profil"></button>
+  <button class="slide-nav-dot"        data-target="2" title="Acara"></button>
+  <button class="slide-nav-dot"        data-target="3" title="Galeri"></button>
+  <button class="slide-nav-dot"        data-target="4" title="Ucapan"></button>
+  <button class="slide-nav-dot"        data-target="5" title="Penutup"></button>
+</nav>
+
+
+<script src="script.js"></script>
+</body>
+</html>
