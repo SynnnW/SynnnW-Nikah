@@ -2,7 +2,7 @@
   'use strict';
 
   /* ==============================================================
-     0. LOADING SCREEN (VIDEO INTRO) — BARU
+     0. LOADING SCREEN (VIDEO INTRO) — TIDAK DIUBAH
   ============================================================== */
   const loadingScreen   = document.getElementById('loading-screen');
   const vidPortrait     = document.getElementById('loading-video-portrait');
@@ -11,7 +11,6 @@
 
   let chosenVideo = null;
 
-  // Pilih video berdasarkan orientasi
   function selectVideo() {
     if (chosenVideo) {
       chosenVideo.pause();
@@ -30,7 +29,6 @@
     }
   }
 
-  // Sembunyikan spinner
   function hideSpinner() {
     if (loadingSpinner) {
       loadingSpinner.style.opacity = '0';
@@ -38,48 +36,39 @@
     }
   }
 
-  // Sembunyikan loading screen → tampilkan konten utama
   function finishLoading() {
     if (loadingScreen) {
       loadingScreen.style.opacity = '0';
       loadingScreen.style.transition = 'opacity 0.8s ease';
       setTimeout(function() {
         loadingScreen.style.display = 'none';
-        // Pastikan gate3 dan cover-wrapper sudah terlihat
         document.body.style.overflow = '';
-        // Fallback: jika ada konten yang belum muncul, paksa
       }, 800);
     }
   }
 
-  // Proses utama setelah video siap
   function onVideoReady() {
     hideSpinner();
 
     if (!chosenVideo) return;
 
-    // Fade-in video
     chosenVideo.style.opacity = '1';
     chosenVideo.style.transition = 'opacity 0.7s ease';
 
     chosenVideo.currentTime = 0;
     chosenVideo.play().then(function() {
-      // Tunggu video selesai (atau minimal 2 detik) lalu fade-out
       var minDuration = Math.min(chosenVideo.duration || 2, 2) * 1000;
       setTimeout(function() {
         finishLoading();
-      }, Math.max(minDuration, 1500)); // minimal 1.5 detik setelah main
+      }, Math.max(minDuration, 1500));
     }).catch(function() {
-      // Jika autoplay gagal, langsung sembunyikan loading screen
       finishLoading();
     });
   }
 
-  // Inisialisasi loading
   function initLoadingScreen() {
     if (!loadingScreen || !vidPortrait || !vidLandscape) return;
 
-    // Pastikan body tidak bisa di-scroll selama loading
     document.body.style.overflow = 'hidden';
     loadingScreen.style.display = 'flex';
     loadingScreen.style.opacity = '1';
@@ -87,7 +76,6 @@
 
     selectVideo();
 
-    // Event listener saat video siap diputar
     function handleReady() {
       onVideoReady();
       chosenVideo.removeEventListener('canplaythrough', handleReady);
@@ -97,10 +85,9 @@
     if (chosenVideo) {
       chosenVideo.addEventListener('canplaythrough', handleReady);
       chosenVideo.addEventListener('loadeddata', handleReady);
-      chosenVideo.load(); // mulai preload
+      chosenVideo.load();
     }
 
-    // Fallback: setelah 5 detik, paksa sembunyikan loading screen
     setTimeout(function() {
       if (loadingScreen && loadingScreen.style.display !== 'none') {
         hideSpinner();
@@ -109,15 +96,11 @@
     }, 5000);
   }
 
-  // Orientasi berubah → ulangi pilih video
   window.addEventListener('resize', function() {
     if (!loadingScreen || loadingScreen.style.display === 'none') return;
     selectVideo();
-    // Jika video baru dipilih dan belum siap, kita tidak reset spinner
-    // Tapi jika video sudah siap, kita bisa langsung mainkan
   });
 
-  // Jalankan loading screen
   initLoadingScreen();
 
   /* ---- DOM refs ---- */
@@ -143,7 +126,6 @@
   const lightboxImg    = document.getElementById('lightbox-img');
   const lightboxClose  = document.getElementById('lightbox-close');
 
-  /* ---- Element baru dari HTML upgrade ---- */
   const heroGuestEl    = document.getElementById('hero-guest-name');
   const petalLayer     = document.getElementById('petal-layer');
   const sectionDots    = document.getElementById('section-dots');
@@ -187,13 +169,13 @@
   setInterval(spawnEmote, Math.random() * 4000 + 5000);
 
   /* ==============================================================
-     2. GATE 1 → GATE 2 (Nama → Amplop)
+     2. GATE 1 → GATE 2
   ============================================================== */
   function goToGate2() {
     const val = nameInput.value.trim();
     if (!val) {
       nameInput.style.animation = 'none';
-      nameInput.offsetHeight; /* reflow */
+      nameInput.offsetHeight;
       nameInput.style.animation = 'shake 0.4s ease';
       return;
     }
@@ -216,7 +198,6 @@
     if (e.key === 'Enter') { e.preventDefault(); goToGate2(); }
   });
 
-  /* Touch ripple on input */
   nameInput.addEventListener('focus', () => {
     nameInput.closest('.input-row').style.transform = 'scale(1.02)';
   });
@@ -225,7 +206,7 @@
   });
 
   /* ==============================================================
-     3. GATE 2 → GATE 3 (Amplop → Isi Undangan)
+     3. GATE 2 → GATE 3
   ============================================================== */
   btnOpen.addEventListener('click', function () {
     coverWrapper.classList.add('exit');
@@ -234,15 +215,12 @@
       gate3.classList.add('active');
       window.scrollTo({ top: 0, behavior: 'instant' });
 
-      // ** FITUR BARU: sinkronisasi nama tamu ke hero intro **
       if (heroGuestEl && guestName) {
         heroGuestEl.textContent = guestName;
       }
 
-      // ** FITUR BARU: mulai petal rain **
       startPetalRain();
 
-      // ** FITUR BARU: tampilkan section dots **
       if (sectionDots) sectionDots.classList.add('visible');
 
       initScrollObserver();
@@ -363,7 +341,7 @@
   });
 
   /* ==============================================================
-     10. PETAL RAIN (Fitur Baru)
+     10. PETAL RAIN
   ============================================================== */
   const PETALS = ['🌸', '🌺', '✿', '❀', '🌷'];
   function spawnPetal() {
@@ -387,7 +365,7 @@
   }
 
   /* ==============================================================
-     11. SECTION NAVIGATION DOTS (Fitur Baru)
+     11. SECTION NAVIGATION DOTS
   ============================================================== */
   if (dotEls.length > 0) {
     const sections = gate3.querySelectorAll('section');
@@ -411,7 +389,7 @@
   }
 
   /* ==============================================================
-     12. WEDDING GIFT — TOGGLE REKENING (Fitur Baru)
+     12. WEDDING GIFT — TOGGLE REKENING
   ============================================================== */
   if (btnToggleRek && rekeningCards) {
     btnToggleRek.addEventListener('click', function() {
@@ -429,7 +407,7 @@
   }
 
   /* ==============================================================
-     13. COPY NOMOR REKENING (Fitur Baru)
+     13. COPY NOMOR REKENING
   ============================================================== */
   window.copyBankNum = function(elId) {
     const el = document.getElementById(elId);
@@ -460,7 +438,7 @@
   }
 
   /* ==============================================================
-     14. RSVP — COUNTER + TELEGRAM + CONFETTI + AVATAR (Fitur Baru)
+     14. RSVP — COUNTER + TELEGRAM + CONFETTI + AVATAR
   ============================================================== */
   if (rsvpForm) {
     rsvpForm.addEventListener('submit', function (e) {
@@ -471,7 +449,6 @@
 
       if (!attend || !message) return;
 
-      // Counter update
       if (attend === 'Hadir') {
         countHadir++;
         if (countHadirEl) {
@@ -488,7 +465,6 @@
         }
       }
 
-      // Buat card ucapan
       const card = document.createElement('div');
       card.className = 'wish-card';
       card.setAttribute('data-enhanced', '1');
@@ -518,16 +494,13 @@
 
       wishesList.prepend(card);
 
-      // Reset form
       document.getElementById('wish-message').value = '';
       document.getElementById('attendance').value   = '';
 
       card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-      // Confetti burst jika hadir
       if (attend === 'Hadir') spawnConfetti();
 
-      // Kirim ke Telegram
       const emoji = attend === 'Hadir' ? '✅' : '🙏';
       const tgMsg = '💌 *Wishes & RSVP — Adib & Nabila*\n\n' +
                     '👤 *' + name + '*\n' +
@@ -548,7 +521,7 @@
   }
 
   /* ==============================================================
-     15. CONFETTI BURST (Fitur Baru)
+     15. CONFETTI BURST
   ============================================================== */
   const CONFETTI_COLORS = ['#c4937e', '#b8926a', '#d4b08e', '#e8d0b8', '#f0e8e0'];
   function spawnConfetti() {
