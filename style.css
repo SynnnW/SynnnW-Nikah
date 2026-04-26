@@ -1519,3 +1519,64 @@ body {
   .couple-profile-section { padding: 90px 40px 100px; }
   .hero-intro { padding: 100px 40px 80px; }
 }
+
+/* ============================================================
+   LOADING SCREEN (VIDEO INTRO) - TAMBAHAN BARU
+   ============================================================ */
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  background: #000; /* hitam pekat */
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+#loading-screen.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loading-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none; /* akan diatur oleh js */
+}
+.loading-video.active {
+  display: block;
+}
+#loading-video-portrait { /* default untuk mobile */ }
+#loading-video-landscape { /* untuk desktop */ }
+
+/* Spinner */
+.loading-spinner {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #fff;
+  transition: opacity 0.4s ease;
+}
+.spinner-circle {
+  width: 44px;
+  height: 44px;
+  border: 3px solid rgba(255,255,255,0.25);
+  border-top-color: #b8926a;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+  margin: 0 auto 14px;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.spinner-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.7);
+}
