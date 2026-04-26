@@ -313,7 +313,7 @@
   }
 
   /* ==============================================================
-     8. SCROLL REVEAL ANIMATION
+     8. SCROLL REVEAL ANIMATION (LAMA — untuk class .reveal)
   ============================================================== */
   function initScrollObserver() {
     const els = gate3.querySelectorAll('.reveal');
@@ -365,7 +365,7 @@
   }
 
   /* ==============================================================
-     11. SECTION NAVIGATION DOTS
+     11. SECTION NAVIGATION DOTS (LAMA — untuk .sec-dot lama)
   ============================================================== */
   if (dotEls.length > 0) {
     const sections = gate3.querySelectorAll('section');
@@ -546,5 +546,399 @@
       })();
     }
   }
+
+
+  /* ================================================================
+     ████████████████████████████████████████████████████████████████
+     SISTEM BARU — DITAMBAHKAN DI BAWAH KODE LAMA
+     Tidak ada kode lama yang dihapus atau dimodifikasi.
+     ████████████████████████████████████████████████████████████████
+  ================================================================ */
+
+
+  /* ==============================================================
+     A. INJECT MISSING CSS (confetti, wish-avatar, wish-time)
+        supaya komponen yang dibuat JS tetap terlihat bagus
+  ============================================================== */
+  (function injectMissingStyles() {
+    const style = document.createElement('style');
+    style.textContent = `
+      /* Confetti piece */
+      .confetti-piece {
+        position: fixed;
+        pointer-events: none;
+        z-index: 9996;
+        animation: confettiBurst 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      }
+      @keyframes confettiBurst {
+        0%   { transform: translate(0,0) rotate(0deg) scale(1); opacity: 1; }
+        100% { transform: translate(var(--dx), var(--dy)) rotate(540deg) scale(0.3); opacity: 0; }
+      }
+
+      /* Wish card avatar (inisial nama) */
+      .wish-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #c4937e, #b8926a);
+        color: #fff;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+        flex-shrink: 0;
+        box-shadow: 0 3px 10px rgba(196,147,126,0.3);
+      }
+
+      /* Timestamp ucapan */
+      .wish-time {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 0.6rem;
+        letter-spacing: 1px;
+        color: var(--text-light);
+        opacity: 0.7;
+        margin-bottom: 6px;
+      }
+
+      /* Ripple effect wave */
+      .ripple-wave {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.35);
+        width: 10px;
+        height: 10px;
+        margin-left: -5px;
+        margin-top: -5px;
+        animation: rippleExpand 0.6s linear forwards;
+        pointer-events: none;
+      }
+      @keyframes rippleExpand {
+        to { transform: scale(30); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+  })();
+
+
+  /* ==============================================================
+     B. HAPTIC FEEDBACK SYSTEM
+        Android: navigator.vibrate()
+        iOS    : checkbox switch hack (Taptic Engine)
+  ============================================================== */
+  function isIOS() {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  }
+
+  function triggerHaptic(pattern) {
+    pattern = pattern || [30];
+
+    if (isIOS()) {
+      /* iOS Taptic Engine hack — Safari memblokir vibrate() */
+      const cb = document.createElement('input');
+      cb.setAttribute('type', 'checkbox');
+      cb.setAttribute('switch', '');
+      cb.style.cssText = 'position:absolute;opacity:0;pointer-events:none;left:-9999px;top:-9999px;';
+      document.body.appendChild(cb);
+      cb.click();
+      setTimeout(function() {
+        if (cb.parentNode) cb.parentNode.removeChild(cb);
+      }, 100);
+    } else if (navigator.vibrate) {
+      navigator.vibrate(pattern);
+    }
+  }
+
+  /* Expose globally agar onclick inline di HTML bisa memanggil */
+  window.triggerHaptic = triggerHaptic;
+
+
+  /* ==============================================================
+     C. HAPTIC LISTENERS — pasang ke semua elemen interaktif
+  ============================================================== */
+  function initHapticListeners() {
+    const selectors = [
+      '.bento-btn-map',
+      '.bento-card a',
+      '.creator-link',
+      '.btn-primary-glass',
+      '.btn-primary',
+      '#music-toggle',
+      '#theme-toggle',
+      '.gal-img',
+      '.slide-nav-dot',
+      '.btn-copy-bank',
+      '.btn-open',
+      '.btn-arrow'
+    ];
+
+    selectors.forEach(function(sel) {
+      document.querySelectorAll(sel).forEach(function(el) {
+        /* touchstart = pre-feedback sedikit sebelum klik */
+        el.addEventListener('touchstart', function() {
+          triggerHaptic([15]);
+        }, { passive: true });
+
+        /* click = feedback utama */
+        el.addEventListener('click', function() {
+          triggerHaptic([25]);
+        });
+      });
+    });
+  }
+
+
+  /* ==============================================================
+     D. RIPPLE EFFECT — gelombang klik pada .ripple-btn
+  ============================================================== */
+  function initRippleEffect() {
+    document.querySelectorAll('.ripple-btn').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        const rect = btn.getBoundingClientRect();
+        const wave = document.createElement('span');
+        wave.className = 'ripple-wave';
+        wave.style.left = (e.clientX - rect.left) + 'px';
+        wave.style.top  = (e.clientY - rect.top)  + 'px';
+        btn.appendChild(wave);
+        setTimeout(function() { wave.remove(); }, 700);
+      });
+    });
+  }
+
+
+  /* ==============================================================
+     E. REVEAL OBSERVER BARU
+        Menangani class: .text-reveal, .panel-reveal, .card-reveal
+        (Pengganti glitch — animasi sinematik dari CSS baru)
+  ============================================================== */
+  function initRevealObserver() {
+    const revealSelectors = [
+      '.text-reveal',
+      '.text-reveal-left',
+      '.text-reveal-right',
+      '.panel-reveal',
+      '.card-reveal'
+    ];
+    const allRevealEls = gate3.querySelectorAll(revealSelectors.join(','));
+
+    if (allRevealEls.length === 0) return;
+
+    const revealObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          /* Setelah revealed, berhenti observe supaya animasi tidak ulang */
+          revealObs.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.08,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    allRevealEls.forEach(function(el) {
+      revealObs.observe(el);
+    });
+  }
+
+
+  /* ==============================================================
+     F. SLIDE NAV DOTS BARU
+        Untuk .slide-nav-dot di HTML baru (bukan .sec-dot lama)
+  ============================================================== */
+  function initSlideNav() {
+    const newDots   = document.querySelectorAll('.slide-nav-dot');
+    const slides    = gate3 ? gate3.querySelectorAll('.slide') : [];
+
+    if (!newDots.length || !slides.length || !gate3) return;
+
+    /* Update dot aktif saat gate3 di-scroll */
+    gate3.addEventListener('scroll', function() {
+      const scrollTop  = gate3.scrollTop;
+      const vh         = window.innerHeight;
+      const slideIndex = Math.round(scrollTop / vh);
+
+      newDots.forEach(function(dot, i) {
+        dot.classList.toggle('active', i === slideIndex);
+      });
+    }, { passive: true });
+
+    /* Klik dot → scroll ke slide */
+    newDots.forEach(function(dot) {
+      dot.addEventListener('click', function() {
+        const target = parseInt(this.dataset.target, 10);
+        if (gate3) {
+          gate3.scrollTo({
+            top: target * window.innerHeight,
+            behavior: 'smooth'
+          });
+        }
+        triggerHaptic([20]);
+      });
+    });
+
+    /* Tambahkan juga observer berbasis IntersectionObserver
+       sebagai fallback agar sync lebih akurat */
+    const slideObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+          const idx = Array.from(slides).indexOf(entry.target);
+          if (idx >= 0) {
+            newDots.forEach(function(d, i) {
+              d.classList.toggle('active', i === idx);
+            });
+          }
+        }
+      });
+    }, {
+      root: gate3,
+      threshold: 0.5
+    });
+
+    slides.forEach(function(slide) { slideObs.observe(slide); });
+  }
+
+
+  /* ==============================================================
+     G. PARALLAX — Background foto Slide 1 & 2
+        Bergerak lebih lambat dari konten → ilusi kedalaman
+  ============================================================== */
+  function initParallax() {
+    const heroSlide  = gate3 ? gate3.querySelector('.slide-hero')   : null;
+    const coupleSlide = gate3 ? gate3.querySelector('.slide-couple') : null;
+
+    const heroBg   = heroSlide   ? heroSlide.querySelector('.parallax-bg')   : null;
+    const coupleBg = coupleSlide ? coupleSlide.querySelector('.parallax-bg') : null;
+
+    if (!gate3 || (!heroBg && !coupleBg)) return;
+
+    gate3.addEventListener('scroll', function() {
+      const scrollTop = gate3.scrollTop;
+      const vh        = window.innerHeight;
+
+      /* Slide 1: parallax positif */
+      if (heroBg) {
+        const offset = scrollTop * 0.28;
+        heroBg.style.backgroundPositionY = 'calc(50% + ' + offset + 'px)';
+      }
+
+      /* Slide 2: parallax relatif terhadap scroll */
+      if (coupleBg) {
+        const rel = scrollTop - vh;
+        if (rel > -vh && rel < vh) {
+          const offset = rel * 0.28;
+          coupleBg.style.backgroundPositionY = 'calc(50% + ' + offset + 'px)';
+        }
+      }
+    }, { passive: true });
+  }
+
+
+  /* ==============================================================
+     H. GALLERY PARALLAX — Setiap foto bergerak dengan kecepatan beda
+        Nilai data-speed di HTML menentukan efek parallax per foto
+  ============================================================== */
+  function initGalleryParallax() {
+    const galSlide = gate3 ? gate3.querySelector('.slide-gallery-new') : null;
+    if (!galSlide || !gate3) return;
+
+    const galImgs = galSlide.querySelectorAll('.gal-img[data-speed]');
+    if (!galImgs.length) return;
+
+    /* Hanya aktif saat gallery slide terlihat */
+    const galObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          galSlide.dataset.inView = '1';
+        } else {
+          delete galSlide.dataset.inView;
+        }
+      });
+    }, { root: gate3, threshold: 0.1 });
+
+    galObs.observe(galSlide);
+
+    gate3.addEventListener('scroll', function() {
+      if (!galSlide.dataset.inView) return;
+
+      const slideTop   = galSlide.getBoundingClientRect().top;
+      const vh         = window.innerHeight;
+      const progress   = (vh - slideTop) / (vh * 2); /* 0 → 1 saat slide melintas */
+
+      galImgs.forEach(function(img) {
+        const speed  = parseFloat(img.dataset.speed) || 0.5;
+        const shift  = (progress - 0.5) * speed * 60; /* max ±30px */
+        img.style.transform = 'translateY(' + shift + 'px)';
+      });
+    }, { passive: true });
+  }
+
+
+  /* ==============================================================
+     I. KEYBOARD SHORTCUT — ESC untuk tutup lightbox
+        (tambahan kenyamanan, tidak mengganti kode lightbox lama)
+  ============================================================== */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      if (lightbox && lightbox.classList.contains('open')) {
+        lightbox.classList.remove('open');
+      }
+    }
+  });
+
+
+  /* ==============================================================
+     J. SCROLL INDICATOR KLIK — klik scroll hint di slide 1
+        langsung scroll ke slide 2
+  ============================================================== */
+  (function initScrollIndicatorClick() {
+    const indicator = document.querySelector('.scroll-indicator');
+    if (!indicator || !gate3) return;
+
+    indicator.addEventListener('click', function() {
+      gate3.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+      triggerHaptic([20]);
+    });
+  })();
+
+
+  /* ==============================================================
+     K. MASTER INIT — dipanggil setelah gate3 aktif
+        Menggunakan MutationObserver agar tidak perlu ubah
+        btnOpen listener yang sudah ada
+  ============================================================== */
+  (function watchGate3Active() {
+    if (!gate3) return;
+
+    let newSystemInit = false;
+
+    const mo = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mut) {
+        if (mut.attributeName === 'class' &&
+            gate3.classList.contains('active') &&
+            !newSystemInit) {
+
+          newSystemInit = true;
+
+          /* Beri sedikit jeda agar DOM slide sudah ter-render */
+          setTimeout(function() {
+            initRevealObserver();   /* E: animasi teks/panel/card baru */
+            initSlideNav();         /* F: nav dots baru */
+            initParallax();         /* G: parallax bg foto */
+            initGalleryParallax();  /* H: parallax per foto galeri */
+            initRippleEffect();     /* D: efek ripple tombol */
+            initHapticListeners();  /* C: haptic semua tombol */
+          }, 200);
+
+          mo.disconnect(); /* Selesai, tidak perlu observe lagi */
+        }
+      });
+    });
+
+    mo.observe(gate3, { attributes: true });
+  })();
+
 
 })();
