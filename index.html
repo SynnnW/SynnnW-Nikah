@@ -15,6 +15,25 @@
 <body>
 
 <!-- ============================================================
+     LOADING SCREEN (VIDEO INTRO) - BARU
+============================================================ -->
+<div id="loading-screen">
+  <!-- Video portrait (HP) -->
+  <video id="loading-video-portrait" class="loading-video portrait" muted playsinline preload="auto">
+    <source src="assets/img/Vid1.mp4" type="video/mp4">
+  </video>
+  <!-- Video landscape (Laptop) -->
+  <video id="loading-video-landscape" class="loading-video landscape" muted playsinline preload="auto">
+    <source src="assets/img/Vid2.mp4" type="video/mp4">
+  </video>
+  <!-- Indikator loading (spinner) -->
+  <div id="loading-spinner" class="loading-spinner">
+    <div class="spinner-circle"></div>
+    <p class="spinner-text">Memuat undangan...</p>
+  </div>
+</div>
+
+<!-- ============================================================
      AUDIO
 ============================================================ -->
 <audio id="bg-music" loop preload="auto">
